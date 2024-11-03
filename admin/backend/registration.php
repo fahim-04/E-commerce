@@ -2,11 +2,12 @@
 $filepath = realpath(dirname(__FILE__));
 include $filepath . "/connection.php";
 
-function validate($data){
+function validate($data)
+{
     $data = trim($data);
     $data = stripcslashes($data);
     $data = htmlspecialchars($data);
-        return $data;
+    return $data;
 }
 
 
@@ -54,6 +55,8 @@ if (isset($_POST['register'])) {
     } else {
         $data['user_password'] = $user_password;
     }
+
+    
     // else {
     // $data['user_password'] = password_hash($user_password, PASSWORD_DEFAULT); // Hash password for security
     // }
@@ -61,7 +64,7 @@ if (isset($_POST['register'])) {
     // will only proceed if there are no errors
     if (count($error) === 0) {
         // Insert data into database
-        $sql = "INSERT INTO users (user_name, user_phone, user_email, user_password) VALUES (:user_name, :user_phone, :user_email, :user_password)";
+        $sql = "INSERT INTO users (user_name, user_phone, user_email, user_password) VALUES (:user_name, :user_phone, :user_email, :user_password,)";
 
         // Prepared statement
         if ($stmt = $conn->prepare($sql)) {
@@ -70,6 +73,7 @@ if (isset($_POST['register'])) {
             $stmt->bindParam(':user_phone', $user_phone, PDO::PARAM_STR);
             $stmt->bindParam(':user_email', $user_email, PDO::PARAM_STR);
             $stmt->bindParam(':user_password', $hashedPassword, PDO::PARAM_STR);
+            
 
             if ($stmt->execute()) {
                 header("Location: index.php"); // Redirect to login page after successful registration
@@ -144,6 +148,7 @@ if (isset($_POST['register'])) {
                                 <input type="email" name="user_email" class="form-control" placeholder="Enter Email" value="<?php echo htmlspecialchars($data['user_email'] ?? ''); ?>">
                                 <span class="text-danger"><?php echo $error['user_email'] ?? ''; ?></span>
                             </div>
+                            
                             <div class="form-group">
                                 <label for="user_password">Password</label>
                                 <input type="password" name="user_password" class="form-control" placeholder="Enter Password">

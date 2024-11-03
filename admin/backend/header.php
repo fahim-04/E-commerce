@@ -106,7 +106,7 @@
             </a>
             <ul>
                 <li><a href="view-users.php">View Users</a></li>
-                <li><a href="registration.php">Add Users</a></li>
+                <li><a href="add-user.php">Add Users</a></li>
             </ul>
         </li>
     </ul>

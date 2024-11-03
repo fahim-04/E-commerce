@@ -23,7 +23,7 @@ function get_Categories($conn)
 //   view categories page end X
 
 
-
+// sub categories start
 function get_sub_Categories($conn)
 {
   $sql = "SELECT * FROM ec_sub_categories ORDER BY id DESC";
@@ -59,8 +59,9 @@ while ($result = mysqli_fetch_assoc($check)) {
     echo "<option value=" . $result['cate_id'] . ">" . $result['cate_name'] . "</option>";
   }
 }
+// sub categories end
 
-// view products page 
+// view products start
 function get_Products($conn)
 {
   // $sql = "SELECT * FROM ec_product ORDER BY id DESC";
@@ -112,7 +113,27 @@ JOIN
             </tr>";
   }
 }
+// view products end
 
+// view users start
+function get_UsersInfo($conn)
+{
+  $sql = "SELECT * FROM users ORDER BY id ASC";
+  $check = mysqli_query($conn, $sql);
+
+  while ($result = mysqli_fetch_assoc($check)) {
+    echo  $output = "<tr>
+               
+               <td>" . $result['id'] . "</td>
+               <td>" . $result['user_name'] . "</td> 
+               <td>" . $result['user_email'] . "</td> 
+               <td>" . $result['user_phone'] . "</td> 
+               <td>" . $result['user_type'] . "</td> 
+               <td>" . ($result['user_status'] ? 'Active' : 'Inactive') . "</td>
+            </tr>";
+  }
+}
+// view users end
 
 
 
