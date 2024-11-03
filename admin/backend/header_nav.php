@@ -120,8 +120,8 @@
                          <img src="assets/img/client_img.png" alt="#">
                          <div class="profile_info_iner">
                              <div class="profile_author_name">
-                                 <p><?php echo $_SESSION['user_type'] ?? '' ?> </p>
                                  <h5><?php echo $_SESSION['user_name'] ?? '' ?></h5>
+                                 <p><?php echo $_SESSION['user_type'] ?? '' ?> </p>
                              </div>
                              <div class="profile_info_details">
                                  <a href="#">My Profile </a>

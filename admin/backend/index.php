@@ -6,11 +6,10 @@ $filepath = realpath(dirname(__FILE__));
 include $filepath . "/connection.php";
 
 //check if th user is already logged in
-// if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] == true) {
-//     header('location: dashboard.php');
-//     exit;
-    
-// }
+if (isset($_SESSION['logged_in']) && $_SESSION['logged_in'] == true) {
+    header('location: dashboard.php');
+    exit;
+}
 
 function validate($data)
 {
@@ -25,7 +24,6 @@ $data = [];
 if (isset($_POST['login'])) {
     $user_password = validate($_POST['user_password']);
     $user_email = validate($_POST['user_email']);
-
     // Validate email   
     if (empty($user_email)) {
         $error['user_email'] = "Email is required";
@@ -42,12 +40,12 @@ if (isset($_POST['login'])) {
 
     // Only proceed if there are no errors
     if (count($error) === 0) {
-        $sql = "SELECT * FROM users WHERE user_email = :user_email";
+        $sql = "SELECT * FROM users WHERE user_email = :user_email AND user_type IN ('admin', 'editor', 'user')";
+
         $dsn = "mysql:host=localhost;dbname=ecom;charset=utf8";
         $user = "root";
         $pass = "";
         $pdo = new PDO($dsn, $user, $pass, array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
-        // $pdo = $conn->prepare($sql);
         $stmt = $pdo->prepare($sql);
         $stmt->bindParam(':user_email', $user_email, PDO::PARAM_STR);
         $stmt->execute();
@@ -57,12 +55,19 @@ if (isset($_POST['login'])) {
         // Check if user exists and verify password
         if ($user && password_verify($user_password, $user['user_password'])) {
             $_SESSION['logged_in'] = true;
-            // Successful login
-            $_SESSION['user_name'] = $user['user_name']; // Store user ID in session
-            $_SESSION['user_email'] = $user['user_email']; // Store email in session
-            // Redirect to the desired page, e.g., dashboard
-            header("Location: dashboard.php"); // Change to your dashboard or home page
-            exit();
+            $_SESSION['user'] = $user;
+            $_SESSION['user_type'] = $user['user_type'];
+            $_SESSION['user_name'] = $user['user_name'];
+            $_SESSION['user_email'] = $user['user_email'];
+
+            // Redirect based on user type
+            if ($_SESSION['user_type'] == 'admin' || $_SESSION['user_type'] == 'editor') {
+                header("Location: dashboard.php");
+                exit();
+            } elseif ($_SESSION['user_type'] == 'user') {
+                header("Location: ../../../../web/frontend_page.php");
+                exit();
+            }
         } else {
             $error['login'] = "Invalid email or password";
         }
@@ -114,19 +119,22 @@ if (isset($_POST['login'])) {
                         <form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>" method="POST">
                             <div class="form-group">
                                 <label for="user_email">Email</label>
-                                <input type="email" name="user_email" class="form-control" placeholder="Enter Email" value="<?php echo htmlspecialchars($data['user_email'] ?? ''); ?>">
+                                <input type="email" name="user_email" class="form-control" placeholder="Enter Email"
+                                    value="<?php echo htmlspecialchars($data['user_email'] ?? ''); ?>">
                                 <span class="text-danger"><?php echo $error['user_email'] ?? ''; ?></span>
                             </div>
 
                             <div class="form-group">
                                 <label for="user_password">Password</label>
-                                <input type="password" name="user_password" class="form-control" placeholder="Enter Password">
+                                <input type="password" name="user_password" class="form-control"
+                                    placeholder="Enter Password">
                                 <span class="text-danger"><?php echo $error['user_password'] ?? ''; ?></span>
                             </div>
 
                             <button type="submit" class="btn_1 full_width text-center fs-6" name="login">Login</button>
 
-                            <p>Need an account? <a data-bs-toggle="modal" data-bs-target="#sing_up" data-bs-dismiss="modal" href="registration.php"> Sign Up</a></p>
+                            <p>Need an account? <a data-bs-toggle="modal" data-bs-target="#sing_up"
+                                    data-bs-dismiss="modal" href="registration.php"> Sign Up</a></p>
                             <div class="text-center">
                                 <!-- <a href="#" data-bs-toggle="modal" data-bs-target="#forgot_password" data-bs-dismiss="modal" class="pass_forget_btn">Forget Password?</a> -->
                             </div>

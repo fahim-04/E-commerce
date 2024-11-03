@@ -31,7 +31,7 @@ if (isset($_POST['register'])) {
         $error['user_phone'] = "Phone is required";
     } elseif (!is_numeric($user_phone)) {
         $error['user_phone'] = "Invalid phone number";
-    }elseif (strlen($user_phone) > 10 || strlen($user_phone) < 12) {
+    } elseif (strlen($user_phone) < 10 || strlen($user_phone) > 12) {
         $error['user_phone'] = "Phone number must be 11 digits";
     } else {
         $data['user_phone'] = $user_phone;

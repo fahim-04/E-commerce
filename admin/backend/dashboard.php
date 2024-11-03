@@ -4,14 +4,32 @@ $filepath = realpath(dirname(__FILE__));
 include $filepath . '/connection.php';
 include $filepath . '/functions.php';
 
-// Restrict access to log-in users
-// if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] == false) {
-//     header('Location: index.php');
-//     exit;
-// }
+        // Restrict access to logged-in users
+        if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] == false) {
+            header('Location: index.php');
+            exit;
+        }
 
-// Dashboard content
-// echo "Welcome to the dashboard, " . htmlspecialchars($_SESSION['user_name']);
+        // Retrieve user data from the session
+        $user = isset($_SESSION['user']) ? $_SESSION['user'] : null;
+
+        // Check if user data is available
+        if ($user) {
+            // Check if the user type is 'user' and redirect if true
+            if ($user['user_type'] == "user") {
+                header("Location: ../../../../web/frontend_page.php");
+                exit;
+            }
+
+            // Use $user data in this page
+            $user_name = $user['user_name'];
+            $user_email = $user['user_email'];
+        } else {
+            // If no user data, redirect to login
+            header("Location: index.php");
+            exit;
+        }
+       
 ?>
 
 
