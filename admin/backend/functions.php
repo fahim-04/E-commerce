@@ -130,6 +130,10 @@ function get_UsersInfo($conn)
                <td>" . $result['user_phone'] . "</td> 
                <td>" . $result['user_type'] . "</td> 
                <td>" . ($result['user_status'] ? 'Active' : 'Inactive') . "</td>
+               <td>
+                <a href='edit-user.php?id=" . $result['id'] . "' class='btn btn-primary btn-sm'>Edit</a>
+                <a href='delete-user.php?id=" . $result['id'] . "' onclick='return confirm(\"Are you sure you want to delete this user?\")' class='btn btn-danger btn-sm'>Delete</a>
+            </td>
             </tr>";
   }
 }

@@ -56,11 +56,6 @@ if (isset($_POST['register'])) {
         $data['user_password'] = $user_password;
     }
 
-    
-    // else {
-    // $data['user_password'] = password_hash($user_password, PASSWORD_DEFAULT); // Hash password for security
-    // }
-
     // will only proceed if there are no errors
     if (count($error) === 0) {
         // Insert data into database

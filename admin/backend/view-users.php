@@ -7,7 +7,7 @@ session_start();
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-    <title>View Category</title>
+    <title>All USERS</title>
     <link rel="icon" href="assets/img/logo.png" type="image/png">
     <link rel="stylesheet" href="assets/css/bootstrap1.min.css" />
     <?php include 'links.php'; ?>
@@ -57,6 +57,7 @@ session_start();
                                                     <th scope="col"> Phone</th>
                                                     <th scope="col"> Type</th>
                                                     <th scope="col">Status</th>
+                                                    <th scope="col">Action</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
