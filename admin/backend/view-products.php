@@ -58,6 +58,7 @@ session_start();
                                                     <th scope="col">Price</th>
                                                     <th scope="col">Product Image</th>
                                                     <th scope="col">Status</th>
+                                                    
                                                 </tr>
                                             </thead>
                                             <tbody>

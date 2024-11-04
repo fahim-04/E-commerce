@@ -144,7 +144,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $check = mysqli_query($conn, $sql);
 
         if ($check) {
-            echo "<script type='text/javascript'>alert('Product Added Successfully'); window.location='view-product.php';</script>";
+            echo "<script type='text/javascript'>alert('Product Added Successfully'); window.location='view-products.php';</script>";
         } else {
             // Display the SQL error
             echo "<p style='color: red;'>Failed to add product. " . mysqli_error($conn) . "</p>";

@@ -1,6 +1,7 @@
 <?php
 // include files
 include 'db-conn.php';
+// include 'connection.php'; 
 
 
 // For view categories page
@@ -76,29 +77,7 @@ JOIN
   $sno = 1;
 
   while ($result = mysqli_fetch_assoc($check)) {
-    // Initialize $cate and $subCate to null to avoid undefined variable warnings
-    // $cate = null;
-    // $subCate = null;
-
-    // // Check if parent_id is set and fetch category name
-    // if (isset($result['parent_id'])) {
-    //   $sql2 = "SELECT cate_name FROM ec_categories WHERE cate_id = ?";
-    //   $stmt2 = $conn->prepare($sql2);
-    //   $stmt2->bind_param("i", $result['parent_id']);
-    //   $stmt2->execute();
-    //   $check2 = $stmt2->get_result();
-    //   $cate = $check2->fetch_assoc();
-    // }
-
-    // // Check if subCate is set and fetch subcategory name
-    // if (isset($result['subCate'])) {
-    //   $sql3 = "SELECT cate_name FROM ec_sub_categories WHERE cate_id = ?";
-    //   $stmt3 = $conn->prepare($sql3);
-    //   $stmt3->bind_param("i", $result['subCate']);
-    //   $stmt3->execute();
-    //   $check3 = $stmt3->get_result();
-    //   $subCate = $check3->fetch_assoc();
-    // }
+   
 
     // Output the product row, using null coalescing to handle missing data
     echo "<tr>
@@ -110,6 +89,7 @@ JOIN
                <td>$" . $result['selling_price'] . "</td> 
                <td><img src='" . $result['pro_image'] . "' alt='Product Image' style='width: 100px; height: auto;'></td>
                <td>" . ($result['status'] ? 'Active' : 'Inactive') . "</td> 
+               
             </tr>";
   }
 }
@@ -138,7 +118,6 @@ function get_UsersInfo($conn)
   }
 }
 // view users end
-
 
 
 ?>
