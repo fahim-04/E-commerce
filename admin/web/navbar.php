@@ -44,9 +44,9 @@
 					<nav id="nav">
 						<ul>
 							<li><a href="index.php">HOME </a></li>
-							<li><a class="drop-link" href="product-grid-view.html">PRODUCTS </a></li>
-							<li><a>About</a></li>
-							<li><a class="drop-link" href="contact-us.html">Contact Us</a></li>
+							<li><a href="product-grid-view.php">PRODUCTS </a></li>
+							<li><a href="about-us.php">About US</a></li>
+							<li><a href="contact-us.php">Contact Us</a></li>
 						</ul>
 					</nav>
 					<!-- mt icon list end here -->
@@ -61,8 +61,8 @@
 				<form action="#">
 					<fieldset>
 						<input type="text" placeholder="Search...">
-						<button class="icon-magnifier" type="submit"></button>
 
+						<button class="icon-magnifier" type="submit"></button>
 					</fieldset>
 				</form>
 			</div>
