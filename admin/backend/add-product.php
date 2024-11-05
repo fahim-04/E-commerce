@@ -41,6 +41,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     } else {
         $pro_desc = mysqli_real_escape_string($conn, trim($_POST['pro_desc']));
     }
+    // Validate Product short Description
+    if (empty($_POST['pro_short_desc'])) {
+        $errors['pro_short_desc'] = "Product Short Description is required.";
+    } else {
+        $pro_short_desc = mysqli_real_escape_string($conn, trim($_POST['pro_short_desc']));
+    }
 
     // Validate Stocks
     if (empty($_POST['stocks'])) {
@@ -138,8 +144,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         // $destination = './assets/img/uploade_prod_img/' . $filename;
         // move_uploaded_file($tmpname, $destination);
         // '$',
-        $sql = "INSERT INTO ec_product (pro_id, pro_name, pro_cate, pro_sub_cate, pro_desc, stock, mrp, selling_price, pro_image, meta_title, meta_discription, meta_key, status, slug_url, added_on)
-                VALUES('$pro_id', '$pro_name', '$pro_cate', '$pro_sub_cate', '$pro_desc', '$stocks', '$mrp', '$selling_price', '$destination', '$meta_title', '$meta_desc', '$meta_key', 1, '$slug_url',  '$added_on')";
+        $sql = "INSERT INTO ec_product (pro_id, pro_name, pro_cate, pro_sub_cate, pro_desc, stock, mrp, selling_price, pro_image, meta_title, meta_discription, meta_key, status, slug_url, added_on, pro_short_desc)
+                VALUES('$pro_id', '$pro_name', '$pro_cate', '$pro_sub_cate', '$pro_desc', '$stocks', '$mrp', '$selling_price', '$destination', '$meta_title', '$meta_desc', '$meta_key', 1, '$slug_url',  '$added_on', '$pro_short_desc')";
 
         $check = mysqli_query($conn, $sql);
 
@@ -189,7 +195,7 @@ function SlugUrl($string)
     <?php include 'functions.php'; ?>
     <section class="main_content dashboard_part large_header_bg">
         <?php include 'header_nav.php'; ?>
-        
+
         <div class="main_content_iner ">
             <div class="container-fluid p-0 sm_padding_15px">
                 <div class="row justify-content-center">
@@ -243,7 +249,15 @@ function SlugUrl($string)
                                                 <?php endif; ?>
                                             </div>
 
-
+                                            <div class="form-group  col-md-6 mb-3">
+                                                <label for="stocks">Stocks</label>
+                                                <input type="text" name="stocks" class="form-control" id="stocks"
+                                                    value="<?= isset($_POST['stocks']) ? $_POST['stocks'] : '' ?>">
+                                                <?php if (isset($errors['stocks'])): ?>
+                                                    <span class="error-message"
+                                                        style="color:red;"><?= $errors['stocks'] ?></span>
+                                                <?php endif; ?>
+                                            </div>
 
                                             <div class="form-group  col-md-6 mb-3">
                                                 <label for="pro_desc">Product Description</label>
@@ -254,16 +268,17 @@ function SlugUrl($string)
                                                         style="color:red;"><?= $errors['pro_desc'] ?></span>
                                                 <?php endif; ?>
                                             </div>
-
                                             <div class="form-group  col-md-6 mb-3">
-                                                <label for="stocks">Stocks</label>
-                                                <input type="text" name="stocks" class="form-control" id="stocks"
-                                                    value="<?= isset($_POST['stocks']) ? $_POST['stocks'] : '' ?>">
-                                                <?php if (isset($errors['stocks'])): ?>
+                                                <label for="pro_desc">Product Short Description</label>
+                                                <textarea type="text" name="pro_desc" class="form-control" id="pro_desc"
+                                                    value="<?= isset($_POST['pro_desc']) ? $_POST['pro_desc'] : '' ?>"></textarea>
+                                                <?php if (isset($errors['pro_desc'])): ?>
                                                     <span class="error-message"
-                                                        style="color:red;"><?= $errors['stocks'] ?></span>
+                                                        style="color:red;"><?= $errors['pro_desc'] ?></span>
                                                 <?php endif; ?>
                                             </div>
+
+
 
                                             <div class="form-group  col-md-6 mb-3">
                                                 <!-- MRP = maximum Retail Price -->

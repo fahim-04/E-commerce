@@ -1984,22 +1984,30 @@
 	.mt-newsletter-popup {
 		padding: 15px;
 		width: 100%;
+		overflow-y: hidden;
+		overflow: hidden;
+		
 	}
 
 	.mt-newsletter-popup .txt-holder {
-		padding: 0;
+		padding: 10%;
 		width: 100%;
+		overflow-y: hidden;
+		
 	}
 
 	.mt-newsletter-popup .img-holder {
-		top: -320px;
-		right: -7px;
+		top: 20px;
+		right: 7px;
+		overflow-y: hidden;
 	}
+
 
 	.mt-product-detial .slider,
 	.mt-product-detial .detial-holder {
 		float: none;
 		width: 100%;
+		overflow-y: hidden;
 	}
 
 	.mt-product-detial .slider {
