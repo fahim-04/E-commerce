@@ -41,7 +41,7 @@
 					<!-- navigation start here -->
 					<nav id="nav">
 						<ul>
-							<li><a href="web.php">HOME </a></li>
+							<li><a href="index.php">HOME </a></li>
 							<li><a class="drop-link" href="product-grid-view.html">PRODUCTS </a></li>
 							<li><a>About</a></li>
 							<li><a class="drop-link" href="contact-us.html">Contact Us</a></li>
