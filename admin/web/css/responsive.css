@@ -116,6 +116,10 @@
 		width: 100%;
 		margin-top: 22px;
 	}
+	.promo-1,
+	.promo-2{
+		margin: 10px auto !important;
+	}
 
 	.banner-box.third {
 		width: 340px;
@@ -469,6 +473,10 @@
 @media only screen and (max-width: 991px) {
 	.mt-paddingsmzero {
 		padding: 0 !important;
+	}
+	.promo-1,
+	.promo-2{
+		margin: 10px auto !important;
 	}
 
 	.mt-paddingbottomsm {
@@ -1359,6 +1367,10 @@
 
 	.mt-nopaddingtopxs {
 		padding-top: 0 !important;
+	}
+	.promo-1,
+	.promo-2{
+		margin: 0 auto;
 	}
 
 	.banner-1,

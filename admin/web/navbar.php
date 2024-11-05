@@ -22,10 +22,10 @@
 					<!-- mt logo start here -->
 					<div class="mt-logo"><a href="index.php"><img src="images/snaptech3.png" style="width: 200px" alt="Snaptech"></a></div>
 					<!-- mt sh cart start here -->
-					<div class="mt-sh-cart">
-						<span class="icon-handbag"></span>
+					<!-- <div class="mt-sh-cart">
+						<span class="icon-handbag"><a href="cart.html"></a></span>
 
-					</div>
+					</div> -->
 					<!-- mt sh cart end here -->
 					<!-- mt icon list start here -->
 					<ul class="mt-icon-list">
@@ -37,6 +37,8 @@
 							</a>
 						</li>
 						<li><a href="#" class="icon-magnifier"></a></li>
+						<li><a href="#" class="icon-handbag"></a></li>
+						<li><a href="#" class="icon-user"></a></li>
 					</ul><!-- mt icon list end here -->
 					<!-- navigation start here -->
 					<nav id="nav">
