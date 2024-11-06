@@ -5,7 +5,7 @@
 			<div class="row">
 				<div class="col-xs-12 col-sm-6 hidden-xs">
 					<span class="tel active"> <i class="fa fa-phone" aria-hidden="true"></i> +1 (555) 333 22 11</span>
-					<a class="tel" href="#"> <i class="fa fa-envelope-o" aria-hidden="true">info@snaptech</i> </a>
+					<a class="tel" href="#"> <i class="fa fa-envelope-o" aria-hidden="true">info@snaptech.com</i> </a>
 				</div>
 				<div class="col-xs-12 col-sm-6 text-right">
 
@@ -38,7 +38,7 @@
 						</li>
 						<li><a href="#" class="icon-magnifier"></a></li>
 						<li><a href="#" class="icon-handbag"></a></li>
-						<li><a href="#" class="icon-user"></a></li>
+						<!-- <li><a href="#" class="icon-user"></a></li> -->
 					</ul><!-- mt icon list end here -->
 					<!-- navigation start here -->
 					<nav id="nav">
