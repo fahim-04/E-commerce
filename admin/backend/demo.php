@@ -24,7 +24,7 @@ session_start();
                 <div class="row justify-content-center">
                     <div class="col-lg-12">
                         <div class="white_card card_height_100 mb_30">
-
+                            
                             <div class="white_card_body pt-5">
                                 <div class="QA_section">
                                     <div class="white_box_tittle list_header">
@@ -65,7 +65,6 @@ session_start();
                         </div>
                     </div>
                 </div>
-                
             </div>
         </div>
 

@@ -76,14 +76,14 @@
                 <li><a href="faq.html">FAQ</a></li>
             </ul>
         </li>
-        <li class>
+        <!-- <li class>
             <a href="calender.html" aria-expanded="false">
                 <div class="icon_menu">
                     <img src="assets/img/menu-icon/7.svg" alt>
                 </div>
                 <span>Calander</span>
             </a>
-        </li>
+        </li> -->
 
         <li class>
             <a class="has-arrow" href="#" aria-expanded="false">
