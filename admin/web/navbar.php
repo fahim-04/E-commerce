@@ -38,7 +38,7 @@
 						</li>
 						<li><a href="#" class="icon-magnifier"></a></li>
 						<li><a href="#" class="icon-handbag"></a></li>
-						<!-- <li><a href="#" class="icon-user"></a></li> -->
+						<li><a href="#" class="icon-user"></a></li>
 					</ul><!-- mt icon list end here -->
 					<!-- navigation start here -->
 					<nav id="nav">

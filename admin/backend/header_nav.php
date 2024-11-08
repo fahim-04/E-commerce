@@ -1,7 +1,3 @@
-<<<<<<< HEAD
-=======
- 
->>>>>>> 474d610e0fc02c0d53d5505cb0e6ac3b91824fe8
  <!-- navbar -->
  <div class="container-fluid g-0">
      <div class="row">
@@ -22,112 +18,10 @@
                      <span class="f_s_14 f_w_400 ml_25 white_text text_white">Apps</span>
                  </div>
                  <div class="header_right d-flex justify-content-between align-items-center">
-<<<<<<< HEAD
 
                      <div class="profile_info">
                          <!-- <img src="assets/img/client_img_svg.png" alt="#"> -->
                          <i class="fa-solid fa-user img" style="width: 35px; height: auto; font-size: 25px;"></i>
-=======
-                     <div class="header_notification_warp d-flex align-items-center">
-                         <li>
-                             <a class="bell_notification_clicker nav-link-notify" href="#"> <img
-                                     src="assets/img/icon/bell.svg" alt>
-                             </a>
-
-                             <div class="Menu_NOtification_Wrap">
-                                 <div class="notification_Header">
-                                     <h4>Notifications</h4>
-                                 </div>
-                                 <div class="Notification_body">
-
-                                     <div class="single_notify d-flex align-items-center">
-                                         <div class="notify_thumb">
-                                             <a href="#"><img src="assets/img/staf/2.png" alt></a>
-                                         </div>
-                                         <div class="notify_content">
-                                             <a href="#">
-                                                 <h5>Cool Marketing </h5>
-                                             </a>
-                                             <p>Lorem ipsum dolor sit amet</p>
-                                         </div>
-                                     </div>
-
-                                     <div class="single_notify d-flex align-items-center">
-                                         <div class="notify_thumb">
-                                             <a href="#"><img src="assets/img/staf/4.png" alt></a>
-                                         </div>
-                                         <div class="notify_content">
-                                             <a href="#">
-                                                 <h5>Awesome packages</h5>
-                                             </a>
-                                             <p>Lorem ipsum dolor sit amet</p>
-                                         </div>
-                                     </div>
-
-                                     <div class="single_notify d-flex align-items-center">
-                                         <div class="notify_thumb">
-                                             <a href="#"><img src="assets/img/staf/3.png" alt></a>
-                                         </div>
-                                         <div class="notify_content">
-                                             <a href="#">
-                                                 <h5>what a packages</h5>
-                                             </a>
-                                             <p>Lorem ipsum dolor sit amet</p>
-                                         </div>
-                                     </div>
-
-                                     <div class="single_notify d-flex align-items-center">
-                                         <div class="notify_thumb">
-                                             <a href="#"><img src="assets/img/staf/2.png" alt></a>
-                                         </div>
-                                         <div class="notify_content">
-                                             <a href="#">
-                                                 <h5>Cool Marketing </h5>
-                                             </a>
-                                             <p>Lorem ipsum dolor sit amet</p>
-                                         </div>
-                                     </div>
-
-                                     <div class="single_notify d-flex align-items-center">
-                                         <div class="notify_thumb">
-                                             <a href="#"><img src="assets/img/staf/4.png" alt></a>
-                                         </div>
-                                         <div class="notify_content">
-                                             <a href="#">
-                                                 <h5>Awesome packages</h5>
-                                             </a>
-                                             <p>Lorem ipsum dolor sit amet</p>
-                                         </div>
-                                     </div>
-
-                                     <div class="single_notify d-flex align-items-center">
-                                         <div class="notify_thumb">
-                                             <a href="#"><img src="assets/img/staf/3.png" alt></a>
-                                         </div>
-                                         <div class="notify_content">
-                                             <a href="#">
-                                                 <h5>what a packages</h5>
-                                             </a>
-                                             <p>Lorem ipsum dolor sit amet</p>
-                                         </div>
-                                     </div>
-                                 </div>
-                                 <div class="nofity_footer">
-                                     <div class="submit_button text-center pt_20">
-                                         <a href="#" class="btn_1">See More</a>
-                                     </div>
-                                 </div>
-                             </div>
-
-                         </li>
-                         <li>
-                             <a class="CHATBOX_open nav-link-notify" href="#"> <img src="assets/img/icon/msg.svg" alt>
-                             </a>
-                         </li>
-                     </div>
-                     <div class="profile_info">
-                         <img src="assets/img/client_img.png" alt="#">
->>>>>>> 474d610e0fc02c0d53d5505cb0e6ac3b91824fe8
                          <div class="profile_info_iner">
                              <div class="profile_author_name">
                                  <h5><?php echo $_SESSION['user_name'] ?? '' ?></h5>

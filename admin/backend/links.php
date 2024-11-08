@@ -29,12 +29,9 @@
 <link rel="stylesheet" href="assets/css/style1.css" />
 <link rel="stylesheet" href="assets/css/colors/default.css" id="colorSkinCSS">
 
-<<<<<<< HEAD
 <!-- font awesome  -->
  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" />
 
-=======
->>>>>>> 474d610e0fc02c0d53d5505cb0e6ac3b91824fe8
 <!-- new -->
 
 <link rel="stylesheet" href="assets/css/bootstrap1.min.css" />
