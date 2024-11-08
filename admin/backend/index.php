@@ -65,7 +65,11 @@ if (isset($_POST['login'])) {
                 header("Location: dashboard.php");
                 exit();
             } elseif ($_SESSION['user_type'] == 'user') {
+<<<<<<< HEAD
                 header("Location: ../web/index.php");
+=======
+                header("Location: ../../../../web/frontend_page.php");
+>>>>>>> 474d610e0fc02c0d53d5505cb0e6ac3b91824fe8
                 exit();
             }
         } else {

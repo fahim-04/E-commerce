@@ -1,9 +1,16 @@
 /*!
  * Bootstrap v3.3.6 (http://getbootstrap.com)
+<<<<<<< HEAD
  * 
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
  */
 
+=======
+ * Copyright 2011-2015 Twitter, Inc.
+ * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
+ */
+/*! normalize.css v3.0.3 | MIT License | github.com/necolas/normalize.css */
+>>>>>>> 474d610e0fc02c0d53d5505cb0e6ac3b91824fe8
 html {
   font-family: sans-serif;
   -ms-text-size-adjust: 100%;
