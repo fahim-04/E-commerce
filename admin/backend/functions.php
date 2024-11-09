@@ -24,30 +24,76 @@ function get_Categories($conn)
 //   view categories page end X
 
 
-// sub categories start
-function get_sub_Categories($conn)
+//sub categories start
+
+// function get_sub_Categories($conn)
+// {
+//   $sql = "SELECT * FROM ec_sub_categories ORDER BY id DESC";
+//   $check = mysqli_query($conn, $sql);
+//   $sno = 1;
+//   while ($result = mysqli_fetch_assoc($check)) {
+//     $sql2 = "SELECT cate_name FROM ec_categories WHERE cate_id = '$result[parent_id]'";
+//     $check2 = mysqli_query($conn, $sql2);
+//     $parent = mysqli_fetch_assoc($check2);
+//     echo  $output = "<tr>
+//                <td>" . $sno++ . "</td>
+//                <td>" . $result['cate_id'] . "</td>
+//                <td>" . $result['cate_name'] . "</td> 
+//                <td>" . $parent['cate_name'] . "</td> 
+//                <td>" . $result['slug_url'] . "</td> 
+//                <td>" . $result['added_on'] . "</td> 
+//                <td>" . ($result['status'] ? 'Active' : 'Inactive') . "</td>
+//             </tr>";
+//   }
+// }
+// Function to get Sub Categories with Pagination
+function get_sub_Categories($conn, $page = 1, $limit = 10, $search = "")
 {
-  $sql = "SELECT * FROM ec_sub_categories ORDER BY id DESC";
+  // Calculate the starting row for the SQL query
+  $offset = ($page - 1) * $limit;
+
+  // Base query with search filter if search term exists
+  $searchCondition = $search ? "AND ec_sub_categories.cate_name LIKE '%" . mysqli_real_escape_string($conn, $search) . "%'" : "";
+  $sql = "SELECT ec_sub_categories.*, ec_categories.cate_name AS parent_name
+            FROM ec_sub_categories
+            LEFT JOIN ec_categories ON ec_sub_categories.parent_id = ec_categories.cate_id
+            WHERE 1 $searchCondition
+            ORDER BY ec_sub_categories.id DESC
+            LIMIT $limit OFFSET $offset";
   $check = mysqli_query($conn, $sql);
-  $sno = 1;
+
+  $output = '';
+  $sno = $offset + 1;
+
   while ($result = mysqli_fetch_assoc($check)) {
-    $sql2 = "SELECT cate_name FROM ec_categories WHERE cate_id = '$result[parent_id]'";
-    $check2 = mysqli_query($conn, $sql2);
-    $parent = mysqli_fetch_assoc($check2);
-    echo  $output = "<tr>
-               <td>" . $sno++ . "</td>
-               <td>" . $result['cate_id'] . "</td>
-               <td>" . $result['cate_name'] . "</td> 
-               <td>" . $parent['cate_name'] . "</td> 
-               <td>" . $result['slug_url'] . "</td> 
-               <td>" . $result['added_on'] . "</td> 
-               <td>" . ($result['status'] ? 'Active' : 'Inactive') . "</td>
-            </tr>";
+    $output .= "<tr>
+                       <td>" . $sno++ . "</td>
+                       <td>" . $result['cate_id'] . "</td>
+                       <td>" . $result['parent_name'] . "</td>
+                       <td>" . $result['cate_name'] . "</td> 
+                       <td>" . $result['slug_url'] . "</td> 
+                       <td>" . $result['added_on'] . "</td> 
+                       <td>" . ($result['status'] ? 'Active' : 'Inactive') . "</td>
+                       </tr>";
   }
+
+  return $output;
 }
 
+// Function to calculate total number of pages for pagination
+function getTotalSubCategoriesPages($conn, $limit = 10, $search = "")
+{
+  $searchCondition = $search ? "WHERE cate_name LIKE '%" . mysqli_real_escape_string($conn, $search) . "%'" : "";
+  $result = mysqli_query($conn, "SELECT COUNT(*) as total FROM ec_sub_categories $searchCondition");
+  $row = mysqli_fetch_assoc($result);
+  return ceil($row['total'] / $limit);
+}
 
-// add product page ajax code
+// sub categories end
+
+
+
+// add product page start ajax code
 if (isset($_POST['cate_id'])) {
   $p_id = $_POST['cate_id'];
   $sql = "SELECT * FROM ec_sub_categories WHERE parent_id = $p_id ORDER BY id DESC";
@@ -55,12 +101,12 @@ if (isset($_POST['cate_id'])) {
 ?>
   <option value="">--Select--</option>
 
-<?php 
-while ($result = mysqli_fetch_assoc($check)) {
+<?php
+  while ($result = mysqli_fetch_assoc($check)) {
     echo "<option value=" . $result['cate_id'] . ">" . $result['cate_name'] . "</option>";
   }
 }
-// sub categories end
+// add product page end
 
 // view products start
 function get_Products($conn)
@@ -77,7 +123,7 @@ JOIN
   $sno = 1;
 
   while ($result = mysqli_fetch_assoc($check)) {
-   
+
 
     // Output the product row, using null coalescing to handle missing data
     echo "<tr>
@@ -132,7 +178,7 @@ function getTotalPages($conn, $limit = 10)
   $result = mysqli_query($conn, "SELECT COUNT(*) as total FROM users");
   $row = mysqli_fetch_assoc($result);
   return ceil($row['total'] / $limit);
-} 
+}
 // view users end
 
 
