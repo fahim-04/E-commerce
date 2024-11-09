@@ -95,28 +95,44 @@ JOIN
 }
 // view products end
 
-// view users start
-function get_UsersInfo($conn)
+
+function get_UsersInfo($conn, $page = 1, $limit = 10)
 {
-  $sql = "SELECT * FROM users ORDER BY id ASC";
+  // Calculate the starting row for the SQL query
+  $offset = ($page - 1) * $limit;
+
+  // Query to fetch the users with pagination
+  $sql = "SELECT * FROM users ORDER BY id ASC LIMIT $limit OFFSET $offset";
   $check = mysqli_query($conn, $sql);
 
+  $output = '';
+
   while ($result = mysqli_fetch_assoc($check)) {
-    echo  $output = "<tr>
-               
-               <td>" . $result['id'] . "</td>
-               <td>" . $result['user_name'] . "</td> 
-               <td>" . $result['user_email'] . "</td> 
-               <td>" . $result['user_phone'] . "</td> 
-               <td>" . $result['user_type'] . "</td> 
-               <td>" . ($result['user_status'] ? 'Active' : 'Inactive') . "</td>
-               <td>
-                <a href='edit-user.php?id=" . $result['id'] . "' class='btn btn-primary btn-sm'>Edit</a>
-                <a href='delete-user.php?id=" . $result['id'] . "' onclick='return confirm(\"Are you sure you want to delete this user?\")' class='btn btn-danger btn-sm'>Delete</a>
-            </td>
-            </tr>";
+    $output .= "<tr>
+                   <td>" . $result['id'] . "</td>
+                   <td>" . $result['user_name'] . "</td> 
+                   <td>" . $result['user_email'] . "</td> 
+                   <td>" . $result['user_phone'] . "</td> 
+                   <td>" . $result['user_type'] . "</td> 
+                   <td>" . ($result['user_status'] ? 'Active' : 'Inactive') . "</td>
+                   <td>
+                    <a href='edit-user.php?id=" . $result['id'] . "' class='btn btn-primary btn-sm'>Edit</a>
+                    <a href='delete-user.php?id=" . $result['id'] . "' onclick='return confirm(\"Are you sure you want to delete this user?\")' class='btn btn-danger btn-sm'>Delete</a>
+                </td>
+                </tr>";
   }
+
+  return $output;
 }
+
+
+// Function to calculate total number of pages
+function getTotalPages($conn, $limit = 10)
+{
+  $result = mysqli_query($conn, "SELECT COUNT(*) as total FROM users");
+  $row = mysqli_fetch_assoc($result);
+  return ceil($row['total'] / $limit);
+} 
 // view users end
 
 
