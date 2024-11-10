@@ -1,5 +1,6 @@
 <?php
 session_start();
+include 'functions.php';
 ?>
 <!DOCTYPE html>
 <html lang="zxx">
@@ -15,7 +16,6 @@ session_start();
 
 <body class="crm_body_bg">
     <?php include 'header.php'; ?>
-    <?php include 'functions.php'; ?>
     <section class="main_content dashboard_part large_header_bg">
         <?php include 'header_nav.php'; ?>
 

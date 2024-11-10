@@ -18,7 +18,7 @@
 	<div class="mt-bottom-bar">
 		<div class="container">
 			<div class="row">
-				<div class="col-xs-12">
+				<div class="col-xs-12" >
 					<!-- mt logo start here -->
 					<div class="mt-logo"><a href="index.php"><img src="images/snaptech3.png" style="width: 200px" alt="Snaptech"></a></div>
 					<!-- mt sh cart start here -->
@@ -38,7 +38,15 @@
 						</li>
 						<li><a href="#" class="icon-magnifier"></a></li>
 						<li><a href="#" class="icon-handbag"></a></li>
-						<li><a href="#" class="icon-user"></a></li>
+						<!-- <li>
+							<a href="#" class="icon-user"></a>
+							<div class="user-card">
+								
+								<a href="#">Profile</a>
+								<a href="#">Settings</a>
+								<a href="#">Logout</a>
+							</div>
+						</li> -->
 					</ul><!-- mt icon list end here -->
 					<!-- navigation start here -->
 					<nav id="nav">
@@ -71,3 +79,18 @@
 	<!-- mt bottom bar end here -->
 	<span class="mt-side-over"></span>
 </header>
+
+<script>
+	const iconUser = document.querySelector('.icon-user');
+	const userCard = document.querySelector('.user-card');
+
+	iconUser.addEventListener('mouseenter', () => {
+		userCard.classList.add('visible');
+	});
+
+	iconUser.addEventListener('mouseleave', () => {
+		setTimeout(() => {
+			userCard.classList.remove('visible');
+		}, 300); // Delay to allow for smooth transition
+	});
+</script>

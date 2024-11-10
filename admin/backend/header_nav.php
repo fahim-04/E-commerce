@@ -17,11 +17,26 @@
                      </div>
                      <span class="f_s_14 f_w_400 ml_25 white_text text_white">Apps</span>
                  </div>
-                 <div class="header_right d-flex justify-content-between align-items-center">
+                 <div class="header_notification_warp d-flex align-items-center">
+                     <li>
+                         <a
+                             class=" "
+                             href="#">
+                             <img src="img/icon/bell.svg" alt />
+                         </a>
 
-                     <div class="profile_info">
-                         <!-- <img src="assets/img/client_img_svg.png" alt="#"> -->
-                         <i class="fa-solid fa-user img" style="width: 35px; height: auto; font-size: 25px;"></i>
+                         
+                     </li>
+                     <li>
+                         <a class="" href="#">
+                             <img src="img/icon/msg.svg" alt />
+                         </a>
+                     </li>
+                 </div>
+                 <div class=" col-lg-6 header_right d-flex align-items-center justify-content-end">
+                     <div class="profile_info d-flex align-items-center">
+                         <img src="assets/img/users_logo.png" class="users-icon pr-2" alt="#">
+                         <!-- <i class="fa-solid fa-user img users-icon ml-auto" style="width: 35px; height: auto; font-size: 25px;"></i> -->
                          <div class="profile_info_iner">
                              <div class="profile_author_name">
                                  <h5><?php echo $_SESSION['user_name'] ?? '' ?></h5>

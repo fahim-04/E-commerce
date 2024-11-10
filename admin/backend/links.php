@@ -30,8 +30,9 @@
 <link rel="stylesheet" href="assets/css/colors/default.css" id="colorSkinCSS">
 
 <!-- font awesome  -->
- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" />
 
 <!-- new -->
 
 <link rel="stylesheet" href="assets/css/bootstrap1.min.css" />
+<link rel="stylesheet" href="assets/css/custom.css">

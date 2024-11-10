@@ -1,5 +1,16 @@
 <?php
 session_start();
+include 'functions.php';
+// Initialize the page parameter and set a default value
+$page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+
+// Initialize the search parameter if it's provided
+$search = isset($_GET['search']) ? $_GET['search'] : '';
+$results_per_page = $results_per_page ?? 10;
+
+// Calculate the total number of pages
+$total_pages = getProductPagesCount($conn, $search, $results_per_page);
+
 ?>
 <!DOCTYPE html>
 <html lang="zxx">
@@ -15,7 +26,7 @@ session_start();
 
 <body class="crm_body_bg">
     <?php include 'header.php'; ?>
-    <?php include 'functions.php'; ?>
+
     <section class="main_content dashboard_part large_header_bg">
         <?php include 'header_nav.php'; ?>
 
@@ -40,7 +51,12 @@ session_start();
                                             </div>
                                         </div>
                                     </div>
+
                                     <div class="QA_table mb_30">
+                                        <form method="get" action="view-products.php" class="mb-3">
+                                            <input type="text" name="search" class="form-control" style="max-width: 300px;" placeholder="Search Products" value="<?php echo htmlspecialchars($search); ?>">
+                                            <!-- <button type="submit" class="btn btn-primary ">Search</button> -->
+                                        </form>
                                         <table class="table lms_table_active">
                                             <thead>
                                                 <tr>
@@ -56,10 +72,34 @@ session_start();
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <?php echo get_Products($conn); ?>
+                                                <?php echo get_Products($conn, $search, $page); ?>
 
                                             </tbody>
                                         </table>
+                                    </div>
+                                    <div class="pagination d-flex justify-content-center mt-4">
+                                        <?php for ($i = 1; $i <= $total_pages; $i++): ?>
+                                            <a href="view-products.php?page=<?php echo $i; ?>&search=<?php echo urlencode($search); ?>">
+                                                
+                                            </a>
+                                        <?php endfor;
+                                              if ($page > 1) {
+                                                echo '<a href="?page=' . ($page - 1) . '" class="btn btn-secondary mr-1">Previous</a>';
+                                             }
+
+                                            // Display the page numbers
+                                            for ($i = 1; $i <= $total_pages; $i++) {
+                                                echo '<a href="?page=' . $i . '" class="btn ' . ($i === $page ? 'btn-primary' : 'btn-default') . ' mr-1">' . $i . '</a>';
+                                            }
+
+                                                        // Display the "Next" button if not on the last page
+                                            if ($page < $total_pages) {
+                                              echo '<a href="?page=' . ($page + 1) . '" class="btn btn-secondary">Next</a>';
+                                             }
+
+                                        
+                                        ?>
+
                                     </div>
                                 </div>
                             </div>
@@ -72,3 +112,17 @@ session_start();
 
 
         <?php include 'footer.php'; ?>
+
+        <script>
+            document.getElementById("searchInput").addEventListener("keyup", function() {
+                var query = this.value.trim();
+                var xhr = new XMLHttpRequest();
+                xhr.open("GET", "view-products.php?query=" + encodeURIComponent(query), true);
+                xhr.onreadystatechange = function() {
+                    if (xhr.readyState == 4 && xhr.status == 200) {
+                        document.querySelector(".QA_table tbody").innerHTML = xhr.responseText;
+                    }
+                };
+                xhr.send();
+            });
+        </script>

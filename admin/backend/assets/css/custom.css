@@ -1,0 +1,97 @@
+.header_iner {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.header_right {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+.profile_info {
+    display: flex;
+    align-items: center;
+}
+
+.users-icon {
+    margin-right: auto;
+}
+
+/* Media Query for Small Devices */
+@media (max-width: 767.98px) {
+    .users-icon {
+        margin-left: 10px;
+    }
+}
+
+/* Media Query for Medium Devices */
+@media (min-width: 768px) and (max-width: 991.98px) {
+    .users-icon {
+        margin-left: 15px;
+    }
+}
+
+/* Media Query for Large Devices */
+@media (min-width: 992px) {
+    .users-icon {
+        margin-left: 20px;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* Extra small devices (phones, less than 576px) */
+@media (max-width: 575.98px) { 
+  /* CSS styles for phones */
+}
+
+/* Small devices (portrait tablets and large phones, 576px and up) */
+@media (min-width: 576px) and (max-width: 767.98px) { 
+  /* CSS styles for portrait tablets and large phones */
+}
+
+/* Medium devices (landscape tablets, 768px and up) */
+@media (min-width: 768px) and (max-width: 991.98px) { 
+  /* CSS styles for landscape tablets */
+}
+
+/* Large devices (desktops, 992px and up) */
+@media (min-width: 992px) and (max-width: 1199.98px) { 
+  /* CSS styles for desktops */
+}
+
+/* Extra large devices (large desktops, 1200px and up) */
+@media (min-width: 1200px) and (max-width: 1399.98px) { 
+  /* CSS styles for large desktops */
+}
+
+/* Extra extra large devices (larger desktops, 1400px and up) */
+@media (min-width: 1400px) { 
+  /* CSS styles for extra large desktops */
+}

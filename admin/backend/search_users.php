@@ -2,6 +2,7 @@
 // include 'functions.php';
 include 'db-conn.php';
 
+
 if (isset($_GET['query'])) {
     $query = mysqli_real_escape_string($conn, $_GET['query']);  // Sanitize input for security
 
