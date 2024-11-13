@@ -166,6 +166,8 @@ function get_Products($conn, $search = '', $page = 1, $results_per_page = 10)
   $sno = $offset + 1;
 
   while ($row = mysqli_fetch_assoc($result)) {
+    $status_color = $row['status'] ? 'green' : 'red';
+    $status_text = $row['status'] ? 'Active' : 'Inactive';
     echo "<tr>
                    <td>" . $sno++ . "</td>
                    <td><b>" . ($row['category_name'] ?? 'N/A') . "</b></td>
@@ -174,7 +176,7 @@ function get_Products($conn, $search = '', $page = 1, $results_per_page = 10)
                    <td><h6>" . $row['pro_name'] . "</h6></td> 
                    <td>$" . $row['selling_price'] . "</td> 
                    <td><img src='" . $row['pro_image'] . "' alt='Product Image' style='width: 100px; height: auto;'></td>
-                   <td><p style='color: green;'>" . ($row['status'] ? 'Active' : 'Inactive') . "</p></td> 
+                   <td><p style='color: $status_color;'>" . $status_text . "</p></td> 
                     <td>
                     <a href='edit-product.php?id=" . $row['pro_id'] . "' class='btn btn-primary btn-sm'>Edit</a>
                     <a href='delete-product.php?id=" . $row['pro_id'] . "' class='btn btn-danger btn-sm' onclick='return confirm('Are you sure?')'>Delete</a>
