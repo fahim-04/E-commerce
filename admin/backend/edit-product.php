@@ -116,54 +116,56 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             <div class="white_card_body pt-5">
                                 <div class="card-body">
                                     <h4 class="card-title mb-5">Edit Product</h4>
-                                    <form action="" method="POST" class="row" enctype="multipart/form-data">
-                                        <div class="form-group col-md-6 mb-3">
-                                            <label for="pro_name">Product Name</label>
-                                            <input type="text" name="pro_name" class="form-control" id="pro_name" value="<?= htmlspecialchars($product['pro_name'] ?? '') ?>">
-                                        </div>
-                                        <div class="form-group col-md-6 mb-3">
-                                            <label for="pro_desc">Product Description</label>
-                                            <textarea name="pro_desc" class="form-control" id="pro_desc"><?= htmlspecialchars($product['pro_desc'] ?? '') ?></textarea>
-                                        </div>
-                                        <div class="form-group col-md-6 mb-3">
-                                            <label for="pro_short_desc">Product Short Description</label>
-                                            <textarea name="pro_short_desc" class="form-control" id="pro_short_desc"><?= htmlspecialchars($product['pro_short_desc'] ?? '') ?></textarea>
-                                        </div>
-                                        <div class="form-group col-md-6 mb-3">
-                                            <label for="stocks">Stocks</label>
-                                            <input type="text" name="stocks" class="form-control" id="stocks" value="<?= htmlspecialchars($product['stock'] ?? '') ?>">
-                                        </div>
-                                        <div class="form-group col-md-6 mb-3">
-                                            <label for="mrp">MRP</label>
-                                            <input type="text" name="mrp" class="form-control" id="mrp" value="<?= htmlspecialchars($product['mrp'] ?? '') ?>">
-                                        </div>
-                                        <div class="form-group col-md-6 mb-3">
-                                            <label for="selling_price">Selling Price</label>
-                                            <input type="text" name="selling_price" class="form-control" id="selling_price" value="<?= htmlspecialchars($product['selling_price'] ?? '') ?>">
-                                        </div>
-                                        <div class="form-group col-md-6 mb-3">
-                                            <label for="pro_image">Product Image</label>
-                                            <input type="file" name="pro_image" class="form-control" id="pro_image">
-                                            <p>Current Image: <?= htmlspecialchars($product['pro_image'] ?? 'No image available') ?></p>
-                                        </div>
-                                        <div class="form-group col-md-6 mb-3">
-                                            <label for="meta_title">Meta Title</label>
-                                            <input type="text" name="meta_title" class="form-control" id="meta_title" value="<?= htmlspecialchars($product['meta_title'] ?? '') ?>">
-                                        </div>
-                                        <div class="form-group col-md-6 mb-3">
-                                            <label for="meta_key">Meta Keywords</label>
-                                            <input type="text" name="meta_key" class="form-control" id="meta_key" value="<?= htmlspecialchars($product['meta_key'] ?? '') ?>">
-                                        </div>
-                                        <div class="form-group col-md-6 mb-3">
-                                            <label for="meta_desc">Meta Description</label>
-                                            <input type="text" name="meta_desc" class="form-control" id="meta_desc" value="<?= htmlspecialchars($product['meta_desc'] ?? '') ?>">
-                                        </div>
-                                        <div class="form-group col-md-6 mb-3">
-                                            <label for="status">Status</label>
-                                            <select name="status" class="form-control" id="status">
-                                                <option value="1" <?= ($product['status'] ?? '1') == '1' ? 'selected' : '' ?>>Active</option>
-                                                <option value="0" <?= ($product['status'] ?? '0') == '0' ? 'selected' : '' ?>>Deactive</option>
-                                            </select>
+                                    <form action="" method="POST" enctype="multipart/form-data">
+                                        <div class="row">
+                                            <div class="form-group col-md-6 mb-3">
+                                                <label for="pro_name">Product Name</label>
+                                                <input type="text" name="pro_name" class="form-control" id="pro_name" value="<?= htmlspecialchars($product['pro_name'] ?? '') ?>">
+                                            </div>
+                                            <div class="form-group col-md-6 mb-3">
+                                                <label for="pro_desc">Product Description</label>
+                                                <textarea name="pro_desc" class="form-control" id="pro_desc"><?= htmlspecialchars($product['pro_desc'] ?? '') ?></textarea>
+                                            </div>
+                                            <div class="form-group col-md-6 mb-3">
+                                                <label for="pro_short_desc">Product Short Description</label>
+                                                <textarea name="pro_short_desc" class="form-control" id="pro_short_desc"><?= htmlspecialchars($product['pro_short_desc'] ?? '') ?></textarea>
+                                            </div>
+                                            <div class="form-group col-md-6 mb-3">
+                                                <label for="stocks">Stocks</label>
+                                                <input type="text" name="stocks" class="form-control" id="stocks" value="<?= htmlspecialchars($product['stock'] ?? '') ?>">
+                                            </div>
+                                            <div class="form-group col-md-6 mb-3">
+                                                <label for="mrp">MRP</label>
+                                                <input type="text" name="mrp" class="form-control" id="mrp" value="<?= htmlspecialchars($product['mrp'] ?? '') ?>">
+                                            </div>
+                                            <div class="form-group col-md-6 mb-3">
+                                                <label for="selling_price">Selling Price</label>
+                                                <input type="text" name="selling_price" class="form-control" id="selling_price" value="<?= htmlspecialchars($product['selling_price'] ?? '') ?>">
+                                            </div>
+                                            <div class="form-group col-md-6 mb-3">
+                                                <label for="pro_image">Product Image</label>
+                                                <input type="file" name="pro_image" class="form-control" id="pro_image">
+                                                <p>Current Image: <?= htmlspecialchars($product['pro_image'] ?? 'No image available') ?></p>
+                                            </div>
+                                            <div class="form-group col-md-6 mb-3">
+                                                <label for="meta_title">Meta Title</label>
+                                                <input type="text" name="meta_title" class="form-control" id="meta_title" value="<?= htmlspecialchars($product['meta_title'] ?? '') ?>">
+                                            </div>
+                                            <div class="form-group col-md-6 mb-3">
+                                                <label for="meta_key">Meta Keywords</label>
+                                                <input type="text" name="meta_key" class="form-control" id="meta_key" value="<?= htmlspecialchars($product['meta_key'] ?? '') ?>">
+                                            </div>
+                                            <div class="form-group col-md-6 mb-3">
+                                                <label for="meta_desc">Meta Description</label>
+                                                <input type="text" name="meta_desc" class="form-control" id="meta_desc" value="<?= htmlspecialchars($product['meta_desc'] ?? '') ?>">
+                                            </div>
+                                            <div class="form-group col-md-6 mb-3">
+                                                <label for="status">Status</label>
+                                                <select name="status" class="form-control" id="status">
+                                                    <option value="1" <?= ($product['status'] ?? '1') == '1' ? 'selected' : '' ?>>Active</option>
+                                                    <option value="0" <?= ($product['status'] ?? '0') == '0' ? 'selected' : '' ?>>Deactive</option>
+                                                </select>
+                                            </div>
                                         </div>
                                         <button type="submit" class="btn btn-primary">Update Product</button>
                                     </form>

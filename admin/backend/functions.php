@@ -168,13 +168,13 @@ function get_Products($conn, $search = '', $page = 1, $results_per_page = 10)
   while ($row = mysqli_fetch_assoc($result)) {
     echo "<tr>
                    <td>" . $sno++ . "</td>
-                   <td>" . ($row['category_name'] ?? 'N/A') . "</td>
+                   <td><b>" . ($row['category_name'] ?? 'N/A') . "</b></td>
                    <td>" . ($row['subcategory_name'] ?? 'N/A') . "</td>
                    <td>" . $row['pro_id'] . "</td>
-                   <td>" . $row['pro_name'] . "</td> 
+                   <td><h6>" . $row['pro_name'] . "</h6></td> 
                    <td>$" . $row['selling_price'] . "</td> 
                    <td><img src='" . $row['pro_image'] . "' alt='Product Image' style='width: 100px; height: auto;'></td>
-                   <td>" . ($row['status'] ? 'Active' : 'Inactive') . "</td> 
+                   <td><p style='color: green;'>" . ($row['status'] ? 'Active' : 'Inactive') . "</p></td> 
                     <td>
                     <a href='edit-product.php?id=" . $row['pro_id'] . "' class='btn btn-primary btn-sm'>Edit</a>
                     <a href='delete-product.php?id=" . $row['pro_id'] . "' class='btn btn-danger btn-sm' onclick='return confirm('Are you sure?')'>Delete</a>
