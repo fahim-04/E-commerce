@@ -12,6 +12,7 @@ $results_per_page = $results_per_page ?? 10;
 $total_pages = getProductPagesCount($conn, $search, $results_per_page);
 
 ?>
+
 <!DOCTYPE html>
 <html lang="zxx">
 
@@ -68,6 +69,7 @@ $total_pages = getProductPagesCount($conn, $search, $results_per_page);
                                                     <th scope="col">Price</th>
                                                     <th scope="col">Product Image</th>
                                                     <th scope="col">Status</th>
+                                                    <th scope="col">Action</th>
 
                                                 </tr>
                                             </thead>

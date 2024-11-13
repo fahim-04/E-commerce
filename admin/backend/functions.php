@@ -27,7 +27,8 @@ function get_Categories($conn)
 //sub categories start
 
 // Function to get Sub Categories with Pagination
-$conn = mysqli_connect("localhost",
+$conn = mysqli_connect(
+  "localhost",
   "root",
   "",
   "ecom"
@@ -79,13 +80,13 @@ function getTotalSubCategoriesPages($conn, $limit = 10, $search = "")
 
 
 // add product page start ajax code
+// add product page ajax code
 if (isset($_POST['cate_id'])) {
   $p_id = $_POST['cate_id'];
   $sql = "SELECT * FROM ec_sub_categories WHERE parent_id = $p_id ORDER BY id DESC";
   $check = mysqli_query($conn, $sql);
 ?>
   <option value="">--Select--</option>
-
 <?php
   while ($result = mysqli_fetch_assoc($check)) {
     echo "<option value=" . $result['cate_id'] . ">" . $result['cate_name'] . "</option>";
@@ -174,6 +175,10 @@ function get_Products($conn, $search = '', $page = 1, $results_per_page = 10)
                    <td>$" . $row['selling_price'] . "</td> 
                    <td><img src='" . $row['pro_image'] . "' alt='Product Image' style='width: 100px; height: auto;'></td>
                    <td>" . ($row['status'] ? 'Active' : 'Inactive') . "</td> 
+                    <td>
+                    <a href='edit-product.php?id=" . $row['pro_id'] . "' class='btn btn-primary btn-sm'>Edit</a>
+                    <a href='delete-product.php?id=" . $row['pro_id'] . "' class='btn btn-danger btn-sm' onclick='return confirm('Are you sure?')'>Delete</a>
+                </td>
                 </tr>";
   }
 

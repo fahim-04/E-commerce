@@ -35,8 +35,8 @@
                  </div>
                  <div class=" col-lg-6 header_right d-flex align-items-center justify-content-end">
                      <div class="profile_info d-flex align-items-center">
-                         <img src="assets/img/users_logo.png" class="users-icon pr-2" alt="#">
-                         <!-- <i class="fa-solid fa-user img users-icon ml-auto" style="width: 35px; height: auto; font-size: 25px;"></i> -->
+                         <!-- <img src="assets/img/users_logo.png" class="users-icon pr-2" alt="#"> -->
+                         <i class="fa-solid fa-user img users-icon ml-auto" style="width: 35px; height: auto; font-size: 25px;"></i>
                          <div class="profile_info_iner">
                              <div class="profile_author_name">
                                  <h5><?php echo $_SESSION['user_name'] ?? '' ?></h5>

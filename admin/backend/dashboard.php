@@ -4,32 +4,32 @@ $filepath = realpath(dirname(__FILE__));
 include $filepath . '/connection.php';
 include $filepath . '/functions.php';
 
-        // Restrict access to logged-in users
-        if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] == false) {
-            header('Location: index.php');
-            exit;
-        }
+// Restrict access to logged-in users
+if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] == false) {
+    header('Location: index.php');
+    exit;
+}
 
-        // Retrieve user data from the session
-        $user = isset($_SESSION['user']) ? $_SESSION['user'] : null;
+// Retrieve user data from the session
+$user = isset($_SESSION['user']) ? $_SESSION['user'] : null;
 
-        // Check if user data is available
-        if ($user) {
-            // Check if the user type is 'user' and redirect if true
-            if ($user['user_type'] == "user") {
-                header("Location: ../web/index.php");
-                exit;
-            }
+// Check if user data is available
+if ($user) {
+    // Check if the user type is 'user' and redirect if true
+    if ($user['user_type'] == "user") {
+        header("Location: ../web/index.php");
+        exit;
+    }
 
-            // Use $user data in this page
-            $user_name = $user['user_name'];
-            $user_email = $user['user_email'];
-        } else {
-            // If no user data, redirect to login
-            header("Location: index.php");
-            exit;
-        }
-       
+    // Use $user data in this page
+    $user_name = $user['user_name'];
+    $user_email = $user['user_email'];
+} else {
+    // If no user data, redirect to login
+    header("Location: index.php");
+    exit;
+}
+
 ?>
 
 
@@ -53,24 +53,25 @@ include $filepath . '/functions.php';
 <body class="crm_body_bg">
 
     <?php include 'header.php'; ?>
+
+
     <!-- welcome alert -->
-    <div class="container mt-5" style="z-index: 9999;">
-        <div id="welcomeAlert" class="alert alert-success alert-dismissible fade show" role="alert" style="position: fixed; top: 20px; left: 70% ; transform: translateX(-50%); z-index: 9999;">
-            Hello, <?php echo $_SESSION['user_name']; ?>! <br>
-            Welcome to the dashboard.
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
-        </div>
-    </div>
+    <?php include 'header_nav.php'; ?>
 
     <section class="main_content dashboard_part large_header_bg">
 
-
-    <?php include 'header_nav.php'; ?>
-
+        <div class="container mt-5" style="z-index: 9999;">
+            <div id="welcomeAlert" class="alert alert-success alert-dismissible fade show" role="alert" style="position: fixed; top: 20px; left: 70% ; transform: translateX(-50%); z-index: 9999;">
+                Hello, <?php echo $_SESSION['user_name']; ?>! <br>
+                Welcome to the dashboard.
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        </div>
 
         <div class="main_content_iner overly_inner">
+
             <div class="container-fluid p-0 ">
 
                 <div class="row">
