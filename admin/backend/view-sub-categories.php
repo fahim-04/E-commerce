@@ -4,7 +4,7 @@ include 'functions.php';
 include 'search_sub_categories.php';
 
 $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
-$limit = 10;
+$limit = 20;
 $search = isset($_GET['search']) ? $_GET['search'] : "";
 ?>
 <!DOCTYPE html>

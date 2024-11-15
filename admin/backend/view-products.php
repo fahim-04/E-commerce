@@ -6,7 +6,7 @@ $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
 
 // Initialize the search parameter if it's provided
 $search = isset($_GET['search']) ? $_GET['search'] : '';
-$results_per_page = $results_per_page ?? 10;
+$results_per_page = $results_per_page ?? 20;
 
 // Calculate the total number of pages
 $total_pages = getProductPagesCount($conn, $search, $results_per_page);

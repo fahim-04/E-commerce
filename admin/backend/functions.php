@@ -33,7 +33,7 @@ $conn = mysqli_connect(
   "",
   "ecom"
 );
-function get_sub_Categories($conn, $page = 1, $limit = 10, $search = "")
+function get_sub_Categories($conn, $page = 1, $limit = 20, $search = "")
 {
   // Calculate the starting row for the SQL query
   $offset = ($page - 1) * $limit;
@@ -67,7 +67,7 @@ function get_sub_Categories($conn, $page = 1, $limit = 10, $search = "")
 }
 
 // Function to calculate total number of pages for pagination
-function getTotalSubCategoriesPages($conn, $limit = 10, $search = "")
+function getTotalSubCategoriesPages($conn, $limit = 20, $search = "")
 {
   $searchCondition = $search ? "WHERE cate_name LIKE '%" . mysqli_real_escape_string($conn, $search) . "%'" : "";
   $result = mysqli_query($conn, "SELECT COUNT(*) as total FROM ec_sub_categories $searchCondition");
@@ -95,39 +95,9 @@ if (isset($_POST['cate_id'])) {
 // add product page end
 
 //view products start
-// function get_Products($conn)
-// {
-//   // $sql = "SELECT * FROM ec_product ORDER BY id DESC";
-//   $sql = "SELECT ec_product.pro_id, ec_product.pro_name, ec_product.selling_price, ec_product.pro_image, ec_product.status, ec_categories.cate_name AS category_name, ec_sub_categories.cate_name AS subcategory_name
-// FROM 
-//     ec_product
-// JOIN 
-//     ec_categories ON ec_product.pro_cate = ec_categories.cate_id
-// JOIN 
-//     ec_sub_categories ON ec_product.pro_sub_cate = ec_sub_categories.cate_id";
-//   $check = mysqli_query($conn, $sql);
-//   $sno = 1;
-
-//   while ($result = mysqli_fetch_assoc($check)) {
-
-//     // Output the product row, using null coalescing to handle missing data
-//     echo "<tr>
-//                <td>" . $sno++ . "</td>
-//                <td>" . ($result['category_name'] ?? 'N/A') . "</td>
-//                <td>" . ($result['subcategory_name'] ?? 'N/A') . "</td>
-//                <td>" . $result['pro_id'] . "</td>
-//                <td>" . $result['pro_name'] . "</td> 
-//                <td>$" . $result['selling_price'] . "</td> 
-//                <td><img src='" . $result['pro_image'] . "' alt='Product Image' style='width: 100px; height: auto;'></td>
-//                <td>" . ($result['status'] ? 'Active' : 'Inactive') . "</td> 
-
-//             </tr>";
-//   }
-// }
-
 
 // Fetch products with search and pagination
-function get_Products($conn, $search = '', $page = 1, $results_per_page = 10)
+function get_Products($conn, $search = '', $page = 1, $results_per_page = 15)
 {
   // Calculate offset
   $offset = ($page - 1) * $results_per_page;
@@ -189,7 +159,7 @@ function get_Products($conn, $search = '', $page = 1, $results_per_page = 10)
 }
 
 // New function to calculate total pages based on search
-function getProductPagesCount($conn, $search = '', $results_per_page = 10)
+function getProductPagesCount($conn, $search = '', $results_per_page = 15)
 {
   $sql = "
         SELECT COUNT(*) AS total
