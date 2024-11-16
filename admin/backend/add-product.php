@@ -126,7 +126,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $check = mysqli_query($conn, $sql);
         if ($check) {
             echo "<script type='text/javascript'>alert('Product Added Successfully'); window.location='view-products.php';</script>";
-
         } else {
             // Display the SQL error
             echo "<p style='color: red;'>Failed to add product. " . mysqli_error($conn) . "</p>";
@@ -214,12 +213,12 @@ function SlugUrl($string)
                                                 <?php endif; ?>
                                             </div>
                                             <div class="form-group  col-md-6 mb-3">
-                                                <label for="pro_desc">Product Description</label>
-                                                <textarea type="text" name="pro_desc" class="form-control" id="pro_desc"
-                                                    value="<?php isset($_POST['pro_desc']) ? $_POST['pro_desc'] : '' ?>"></textarea>
-                                                <?php if (isset($errors['pro_desc'])): ?>
+                                                <label for="pro_image">Product Image</label>
+                                                <input type="file" name="pro_image" class="form-control" id="pro_image"
+                                                    value="<?php isset($_POST['pro_image']) ? $_POST['pro_image'] : '' ?>">
+                                                <?php if (isset($errors['pro_image'])): ?>
                                                     <span class="error-message"
-                                                        style="color:red;"><?php $errors['pro_desc'] ?></span>
+                                                        style="color:red;"><?php $errors['pro_image'] ?></span>
                                                 <?php endif; ?>
                                             </div>
                                             <div class="form-group  col-md-6 mb-3">
@@ -231,6 +230,16 @@ function SlugUrl($string)
                                                         style="color:red;"><?php $errors['pro_short_desc'] ?></span>
                                                 <?php endif; ?>
                                             </div>
+                                            <div class="form-group  col-md-6 mb-3">
+                                                <label for="pro_desc">Product Description</label>
+                                                <textarea type="text" name="pro_desc" class="form-control" id="pro_desc"
+                                                    value="<?php isset($_POST['pro_desc']) ? $_POST['pro_desc'] : '' ?>"></textarea>
+                                                <?php if (isset($errors['pro_desc'])): ?>
+                                                    <span class="error-message"
+                                                        style="color:red;"><?php $errors['pro_desc'] ?></span>
+                                                <?php endif; ?>
+                                            </div>
+
                                             <div class="form-group  col-md-6 mb-3">
                                                 <label for="stocks">Stocks</label>
                                                 <input type="text" name="stocks" class="form-control" id="stocks"
@@ -259,15 +268,7 @@ function SlugUrl($string)
                                                         style="color:red;"><?php $errors['selling_price'] ?></span>
                                                 <?php endif; ?>
                                             </div>
-                                            <div class="form-group  col-md-6 mb-3">
-                                                <label for="pro_image">Product Image</label>
-                                                <input type="file" name="pro_image" class="form-control" id="pro_image"
-                                                    value="<?php isset($_POST['pro_image']) ? $_POST['pro_image'] : '' ?>">
-                                                <?php if (isset($errors['pro_image'])): ?>
-                                                    <span class="error-message"
-                                                        style="color:red;"><?php $errors['pro_image'] ?></span>
-                                                <?php endif; ?>
-                                            </div>
+
                                             <div class="form-group  col-md-6 mb-3">
                                                 <label for="meta_title">Meta Title</label>
                                                 <input type="text" name="meta_title" class="form-control" id="meta_title"
@@ -275,6 +276,15 @@ function SlugUrl($string)
                                                 <?php if (isset($errors['meta_title'])): ?>
                                                     <span class="error-message"
                                                         style="color:red;"><?php $errors['meta_title'] ?></span>
+                                                <?php endif; ?>
+                                            </div>
+                                            <div class="form-group col-md-6 mb-4">
+                                                <label for="meta_desc">Meta Description</label>
+                                                <input type="text" name="meta_desc" class="form-control" id="meta_desc"
+                                                    value="<?php isset($_POST['meta_desc']) ? $_POST['meta_desc'] : '' ?>"> </>
+                                                <?php if (isset($errors['meta_desc'])): ?>
+                                                    <span class="error-message"
+                                                        style="color:red;"><?php $errors['meta_desc'] ?></span>
                                                 <?php endif; ?>
                                             </div>
                                             <div class="form-group col-md-6 mb-3">
@@ -302,15 +312,7 @@ function SlugUrl($string)
                                                         style="color:red;"><?php $errors['status'] ?></span>
                                                 <?php endif; ?>
                                             </div>
-                                            <div class="form-group col-md-6 mb-4">
-                                                <label for="meta_desc">Meta Description</label>
-                                                <input type="text" name="meta_desc" class="form-control" id="meta_desc"
-                                                    value="<?php isset($_POST['meta_desc']) ? $_POST['meta_desc'] : '' ?>"> </>
-                                                <?php if (isset($errors['meta_desc'])): ?>
-                                                    <span class="error-message"
-                                                        style="color:red;"><?php $errors['meta_desc'] ?></span>
-                                                <?php endif; ?>
-                                            </div>
+
                                         </div>
                                         <button type="submit" class="btn btn-primary">Add Product</button>
                                     </form>
