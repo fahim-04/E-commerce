@@ -54,11 +54,30 @@ $total_pages = getProductPagesCount($conn, $search, $results_per_page);
                                     </div>
 
                                     <div class="QA_table mb_30">
+
                                         <form method="get" action="view-products.php" class="mb-3">
                                             <input type="text" name="search" class="form-control" style="max-width: 300px;" placeholder="Search Products" value="<?php echo htmlspecialchars($search); ?>">
                                             <!-- <button type="submit" class="btn btn-primary ">Search</button> -->
+
                                         </form>
+
                                         <table class="table lms_table_active">
+
+                                            <!-- <div class="form-check form-switch filterBy">
+                                                <div class="form-check form-switch">
+                                                    <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault filterBySM">
+                                                    <label class="form-check-label" for="flexSwitchCheckDefault">Smart Phone</label>
+                                                </div>
+                                                <div class="form-check form-switch">
+                                                    <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault filterBySW">
+                                                    <label class="form-check-label" for="flexSwitchCheckDefault">Smart Watch</label>
+                                                </div>
+                                                <div class="form-check form-switch">
+                                                    <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault filterByTab">
+                                                    <label class="form-check-label" for="flexSwitchCheckDefault">Tab</label>
+                                                </div>
+                                            </div> -->
+
                                             <thead>
                                                 <tr>
                                                     <th scope="col">#</th>
@@ -82,24 +101,24 @@ $total_pages = getProductPagesCount($conn, $search, $results_per_page);
                                     <div class="pagination d-flex justify-content-center mt-4">
                                         <?php for ($i = 1; $i <= $total_pages; $i++): ?>
                                             <a href="view-products.php?page=<?php echo $i; ?>&search=<?php echo urlencode($search); ?>">
-                                                
+
                                             </a>
                                         <?php endfor;
-                                              if ($page > 1) {
-                                                echo '<a href="?page=' . ($page - 1) . '" class="btn btn-secondary mr-1">Previous</a>';
-                                             }
+                                        if ($page > 1) {
+                                            echo '<a href="?page=' . ($page - 1) . '" class="btn btn-secondary mr-1">Previous</a>';
+                                        }
 
-                                            // Display the page numbers
-                                            for ($i = 1; $i <= $total_pages; $i++) {
-                                                echo '<a href="?page=' . $i . '" class="btn ' . ($i === $page ? 'btn-primary' : 'btn-default') . ' mr-1">' . $i . '</a>';
-                                            }
+                                        // Display the page numbers
+                                        for ($i = 1; $i <= $total_pages; $i++) {
+                                            echo '<a href="?page=' . $i . '" class="btn ' . ($i === $page ? 'btn-primary' : 'btn-default') . ' mr-1">' . $i . '</a>';
+                                        }
 
-                                                        // Display the "Next" button if not on the last page
-                                            if ($page < $total_pages) {
-                                              echo '<a href="?page=' . ($page + 1) . '" class="btn btn-secondary">Next</a>';
-                                             }
+                                        // Display the "Next" button if not on the last page
+                                        if ($page < $total_pages) {
+                                            echo '<a href="?page=' . ($page + 1) . '" class="btn btn-secondary">Next</a>';
+                                        }
 
-                                        
+
                                         ?>
 
                                     </div>
