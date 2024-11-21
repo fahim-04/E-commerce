@@ -149,7 +149,7 @@ function get_Products($conn, $search = '', $page = 1, $results_per_page = 15)
                    <td><p style='color: $status_color;'>" . $status_text . "</p></td> 
                     <td>
                     <a href='edit-product.php?id=" . $row['pro_id'] . "' class='btn btn-primary btn-sm'>Edit</a>
-                    <a href='delete-product.php?id=" . $row['pro_id'] . "' class='btn btn-danger btn-sm' onclick='return confirm('Are you sure?')'>Delete</a>
+                    <a href='delete-product.php?id=" . $row['pro_id'] . "' class='btn btn-danger btn-sm' onclick=\"return confirm('Are you sure you want to delete ".$row['pro_name']."?')\">Delete</a>
                 </td>
                 </tr>";
   }
