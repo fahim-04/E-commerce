@@ -51,12 +51,12 @@ if ($user) {
 </head>
 
 <body class="crm_body_bg">
-
+    <?php include 'header_nav.php'; ?>
     <?php include 'header.php'; ?>
 
 
     <!-- welcome alert -->
-    <?php include 'header_nav.php'; ?>
+
 
     <section class="main_content dashboard_part large_header_bg">
 

@@ -458,8 +458,26 @@ session_start();
 	<script src="js/plugins.js"></script>
 	<!-- include jQuery -->
 	<script src="js/jquery.main.js"></script>
-</body>
+	<script>
+		// Modal elements
+		const modal = document.getElementById('userModal');
+		const openModalButton = document.getElementById('openModalButton');
+		const closeButton = document.querySelector('.close-btn');
 
-<!-- Mirrored from htmlbeans.com/html/schon/homepage2.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 16 Apr 2023 13:56:02 GMT -->
+		// Open the modal
+		openModalButton.onclick = () => {
+			modal.style.display = 'block';
+		};
 
-</html>
+		// Close the modal when the close button is clicked
+		closeButton.onclick = () => {
+			modal.style.display = 'none';
+		};
+
+		// Close the modal when clicking outside of it
+		window.onclick = (event) => {
+			if (event.target === modal) {
+				modal.style.display = 'none';
+			}
+		};
+	</script>

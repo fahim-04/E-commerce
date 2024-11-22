@@ -33,6 +33,7 @@
     opacity: 0; /* Hide initially */
     transition: all 0.3s ease; /* Smooth transition */
     pointer-events: none; /* Disable interactions when hidden */
+    overflow: hidden;
 }
 
 .mt-icon-list li:hover .user-card {
@@ -40,7 +41,4 @@
     opacity: 1;
     pointer-events: auto; /* Enable interactions */
 }
-
-
-
 
