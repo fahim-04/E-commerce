@@ -1,15 +1,15 @@
 <?php
+// Include the database connection file
 $filepath = realpath(dirname(__FILE__));
-include $filepath . "/connection.php";
+include $filepath . "/db-conn.php"; // Ensure this path is correct
 
 function validate($data)
 {
     $data = trim($data);
-    $data = stripcslashes($data);
+    $data = stripslashes($data);
     $data = htmlspecialchars($data);
     return $data;
 }
-
 
 $error = [];
 $data = [];
@@ -26,14 +26,13 @@ if (isset($_POST['register'])) {
         $data['user_name'] = $user_name;
     }
 
-
     // Validate phone
     if (empty($user_phone)) {
         $error['user_phone'] = "Phone is required";
     } elseif (!is_numeric($user_phone)) {
         $error['user_phone'] = "Invalid phone number";
     } elseif (strlen($user_phone) < 10 || strlen($user_phone) > 12) {
-        $error['user_phone'] = "Phone number must be 11 digits";
+        $error['user_phone'] = "Phone number must be between 10 and 12 digits";
     } else {
         $data['user_phone'] = $user_phone;
     }
@@ -56,35 +55,32 @@ if (isset($_POST['register'])) {
         $data['user_password'] = $user_password;
     }
 
-    // will only proceed if there are no errors
+    // Proceed only if there are no errors
     if (count($error) === 0) {
-        // Insert data into database
-        $sql = "INSERT INTO users (user_name, user_phone, user_email, user_password) VALUES (:user_name, :user_phone, :user_email, :user_password,)";
+        // Insert data into the database
+        $sql = "INSERT INTO users (user_name, user_phone, user_email, user_password) VALUES (?, ?, ?, ?)";
 
-        // Prepared statement
+        // Prepare the statement
         if ($stmt = $conn->prepare($sql)) {
-            $hashedPassword = password_hash($user_password, PASSWORD_BCRYPT);
-            $stmt->bindParam(':user_name', $user_name, PDO::PARAM_STR);
-            $stmt->bindParam(':user_phone', $user_phone, PDO::PARAM_STR);
-            $stmt->bindParam(':user_email', $user_email, PDO::PARAM_STR);
-            $stmt->bindParam(':user_password', $hashedPassword, PDO::PARAM_STR);
-            
+            $hashedPassword = password_hash($user_password, PASSWORD_BCRYPT); // Hash the password
 
+            // Bind the parameters
+            $stmt->bind_param("ssss", $user_name, $user_phone, $user_email, $hashedPassword);
+
+            // Execute the statement
             if ($stmt->execute()) {
                 header("Location: index.php"); // Redirect to login page after successful registration
                 exit();
             } else {
-                echo "Error: " . $stmt->errorInfo()[2];
+                echo "Error executing query: " . $stmt->error;
             }
+            $stmt->close(); // Close the statement
         } else {
-            echo "Error preparing statement.";
+            echo "Error preparing statement: " . $conn->error;
         }
     }
 }
 ?>
-
-
-
 
 <!DOCTYPE html>
 <html lang="en">
@@ -143,15 +139,12 @@ if (isset($_POST['register'])) {
                                 <input type="email" name="user_email" class="form-control" placeholder="Enter Email" value="<?php echo htmlspecialchars($data['user_email'] ?? ''); ?>">
                                 <span class="text-danger"><?php echo $error['user_email'] ?? ''; ?></span>
                             </div>
-                            
                             <div class="form-group">
                                 <label for="user_password">Password</label>
                                 <input type="password" name="user_password" class="form-control" placeholder="Enter Password">
                                 <span class="text-danger"><?php echo $error['user_password'] ?? ''; ?></span>
                             </div>
-
                             <button type="submit" class="btn_1 full_width text-center fs-6" name="register">Sign Up</button>
-
                             <p>Already have an account? <a href="index.php">Log In</a></p>
                         </form>
                     </div>
