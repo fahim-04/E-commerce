@@ -1,7 +1,6 @@
 <?php
 session_start();
 
-
 $filepath = realpath(dirname(__FILE__));
 include $filepath . "/connection.php";
 
@@ -24,7 +23,8 @@ $data = [];
 if (isset($_POST['login'])) {
     $user_password = validate($_POST['user_password']);
     $user_email = validate($_POST['user_email']);
-    // Validate email   
+
+    // Validate email
     if (empty($user_email)) {
         $error['user_email'] = "Email is required";
     } elseif (!filter_var($user_email, FILTER_VALIDATE_EMAIL)) {
@@ -53,28 +53,33 @@ if (isset($_POST['login'])) {
         $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
         // Check if user exists and verify password
-        if ($user && password_verify($user_password, $user['user_password'])) {
-            $_SESSION['logged_in'] = true;
-            $_SESSION['user'] = $user;
-            $_SESSION['user_type'] = $user['user_type'];
-            $_SESSION['user_name'] = $user['user_name'];
-            $_SESSION['user_email'] = $user['user_email'];
+        if ($user) {
+            if (password_verify($user_password, $user['user_password'])) {
+                $_SESSION['logged_in'] = true;
+                $_SESSION['user'] = $user;
+                $_SESSION['user_type'] = $user['user_type'];
+                $_SESSION['user_name'] = $user['user_name'];
+                $_SESSION['user_email'] = $user['user_email'];
 
-            // Redirect based on user type
-            if ($_SESSION['user_type'] == 'admin' || $_SESSION['user_type'] == 'editor') {
-                header("Location: dashboard.php");
-                exit();
-            } elseif ($_SESSION['user_type'] == 'user') {
-                header("Location: ../web/index.php");
-                exit();
+                // Redirect based on user type
+                if ($_SESSION['user_type'] == 'admin' || $_SESSION['user_type'] == 'editor') {
+                    header("Location: dashboard.php");
+                    exit();
+                } elseif ($_SESSION['user_type'] == 'user') {
+                    header("Location: ../web/index.php");
+                    exit();
+                }
+            } else {
+                // Password doesn't match
+                $error['user_password'] = "Incorrect password";
             }
         } else {
             $error['login'] = "Invalid email or password";
         }
     }
 }
-?>
 
+?>
 
 
 
