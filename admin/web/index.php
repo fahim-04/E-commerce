@@ -84,14 +84,15 @@ include 'functions-web.php';
 		<!-- W1 start here -->
 		<div class="w1">
 			<!-- Main container -->
-			<div class="container mt-5">
-				<div>
+			<div class="container mt-5 prod-show">
+				<!-- for smart phones -->
+				<div class="row">
 					<div class="d-flex justify-content-between align-items-center mb-3">
-						<h2 class="heading">Smart Phones</h2>
-						<a href="products.php" class="btn btn-primary" rel="noopener noreferrer">See All</a>
+						<h2 class="heading color-dark col-6">Smart Phones</h2>
+						<a href="products.php" class="btn btn-primary col-6" rel="noopener noreferrer">See All</a>
 					</div>
 
-					<div class="row">
+					<div class="">
 						<?php
 						// Fetch products using the updated function
 						$categoryId = 1; // Replace with a valid category ID
@@ -102,8 +103,8 @@ include 'functions-web.php';
 						} elseif (!empty($products)) {
 							foreach ($products as $row) {
 						?>
-								<div class="col-6 col-md-4 col-sm-6 col-lg-3 d-flex justify-content-center mb-4">
-									<div class="card" style="max-width: 200px; padding: 20px;">
+								<div class="col-6 d-flex justify-content-center mb-4">
+									<div class="card col-6 col-lg-3 col-xl-3  col-md-6  col-sm-6" style="max-width: 200px; padding: 20px;">
 										<!-- Product Image -->
 										<img src="<?php echo !empty($row['pro_image']) ? htmlspecialchars($row['pro_image']) : 'images/placeholder.jpg'; ?>"
 											class="card-img-top img-fluid"
@@ -127,6 +128,57 @@ include 'functions-web.php';
 						?>
 					</div>
 				</div>
+				<!-- smart phones end -->
+
+				<!-- for tablets -->
+
+				<div class="row">
+
+					<div class="d-flex justify-content-between align-items-center mb-3">
+						
+							<h2 class="heading  col-6">Tabs</h2>
+							<a href="products.php" class="btn btn-primary col-6" rel="noopener noreferrer">See All</a>
+				
+					</div>
+
+					<div class="">
+						<?php
+						// Fetch products using the updated function
+						$categoryId = 14747; // Replace with a valid category ID
+						$products = getTabs($conn, $categoryId);
+
+						if (isset($products['error'])) {
+							echo "<p class='text-danger'>Error: " . $products['error'] . "</p>";
+						} elseif (!empty($products)) {
+							foreach ($products as $row) {
+						?>
+								<div class="col-6 d-flex justify-content-center mb-4">
+									<div class="card col-6 col-lg-3 col-xl-3  col-md-6  col-sm-6" style="max-width: 200px; padding: 20px;">
+										<!-- Product Image -->
+										<img src="<?php echo !empty($row['pro_image']) ? htmlspecialchars($row['pro_image']) : 'images/placeholder.jpg'; ?>"
+											class="card-img-top img-fluid"
+											alt="<?php echo htmlspecialchars($row['pro_name']); ?>">
+
+										<!-- Product Title -->
+										<div class="card-body text-center">
+											<a href="<?php echo htmlspecialchars($row['slug_url']); ?>"
+												class="card-title text-truncate d-block"
+												style="font-size: 16px;">
+												<?php echo htmlspecialchars($row['pro_name']); ?>
+											</a>
+										</div>
+									</div>
+								</div>
+						<?php
+							}
+						} else {
+							echo "<p>No products found.</p>";
+						}
+						?>
+					</div>
+
+				</div>
+
 			</div>
 		</div>
 
