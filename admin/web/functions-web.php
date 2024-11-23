@@ -1,49 +1,32 @@
 <?php
 $filepath = realpath(dirname(__FILE__));
-include $filepath . '../backend/db-conn.php';
+include $filepath . '/../backend/connection.php';
 
-function getSmartPhones($conn)
+function getSPhones($conn, $categoryId = 1, $limit = 8)
 {
-    // Query to fetch the last 7 items
-    $sql = "SELECT pro_name, pro_image, slug_url FROM ec_product WHERE pro_cate = 1 ORDER BY added_on DESC LIMIT 7";
-    $result = $conn->query($sql);
+    $sql = "SELECT pro_name, pro_image, slug_url 
+            FROM ec_product 
+            WHERE pro_cate = :category 
+            ORDER BY id DESC 
+            LIMIT :limit";
 
-    // Check if products exist
-    if ($result->num_rows > 0) {
-        while ($row = $result->fetch_assoc()) {
+    try {
+        // Prepare and execute the query
+        $stmt = $conn->prepare($sql);
+        $stmt->bindParam(':category', $categoryId, PDO::PARAM_INT);
+        $stmt->bindParam(':limit', $limit, PDO::PARAM_INT); // No space in :limit
+        $stmt->execute();
 
-            echo '<div class="slide">';
-            echo '<div class="mt-product1">';
-            echo '<div class="box">';
-            echo '<div class="b1">';
-            echo '<div class="b2">';
-            echo '<div class="card" style="width: 18rem;">';
-            echo '<img src="' . htmlspecialchars($row['pro_image']) . '" class="card-img-top" alt="' . htmlspecialchars($row['pro_name']) . '">';
-            echo '<div class="card-body">';
-            echo '<h5 class="card-title">' . htmlspecialchars($row['pro_name']) . '</h5>';
-            echo '<a href="' . htmlspecialchars($row['slug_url']) . '" class="btn btn-primary">See more..</a>';
-            echo '</div>';
-            echo '</div>';
-            echo '</div>';
-            echo '</div>';
-            echo '</div>';
-            echo '</div>';
-            echo '</div>';
-		
-        }
-    } else {
-        echo "No products found.";
+        // Fetch results
+        $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        // Return the results for further processing
+        return $results;
+    } catch (PDOException $e) {
+        error_log("Database query error: " . $e->getMessage());
+        return ["error" => "Error in SQL: " . $e->getMessage()]; // Debugging output
     }
 }
 
 
 ?>
-
-<div class="card" style="width: 18rem;">
-    <img src="..." class="card-img-top" alt="...">
-    <div class="card-body">
-        <h5 class="card-title"></h5>
-        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-        <a href="#" class="btn btn-primary">Go somewhere</a>
-    </div>
-</div>

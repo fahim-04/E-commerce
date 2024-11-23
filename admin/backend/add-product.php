@@ -75,7 +75,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             // Generate a unique name for the image
             $filename = time() . '_' . uniqid() . '_' . $_FILES['pro_image']['name'];
             $tmpname = $_FILES['pro_image']['tmp_name'];
-            $destination = './assets/img/uploade_prod_img/' . $filename;
+            $destination = '../uploads/public/uploade_prod_img/' . $filename;
             //  move the uploaded file to the designated directory
             if (move_uploaded_file($tmpname, $destination)) {
                 $pro_image = $filename; // Use this new file name for the database entry

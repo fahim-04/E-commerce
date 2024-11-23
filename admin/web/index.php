@@ -1,6 +1,11 @@
-<?
+<?php
 session_start();
+include '../backend/connection.php'; // Database connection
+include 'functions-web.php';
+
+
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -74,410 +79,98 @@ session_start();
 				</div>
 			</div>
 		</div>
+
 		<!-- slider end -->
 		<!-- W1 start here -->
 		<div class="w1">
-			<!-- mt header style3 start here -->
-			<!-- mt header end here -->
-			<!-- mt search popup start here -->
-			<!-- mt search popup end here -->
-			<!-- mt main start here -->
-			<main id="mt-main">
-				<div class="container">
+			<!-- Main container -->
+			<div class="container mt-5">
+				<div>
+					<div class="d-flex justify-content-between align-items-center mb-3">
+						<h2 class="heading">Smart Phones</h2>
+						<a href="products.php" class="btn btn-primary" rel="noopener noreferrer">See All</a>
+					</div>
+
 					<div class="row">
-						<div class="col-xs-12">
-							<!-- banner frame start here -->
-							<div class="banner-frame toppadding-zero promo-cc row">
-								<!-- banner 5 white start here -->
-								<div class="banner-5 col-md-6 white wow fadeInLeft promo-1 img-fluid" data-wow-delay="0.6s">
-									<img src="images/banner/new arival.jpg" alt="new arival" class="img-responsive">
-									<div class="holder">
-										<div class="texts">
-											<!-- add link -->
+						<?php
+						// Fetch products using the updated function
+						$categoryId = 1; // Replace with a valid category ID
+						$products = getSPhones($conn, $categoryId);
+
+						if (isset($products['error'])) {
+							echo "<p class='text-danger'>Error: " . $products['error'] . "</p>";
+						} elseif (!empty($products)) {
+							foreach ($products as $row) {
+						?>
+								<div class="col-6 col-md-4 col-sm-6 col-lg-3 d-flex justify-content-center mb-4">
+									<div class="card" style="max-width: 200px; padding: 20px;">
+										<!-- Product Image -->
+										<img src="<?php echo !empty($row['pro_image']) ? htmlspecialchars($row['pro_image']) : 'images/placeholder.jpg'; ?>"
+											class="card-img-top img-fluid"
+											alt="<?php echo htmlspecialchars($row['pro_name']); ?>">
+
+										<!-- Product Title -->
+										<div class="card-body text-center">
+											<a href="<?php echo htmlspecialchars($row['slug_url']); ?>"
+												class="card-title text-truncate d-block"
+												style="font-size: 16px;">
+												<?php echo htmlspecialchars($row['pro_name']); ?>
+											</a>
 										</div>
 									</div>
 								</div>
-								<!-- banner 5 white end here -->
-
-								<!-- banner 6 white start here -->
-								<div class="banner-5 col-md-6 white wow fadeInRight promo-2 img-fluid" data-wow-delay="0.6s">
-									<img src="images/banner/Pixel-9-pro.jpg" alt="image description" class="img-responsive">
-									<div class="holder">
-										<!-- add link -->
-									</div>
-								</div>
-								<!-- banner 6 white end here -->
-							</div>
-							<!-- banner frame end here -->
-						</div>
-
-						<!-- banner frame end here -->
-
-						<!-- banner box third end here -->
-						<!-- slider 7 start here -->
-						<!-- slider 7 end here -->
-					</div><!-- banner frame end here -->
-					<!-- mt producttabs style2 start here -->
-					<div class="mt-producttabs style3 wow fadeInUp" data-wow-delay="0.6s">
-						<h2 class="heading">Smart Phone</h2>
-						<!-- tabs slider start here -->
-						<div class="tabs-slider">
-							<!-- slide start here -->
-							<div class="slide">
-								<!-- mt product1  start here -->
-								<div class="mt-product1">
-									<div class="box">
-										<div class="b1">
-											<div class="b2">
-												<a href="product-detail.html"><img src="images/products/img01.jpg" alt="image description"></a>
-												<span class="caption">
-													<span class="new">new</span>
-												</span>
-												<ul class="mt-stars">
-													<li><i class="fa fa-star"></i></li>
-													<li><i class="fa fa-star"></i></li>
-													<li><i class="fa fa-star"></i></li>
-													<li><i class="fa fa-star-o"></i></li>
-												</ul>
-												<ul class="links">
-													<li><a href="#"><i class="icon-handbag"></i><span>Add to Cart</span></a></li>
-													<li><a href="#"><i class="icomoon icon-heart-empty"></i></a></li>
-													<li><a href="#popup1" class="lightbox"><i class="icomoon icon-eye"></i></a></li>
-												</ul>
-											</div>
-										</div>
-									</div>
-									<div class="txt">
-										<strong class="title"><a href="product-detail.html">Puff Chair</a></strong>
-										<span class="price"><i class="fa fa-eur"></i> <span>287,00</span></span>
-									</div>
-								</div><!-- mt product1  end here -->
-							</div>
-							<!-- slide end here -->
-							<!-- slide start here -->
-							<div class="slide">
-								<!-- mt product1 start here -->
-								<div class="mt-product1">
-									<div class="box">
-										<div class="b1">
-											<div class="b2">
-												<a href="product-detail.html"><img src="images/products/img02.jpg" alt="image description"></a>
-												<ul class="links">
-													<li><a href="#"><i class="icon-handbag"></i><span>Add to Cart</span></a></li>
-													<li><a href="#"><i class="icomoon icon-heart-empty"></i></a></li>
-													<li><a href="#popup1" class="lightbox"><i class="icomoon icon-eye"></i></a></li>
-												</ul>
-											</div>
-										</div>
-									</div>
-									<div class="txt">
-										<strong class="title"><a href="product-detail.html">Bombi Chair</a></strong>
-										<span class="price"><i class="fa fa-eur"></i> <span>399,00</span></span>
-									</div>
-								</div><!-- mt product1 center end here -->
-							</div>
-							<!-- slide end here -->
-							<!-- slide start here -->
-							<div class="slide">
-								<!-- mt product1 start here -->
-								<div class="mt-product1">
-									<div class="box">
-										<div class="b1">
-											<div class="b2">
-												<a href="product-detail.html"><img src="images/products/img03.jpg" alt="image description"></a>
-												<ul class="links">
-													<li><a href="#"><i class="icon-handbag"></i><span>Add to Cart</span></a></li>
-													<li><a href="#"><i class="icomoon icon-heart-empty"></i></a></li>
-													<li><a href="#popup1" class="lightbox"><i class="icomoon icon-eye"></i></a></li>
-												</ul>
-											</div>
-										</div>
-									</div>
-									<div class="txt">
-										<strong class="title"><a href="product-detail.html">Wood Chair</a></strong>
-										<span class="price"><i class="fa fa-eur"></i> <span>198,00</span></span>
-									</div>
-								</div><!-- mt product1 end here -->
-							</div>
-							<!-- slide end here -->
-							<!-- slide start here -->
-							<div class="slide">
-								<!-- mt product1 start here -->
-								<div class="mt-product1">
-									<div class="box">
-										<div class="b1">
-											<div class="b2">
-												<a href="product-detail.html"><img src="images/products/img04.jpg" alt="image description"></a>
-												<span class="caption">
-													<span class="off">15% Off</span>
-													<span class="new">new</span>
-												</span>
-												<ul class="links">
-													<li><a href="#"><i class="icon-handbag"></i><span>Add to Cart</span></a></li>
-													<li><a href="#"><i class="icomoon icon-heart-empty"></i></a></li>
-													<li><a href="#popup1" class="lightbox"><i class="icomoon icon-eye"></i></a></li>
-												</ul>
-											</div>
-										</div>
-									</div>
-									<div class="txt">
-										<strong class="title"><a href="product-detail.html">Bombi Chair</a></strong>
-										<span class="price"><i class="fa fa-eur"></i> <span>200,00</span></span>
-									</div>
-								</div><!-- mt product1 end here -->
-							</div>
-							<!-- slide end here -->
-							<!-- slide start here -->
-							<div class="slide">
-								<!-- mt product1 start here -->
-								<div class="mt-product1">
-									<div class="box">
-										<div class="b1">
-											<div class="b2">
-												<a href="product-detail.html"><img src="images/products/img05.jpg" alt="image description"></a>
-												<ul class="links">
-													<li><a href="#"><i class="icon-handbag"></i><span>Add to Cart</span></a></li>
-													<li><a href="#"><i class="icomoon icon-heart-empty"></i></a></li>
-													<li><a href="#popup1" class="lightbox"><i class="icomoon icon-eye"></i></a></li>
-												</ul>
-											</div>
-										</div>
-									</div>
-									<div class="txt">
-										<strong class="title"><a href="product-detail.html">Bombi Chair</a></strong>
-										<span class="price"><i class="fa fa-eur"></i> <span>200,00</span></span>
-									</div>
-								</div><!-- mt product1 end here -->
-							</div>
-							<!-- slide end here -->
-							<!-- slide start here -->
-							<div class="slide">
-								<!-- mt product1 start here -->
-								<div class="mt-product1">
-									<div class="box">
-										<div class="b1">
-											<div class="b2">
-												<a href="product-detail.html"><img src="images/products/img03.jpg" alt="image description"></a>
-												<ul class="links">
-													<li><a href="#"><i class="icon-handbag"></i><span>Add to Cart</span></a></li>
-													<li><a href="#"><i class="icomoon icon-heart-empty"></i></a></li>
-													<li><a href="#popup1" class="lightbox"><i class="icomoon icon-eye"></i></a></li>
-												</ul>
-											</div>
-										</div>
-									</div>
-									<div class="txt">
-										<strong class="title"><a href="product-detail.html">Wood Chair</a></strong>
-										<span class="price"><i class="fa fa-eur"></i> <span>198,00</span></span>
-									</div>
-								</div><!-- mt product1 end here -->
-							</div>
-							<!-- slide end here -->
-						</div>
-						<!-- tabs slider end here -->
-					</div><!-- mt producttabs end here -->
-					<!-- banner frame start here -->
-
-
-					<!-- mt producttabs style3 start here -->
-					<div class="mt-producttabs style3 wow fadeInUp" data-wow-delay="0.6s">
-						<h2 class="heading">Tabs</h2>
-						<!-- tabs slider start here -->
-						<div class="tabs-slider">
-							<!-- slide start here -->
-							<div class="slide">
-								<!-- mt product1  start here -->
-								<div class="mt-product1">
-									<div class="box">
-										<div class="b1">
-											<div class="b2">
-												<a href="product-detail.html"><img src="images/products/img01.jpg" alt="image description"></a>
-												<span class="caption">
-													<span class="new">new</span>
-												</span>
-												<ul class="mt-stars">
-													<li><i class="fa fa-star"></i></li>
-													<li><i class="fa fa-star"></i></li>
-													<li><i class="fa fa-star"></i></li>
-													<li><i class="fa fa-star-o"></i></li>
-												</ul>
-												<ul class="links">
-													<li><a href="#"><i class="icon-handbag"></i><span>Add to Cart</span></a></li>
-													<li><a href="#"><i class="icomoon icon-heart-empty"></i></a></li>
-													<li><a href="#popup1" class="lightbox"><i class="icomoon icon-eye"></i></a></li>
-												</ul>
-											</div>
-										</div>
-									</div>
-									<div class="txt">
-										<strong class="title"><a href="product-detail.html">Puff Chair</a></strong>
-										<span class="price"><i class="fa fa-eur"></i> <span>287,00</span></span>
-									</div>
-								</div><!-- mt product1  end here -->
-							</div>
-							<!-- slide end here -->
-							<!-- slide start here -->
-							<div class="slide">
-								<!-- mt product1 start here -->
-								<div class="mt-product1">
-									<div class="box">
-										<div class="b1">
-											<div class="b2">
-												<a href="product-detail.html"><img src="images/products/img02.jpg" alt="image description"></a>
-												<ul class="links">
-													<li><a href="#"><i class="icon-handbag"></i><span>Add to Cart</span></a></li>
-													<li><a href="#"><i class="icomoon icon-heart-empty"></i></a></li>
-													<li><a href="#popup1" class="lightbox"><i class="icomoon icon-eye"></i></a></li>
-												</ul>
-											</div>
-										</div>
-									</div>
-									<div class="txt">
-										<strong class="title"><a href="product-detail.html">Bombi Chair</a></strong>
-										<span class="price"><i class="fa fa-eur"></i> <span>399,00</span></span>
-									</div>
-								</div><!-- mt product1 center end here -->
-							</div>
-							<!-- slide end here -->
-							<!-- slide start here -->
-							<div class="slide">
-								<!-- mt product1 start here -->
-								<div class="mt-product1">
-									<div class="box">
-										<div class="b1">
-											<div class="b2">
-												<a href="product-detail.html"><img src="images/products/img03.jpg" alt="image description"></a>
-												<ul class="links">
-													<li><a href="#"><i class="icon-handbag"></i><span>Add to Cart</span></a></li>
-													<li><a href="#"><i class="icomoon icon-heart-empty"></i></a></li>
-													<li><a href="#popup1" class="lightbox"><i class="icomoon icon-eye"></i></a></li>
-												</ul>
-											</div>
-										</div>
-									</div>
-									<div class="txt">
-										<strong class="title"><a href="product-detail.html">Wood Chair</a></strong>
-										<span class="price"><i class="fa fa-eur"></i> <span>198,00</span></span>
-									</div>
-								</div><!-- mt product1 end here -->
-							</div>
-							<!-- slide end here -->
-							<!-- slide start here -->
-							<div class="slide">
-								<!-- mt product1 start here -->
-								<div class="mt-product1">
-									<div class="box">
-										<div class="b1">
-											<div class="b2">
-												<a href="product-detail.html"><img src="images/products/img04.jpg" alt="image description"></a>
-												<span class="caption">
-													<span class="off">15% Off</span>
-													<span class="new">new</span>
-												</span>
-												<ul class="links">
-													<li><a href="#"><i class="icon-handbag"></i><span>Add to Cart</span></a></li>
-													<li><a href="#"><i class="icomoon icon-heart-empty"></i></a></li>
-													<li><a href="#popup1" class="lightbox"><i class="icomoon icon-eye"></i></a></li>
-												</ul>
-											</div>
-										</div>
-									</div>
-									<div class="txt">
-										<strong class="title"><a href="product-detail.html">Bombi Chair</a></strong>
-										<span class="price"><i class="fa fa-eur"></i> <span>200,00</span></span>
-									</div>
-								</div><!-- mt product1 end here -->
-							</div>
-							<!-- slide end here -->
-							<!-- slide start here -->
-							<div class="slide">
-								<!-- mt product1 start here -->
-								<div class="mt-product1">
-									<div class="box">
-										<div class="b1">
-											<div class="b2">
-												<a href="product-detail.html"><img src="images/products/img05.jpg" alt="image description"></a>
-												<ul class="links">
-													<li><a href="#"><i class="icon-handbag"></i><span>Add to Cart</span></a></li>
-													<li><a href="#"><i class="icomoon icon-heart-empty"></i></a></li>
-													<li><a href="#popup1" class="lightbox"><i class="icomoon icon-eye"></i></a></li>
-												</ul>
-											</div>
-										</div>
-									</div>
-									<div class="txt">
-										<strong class="title"><a href="product-detail.html">Bombi Chair</a></strong>
-										<span class="price"><i class="fa fa-eur"></i> <span>200,00</span></span>
-									</div>
-								</div><!-- mt product1 end here -->
-							</div>
-							<!-- slide end here -->
-							<!-- slide start here -->
-							<div class="slide">
-								<!-- mt product1 start here -->
-								<div class="mt-product1">
-									<div class="box">
-										<div class="b1">
-											<div class="b2">
-												<a href="product-detail.html"><img src="images/products/img03.jpg" alt="image description"></a>
-												<ul class="links">
-													<li><a href="#"><i class="icon-handbag"></i><span>Add to Cart</span></a></li>
-													<li><a href="#"><i class="icomoon icon-heart-empty"></i></a></li>
-													<li><a href="#popup1" class="lightbox"><i class="icomoon icon-eye"></i></a></li>
-												</ul>
-											</div>
-										</div>
-									</div>
-									<div class="txt">
-										<strong class="title"><a href="product-detail.html">Wood Chair</a></strong>
-										<span class="price"><i class="fa fa-eur"></i> <span>198,00</span></span>
-									</div>
-								</div><!-- mt product1 end here -->
-							</div>
-							<!-- slide end here -->
-						</div>
-						<!-- tabs slider end here -->
-					</div><!-- mt producttabs style3 end here -->
-					<!-- mt patners start here -->
-
+						<?php
+							}
+						} else {
+							echo "<p>No products found.</p>";
+						}
+						?>
+					</div>
 				</div>
+			</div>
 		</div>
-	</div>
-	</main>
-	<!-- footer of the Page -->
-	<?php include $filepath . '/footer-web.php'; ?>
-	<!-- footer of the Page end -->
-	<!-- </div> -->
-	<!-- W1 end here -->
-	<span id="back-top" class="fa fa-arrow-up"></span>
-	<!-- </div> -->
-	<!-- Popup Holder of the Page end -->
-	<!-- include jQuery -->
-	<script src="js/jquery.js"></script>
-	<!-- include jQuery -->
-	<script src="js/plugins.js"></script>
-	<!-- include jQuery -->
-	<script src="js/jquery.main.js"></script>
-	<script>
-		// Modal elements
-		const modal = document.getElementById('userModal');
-		const openModalButton = document.getElementById('openModalButton');
-		const closeButton = document.querySelector('.close-btn');
 
-		// Open the modal
-		openModalButton.onclick = () => {
-			modal.style.display = 'block';
-		};
 
-		// Close the modal when the close button is clicked
-		closeButton.onclick = () => {
-			modal.style.display = 'none';
-		};
+		<!-- mt header style3 start here -->
+		<!-- mt header end here -->
+		<!-- mt search popup start here -->
+		<!-- mt search popup end here -->
+		<!-- mt main start here -->
 
-		// Close the modal when clicking outside of it
-		window.onclick = (event) => {
-			if (event.target === modal) {
+		<!-- footer of the Page -->
+		<?php include $filepath . '/footer-web.php'; ?>
+		<!-- footer of the Page end -->
+		<!-- </div> -->
+		<!-- W1 end here -->
+		<span id="back-top" class="fa fa-arrow-up"></span>
+		<!-- </div> -->
+		<!-- Popup Holder of the Page end -->
+		<!-- include jQuery -->
+		<script src="js/jquery.js"></script>
+		<!-- include jQuery -->
+		<script src="js/plugins.js"></script>
+		<!-- include jQuery -->
+		<script src="js/jquery.main.js"></script>
+		<script>
+			// Modal elements
+			const modal = document.getElementById('userModal');
+			const openModalButton = document.getElementById('openModalButton');
+			const closeButton = document.querySelector('.close-btn');
+
+			// Open the modal
+			openModalButton.onclick = () => {
+				modal.style.display = 'block';
+			};
+
+			// Close the modal when the close button is clicked
+			closeButton.onclick = () => {
 				modal.style.display = 'none';
-			}
-		};
-	</script>
+			};
+
+			// Close the modal when clicking outside of it
+			window.onclick = (event) => {
+				if (event.target === modal) {
+					modal.style.display = 'none';
+				}
+			};
+		</script>

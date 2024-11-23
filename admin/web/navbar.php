@@ -51,7 +51,7 @@
 	<!-- mt top bar start here -->
 	<div class="mt-top-bar">
 		<div class="container">
-			<div class="row">
+			<div class="">
 				<div class="col-xs-12 col-sm-6 hidden-xs">
 					<span class="tel active"> <i class="fa fa-phone" aria-hidden="true"></i> +1 (555) 333 22 11</span>
 					<a class="tel" href="#"> <i class="fa fa-envelope-o" aria-hidden="true">info@snaptech.com</i> </a>
