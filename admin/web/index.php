@@ -88,7 +88,7 @@ include 'functions-web.php';
 				<!-- for smart phones -->
 				<div class="row">
 					<div class="d-flex justify-content-between align-items-center mb-3">
-						<h2 class="heading color-dark col-6">Smart Phones</h2>
+						<h2 class="heading color-dark col-6 pl-2">Smart Phones</h2>
 						<a href="products.php" class="btn btn-primary col-6" rel="noopener noreferrer">See All</a>
 					</div>
 
@@ -103,7 +103,7 @@ include 'functions-web.php';
 						} elseif (!empty($products)) {
 							foreach ($products as $row) {
 						?>
-								<div class="col-6 d-flex justify-content-center mb-4">
+								<div class="col-6 d-flex justify-content-center prod-item mb-4">
 									<div class="card col-6 col-lg-3 col-xl-3  col-md-6  col-sm-6" style="max-width: 200px; padding: 20px;">
 										<!-- Product Image -->
 										<img src="<?php echo !empty($row['pro_image']) ? htmlspecialchars($row['pro_image']) : 'images/placeholder.jpg'; ?>"
@@ -134,11 +134,11 @@ include 'functions-web.php';
 
 				<div class="row">
 
-					<div class="d-flex justify-content-between align-items-center mb-3">
-						
-							<h2 class="heading  col-6">Tabs</h2>
-							<a href="products.php" class="btn btn-primary col-6" rel="noopener noreferrer">See All</a>
-				
+					<div class="d-flex justify-content-between align-items-center mb-3 mt-5">
+
+						<h2 class="heading  col-6 pl-2">Tabs</h2>
+						<a href="products.php" class="btn btn-primary col-6" rel="noopener noreferrer">See All</a>
+
 					</div>
 
 					<div class="">
@@ -152,8 +152,8 @@ include 'functions-web.php';
 						} elseif (!empty($products)) {
 							foreach ($products as $row) {
 						?>
-								<div class="col-6 d-flex justify-content-center mb-4">
-									<div class="card col-6 col-lg-3 col-xl-3  col-md-6  col-sm-6" style="max-width: 200px; padding: 20px;">
+								<div class="col-6 d-flex justify-content-center prod-item mb-4">
+									<div class="card col-6 col-lg-3 col-xl-3  col-md-4  col-sm-4" style="max-width: 200px; padding: 20px;">
 										<!-- Product Image -->
 										<img src="<?php echo !empty($row['pro_image']) ? htmlspecialchars($row['pro_image']) : 'images/placeholder.jpg'; ?>"
 											class="card-img-top img-fluid"
