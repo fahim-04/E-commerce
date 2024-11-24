@@ -10,7 +10,7 @@ include $filepath . '/../backend/connection.php';
  * @param int $limit Number of products to fetch
  * @return array List of products or an error message
  */
-function getProductsByCategory($conn, $categoryId, $limit = 6)
+function getProductsByCategory($conn, $categoryId, $limit = 10)
 {
     $sql = "SELECT pro_name, pro_image, slug_url 
             FROM ec_product 
@@ -41,7 +41,7 @@ function getProductsByCategory($conn, $categoryId, $limit = 6)
  * @param int $limit Number of smartphones to fetch
  * @return array List of smartphones or an error message
  */
-function getSPhones($conn, $categoryId = 1, $limit = 8)
+function getSPhones($conn, $categoryId = 1, $limit = 10)
 {
     return getProductsByCategory($conn, $categoryId, $limit);
 }
@@ -54,7 +54,7 @@ function getSPhones($conn, $categoryId = 1, $limit = 8)
  * @param int $limit Number of tabs to fetch
  * @return array List of tabs or an error message
  */
-function getTabs($conn, $categoryId = 14747, $limit = 6)
+function getTabs($conn, $categoryId = 14747, $limit = 10)
 {
     return getProductsByCategory($conn, $categoryId, $limit);
 }
@@ -67,7 +67,7 @@ function getTabs($conn, $categoryId = 14747, $limit = 6)
  * @param int $limit Number of smartwatches to fetch
  * @return array List of smartwatches or an error message
  */
-function getSmartWatches($conn, $categoryId = 74040, $limit = 6)
+function getSmartWatches($conn, $categoryId = 74040, $limit = 7)
 {
     return getProductsByCategory($conn, $categoryId, $limit);
 }
