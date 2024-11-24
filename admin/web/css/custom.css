@@ -95,7 +95,7 @@
 
 /* Product Image Styling */
 .product-image {
-    width: 100%;
+    width: 80%;
     height: auto;
     max-width: 150px;
     margin: 0 auto;
@@ -114,7 +114,7 @@
 }
 
 .product-title:hover {
-    color: #5c93ce; /* Change color on hover */
+    color: #ff6060; /* Change color on hover */
     
 }
 

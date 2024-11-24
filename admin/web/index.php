@@ -89,7 +89,7 @@ include 'functions-web.php';
 			<div class="row">
 				<div class="d-flex justify-content-between align-items-center mb-3">
 					<h2 class="prod-heading col-6 pl-2">Smart Phones</h2>
-					<a href="products.php" class="btn btn-primary col-6" rel="noopener noreferrer">See All</a>
+					<a href="products.php" class="btn  col-6" style="color: #ff6060;" rel="noopener noreferrer">See All</a>
 				</div>
 				<div class="slider-container">
 					<?php
@@ -118,7 +118,7 @@ include 'functions-web.php';
 			<div class="row mt-5 wow fadeInUp" data-wow-delay="0.4s">
 				<div class=" d-flex justify-content-between align-items-center mb-3">
 					<h2 class="prod-heading col-6 pl-2">Tabs</h2>
-					<a href="products.php" class="btn btn-primary col-6" rel="noopener noreferrer">See All</a>
+					<a href="products.php" class="btn col-6" style="color: #ff6060;" rel="noopener noreferrer">See All</a>
 				</div>
 				<div class="slider-container">
 					<?php
@@ -147,7 +147,7 @@ include 'functions-web.php';
 			<div class="row mt-5 wow fadeInUp" data-wow-delay="0.4s">
 				<div class="d-flex justify-content-between align-items-center mb-3">
 					<h2 class="prod-heading col-6 pl-2">Smart Watches</h2>
-					<a href="products.php" class="btn btn-primary col-6" rel="noopener noreferrer">See All</a>
+					<a href="products.php" class="btn  col-6" style="color: #ff6060;" rel="noopener noreferrer">See All</a>
 				</div>
 				<div class="slider-container">
 					<?php
