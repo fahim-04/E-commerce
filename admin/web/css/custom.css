@@ -61,118 +61,154 @@
     max-width: 100%;
 }
 
-/* product show in home */
-/* Base Styles */
-.card {
-    max-width: 200px;
-    padding: 20px;
+/* General Styles for the Slider */
+.slider-container {
+    margin: 20px 0; /* Add space around the slider */
+}
+
+/* Individual Product Card Styles */
+.product-card {
+    text-align: center;
+    padding: 15px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Hover Effect for Product Cards */
+.product-card:hover {
+    transform: translateY(-5px); /* Slightly lift the card on hover */
+    box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.15); /* Add a stronger shadow */
+}
+
+/* Product Image Styling */
+.product-image {
+    width: 100%;
+    height: auto;
+    max-width: 150px;
+    margin: 0 auto;
+    display: block;
+}
+
+/* Product Title Styling */
+.product-title {
+    font-size: 16px;
+    margin-top: 10px;
+    text-decoration: none;
+    color: #333;
+    font-weight: bold;
+    display: block;
     text-align: center;
 }
 
-.card-img-top {
-    width: 70%;
-    height: auto;
-    margin: 7px auto;
+.product-title:hover {
+    color: #007bff; /* Change color on hover */
+    text-decoration: underline; /* Add underline on hover */
 }
 
-.card-title {
-    font-size: 16px;
-    display: block;
-    max-width: 100%;
-}
-:hover.prod-item img{
-    overflow: hidden;
+/* Slick Slider Customization */
+.slick-arrow {
+    background-color: #007bff; /* Arrow button color */
+    border-radius: 50%; /* Make arrows circular */
+    width: 40px;
+    height: 40px;
+    z-index: 1000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #fff; /* Arrow icon color */
+    border: none;
     cursor: pointer;
-    scale: 1.1;
-
-    -webkit-transition: 0.4s ease-in-out;
-    -moz-transition: 0.4s ease-in-out;
-    -o-transition: 0.4s ease-in-out;    
-    transition: 0.4s ease-in-out;
-
+    transition: background-color 0.3s ease;
 }
 
-/* Media Queries */
+.slick-arrow:hover {
+    background-color: #0056b3; /* Darker blue on hover */
+}
 
-/* Extra Small Devices (phones, <576px) */
-@media (max-width: 575.98px) {
-     .prod-show div{
-        margin: 0 auto;
+.slick-prev {
+    left: -45px; /* Adjust position */
+}
+
+.slick-next {
+    right: -45px; /* Adjust position */
+}
+
+/* .slick-dots {
+    bottom: -25px; Position dots 
+} */
+
+.slick-dots li button:before {
+    color: #007bff; /* Dot color */
+    font-size: 12px;
+}
+
+.slick-dots li.slick-active button:before {
+    color: #0056b3; /* Active dot color */
+}
+
+/* Responsive Styling */
+@media (max-width: 575.98px) { /* For extra small devices */
+    .product-card {
         padding: 10px;
     }
-    .card {
-        max-width: 150px;
-        padding: 15px;
+    .product-image {
+        max-width: 120px;
     }
-    .card-title {
+    .product-title {
         font-size: 14px;
     }
-    .card-img-top {
-        width: 60%;
-    }
 }
 
-/* Small Devices (portrait tablets, 576px - 767px) */
-@media (min-width: 576px) and (max-width: 767.98px) {
-    .prod-show{
-        margin: 10px auto;
-        padding: 30px;
+@media (min-width: 576px) and (max-width: 767.98px) { /* For small devices */
+    .product-card {
+        padding: 12px;
     }
-    .card {
-        max-width: 180px;
-        padding: 15px;
+    .product-image {
+        max-width: 130px;
     }
-    .card-title {
+    .product-title {
         font-size: 15px;
     }
-    .card-img-top {
-        width: 65%;
-    }
 }
 
-/* Medium Devices (landscape tablets, 768px - 991px) */
-@media (min-width: 768px) and (max-width: 991.98px) {
-    .card {
-        max-width: 200px;
-        padding: 20px;
+@media (min-width: 768px) and (max-width: 991.98px) { /* For medium devices */
+    .product-card {
+        padding: 15px;
     }
-    .card-title {
+    .product-image {
+        max-width: 140px;
+    }
+    .product-title {
         font-size: 16px;
     }
-    .card-img-top {
-        width: 80%;
-    }
 }
 
-/* Large Devices (desktops, 992px - 1199px) */
-@media (min-width: 992px) and (max-width: 1199.98px) {
-    .prod-show{
-        padding: 30px;
+@media (min-width: 992px) and (max-width: 1199.98px) { /* For large devices */
+    .product-card {
+        padding: 18px;
     }
-    .card {
-        max-width: 220px;
-        padding: 20px;
+    .product-image {
+        max-width: 150px;
     }
-    .card-title {
+    .product-title {
         font-size: 17px;
     }
-    .card-img-top {
-        width: 85%;
+}
+
+@media (min-width: 1200px) { /* For extra large devices */
+    .product-card {
+        padding: 20px;
+    }
+    .product-image {
+        max-width: 160px;
+    }
+    .product-title {
+        font-size: 18px;
     }
 }
 
-/* Extra Large Devices (large desktops, 1200px and up) */
-@media (min-width: 1200px) {
-    .card {
-        max-width: 240px;
-        padding: 25px;
-    }
-    .card-title {
-        font-size: 18px;
-    }
-    .card-img-top {
-        width: 90%;
-    }
-}
 
 

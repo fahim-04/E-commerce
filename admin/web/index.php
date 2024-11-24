@@ -82,147 +82,175 @@ include 'functions-web.php';
 
 		<!-- slider end -->
 		<!-- W1 start here -->
-		<div class="w1">
-			<!-- Main container -->
-			<div class="container mt-5 prod-show">
-				<!-- for smart phones -->
-				<div class="row">
-					<div class="d-flex justify-content-between align-items-center mb-3">
-						<h2 class="heading color-dark col-6 pl-2">Smart Phones</h2>
-						<a href="products.php" class="btn btn-primary col-6" rel="noopener noreferrer">See All</a>
-					</div>
-
-					<div class="">
-						<?php
-						// Fetch products using the updated function
-						$categoryId = 1; // Replace with a valid category ID
-						$products = getSPhones($conn, $categoryId);
-
-						if (isset($products['error'])) {
-							echo "<p class='text-danger'>Error: " . $products['error'] . "</p>";
-						} elseif (!empty($products)) {
-							foreach ($products as $row) {
-						?>
-								<div class="col-6 d-flex justify-content-center prod-item mb-4">
-									<div class="card col-6 col-lg-3 col-xl-3  col-md-6  col-sm-6" style="max-width: 200px; padding: 20px;">
-										<!-- Product Image -->
-										<img src="<?php echo !empty($row['pro_image']) ? htmlspecialchars($row['pro_image']) : 'images/placeholder.jpg'; ?>"
-											class="card-img-top img-fluid"
-											alt="<?php echo htmlspecialchars($row['pro_name']); ?>">
-
-										<!-- Product Title -->
-										<div class="card-body text-center">
-											<a href="<?php echo htmlspecialchars($row['slug_url']); ?>"
-												class="card-title text-truncate d-block"
-												style="font-size: 16px;">
-												<?php echo htmlspecialchars($row['pro_name']); ?>
-											</a>
-										</div>
-									</div>
-								</div>
-						<?php
-							}
-						} else {
-							echo "<p>No products found.</p>";
-						}
-						?>
-					</div>
+		<!-- <div class="w1"> -->
+		<!-- Product Slider Section -->
+		<div class="container mt-5">
+			<!-- Smart Phones Section -->
+			<div class="row">
+				<div class="d-flex justify-content-between align-items-center mb-3">
+					<h2 class="prod-heading col-6 pl-2">Smart Phones</h2>
+					<a href="products.php" class="btn btn-primary col-6" rel="noopener noreferrer">See All</a>
 				</div>
-				<!-- smart phones end -->
-
-				<!-- for tablets -->
-
-				<div class="row">
-
-					<div class="d-flex justify-content-between align-items-center mb-3 mt-5">
-
-						<h2 class="heading  col-6 pl-2">Tabs</h2>
-						<a href="products.php" class="btn btn-primary col-6" rel="noopener noreferrer">See All</a>
-
-					</div>
-
-					<div class="">
-						<?php
-						// Fetch products using the updated function
-						$categoryId = 14747; // Replace with a valid category ID
-						$products = getTabs($conn, $categoryId);
-
-						if (isset($products['error'])) {
-							echo "<p class='text-danger'>Error: " . $products['error'] . "</p>";
-						} elseif (!empty($products)) {
-							foreach ($products as $row) {
-						?>
-								<div class="col-6 d-flex justify-content-center prod-item mb-4">
-									<div class="card col-6 col-lg-3 col-xl-3  col-md-4  col-sm-4" style="max-width: 200px; padding: 20px;">
-										<!-- Product Image -->
-										<img src="<?php echo !empty($row['pro_image']) ? htmlspecialchars($row['pro_image']) : 'images/placeholder.jpg'; ?>"
-											class="card-img-top img-fluid"
-											alt="<?php echo htmlspecialchars($row['pro_name']); ?>">
-
-										<!-- Product Title -->
-										<div class="card-body text-center">
-											<a href="<?php echo htmlspecialchars($row['slug_url']); ?>"
-												class="card-title text-truncate d-block"
-												style="font-size: 16px;">
-												<?php echo htmlspecialchars($row['pro_name']); ?>
-											</a>
-										</div>
-									</div>
-								</div>
-						<?php
-							}
-						} else {
-							echo "<p>No products found.</p>";
+				<div class="slider-container">
+					<?php
+					$categoryId = 1; // Smart Phones category ID
+					$products = getSPhones($conn, $categoryId);
+					if (!empty($products)) {
+						foreach ($products as $row) {
+					?>
+							<div class="product-card">
+								<img src="<?php echo !empty($row['pro_image']) ? htmlspecialchars($row['pro_image']) : 'images/placeholder.jpg'; ?>"
+									alt="<?php echo htmlspecialchars($row['pro_name']); ?>" class="product-image">
+								<a href="<?php echo htmlspecialchars($row['slug_url']); ?>" class="product-title">
+									<?php echo htmlspecialchars($row['pro_name']); ?>
+								</a>
+							</div>
+					<?php
 						}
-						?>
-					</div>
-
+					} else {
+						echo "<p>No products found.</p>";
+					}
+					?>
 				</div>
+			</div>
 
+			<!-- Tabs Section -->
+			<div class="row mt-5">
+				<div class="d-flex justify-content-between align-items-center mb-3">
+					<h2 class="prod-heading col-6 pl-2">Tabs</h2>
+					<a href="products.php" class="btn btn-primary col-6" rel="noopener noreferrer">See All</a>
+				</div>
+				<div class="slider-container">
+					<?php
+					$categoryId = 14747; // Tabs category ID
+					$products = getTabs($conn, $categoryId);
+					if (!empty($products)) {
+						foreach ($products as $row) {
+					?>
+							<div class="product-card">
+								<img src="<?php echo !empty($row['pro_image']) ? htmlspecialchars($row['pro_image']) : 'images/placeholder.jpg'; ?>"
+									alt="<?php echo htmlspecialchars($row['pro_name']); ?>" class="product-image">
+								<a href="<?php echo htmlspecialchars($row['slug_url']); ?>" class="product-title">
+									<?php echo htmlspecialchars($row['pro_name']); ?>
+								</a>
+							</div>
+					<?php
+						}
+					} else {
+						echo "<p>No products found.</p>";
+					}
+					?>
+				</div>
+			</div>
+
+			<!-- Smart Watches Section -->
+			<div class="row mt-5">
+				<div class="d-flex justify-content-between align-items-center mb-3">
+					<h2 class="prod-heading col-6 pl-2">Smart Watches</h2>
+					<a href="products.php" class="btn btn-primary col-6" rel="noopener noreferrer">See All</a>
+				</div>
+				<div class="slider-container">
+					<?php
+					$categoryId = 74040; // Tabs category ID
+					$products = getTabs($conn, $categoryId);
+					if (!empty($products)) {
+						foreach ($products as $row) {
+					?>
+							<div class="product-card">
+								<img src="<?php echo !empty($row['pro_image']) ? htmlspecialchars($row['pro_image']) : 'images/placeholder.jpg'; ?>"
+									alt="<?php echo htmlspecialchars($row['pro_name']); ?>" class="product-image">
+								<a href="<?php echo htmlspecialchars($row['slug_url']); ?>" class="product-title">
+									<?php echo htmlspecialchars($row['pro_name']); ?>
+								</a>
+							</div>
+					<?php
+						}
+					} else {
+						echo "<p>No products found.</p>";
+					}
+					?>
+				</div>
 			</div>
 		</div>
 
 
-		<!-- mt header style3 start here -->
-		<!-- mt header end here -->
-		<!-- mt search popup start here -->
-		<!-- mt search popup end here -->
-		<!-- mt main start here -->
+	</div>
+	<!-- </div> -->
 
-		<!-- footer of the Page -->
-		<?php include $filepath . '/footer-web.php'; ?>
-		<!-- footer of the Page end -->
-		<!-- </div> -->
-		<!-- W1 end here -->
-		<span id="back-top" class="fa fa-arrow-up"></span>
-		<!-- </div> -->
-		<!-- Popup Holder of the Page end -->
-		<!-- include jQuery -->
-		<script src="js/jquery.js"></script>
-		<!-- include jQuery -->
-		<script src="js/plugins.js"></script>
-		<!-- include jQuery -->
-		<script src="js/jquery.main.js"></script>
-		<script>
-			// Modal elements
-			const modal = document.getElementById('userModal');
-			const openModalButton = document.getElementById('openModalButton');
-			const closeButton = document.querySelector('.close-btn');
 
-			// Open the modal
-			openModalButton.onclick = () => {
-				modal.style.display = 'block';
-			};
+	<!-- mt header style3 start here -->
+	<!-- mt header end here -->
+	<!-- mt search popup start here -->
+	<!-- mt search popup end here -->
+	<!-- mt main start here -->
 
-			// Close the modal when the close button is clicked
-			closeButton.onclick = () => {
+	<!-- footer of the Page -->
+	<?php include $filepath . '/footer-web.php'; ?>
+	<!-- footer of the Page end -->
+	<!-- </div> -->
+	<!-- W1 end here -->
+	<span id="back-top" class="fa fa-arrow-up"></span>
+	<!-- </div> -->
+	<!-- Popup Holder of the Page end -->
+	<!-- include jQuery -->
+	<script src="js/jquery.js"></script>
+	<!-- include jQuery -->
+	<script src="js/plugins.js"></script>
+	<!-- include jQuery -->
+	<script src="js/jquery.main.js"></script>
+	<script>
+		// Modal elements
+		const modal = document.getElementById('userModal');
+		const openModalButton = document.getElementById('openModalButton');
+		const closeButton = document.querySelector('.close-btn');
+
+		// Open the modal
+		openModalButton.onclick = () => {
+			modal.style.display = 'block';
+		};
+
+		// Close the modal when the close button is clicked
+		closeButton.onclick = () => {
+			modal.style.display = 'none';
+		};
+
+		// Close the modal when clicking outside of it
+		window.onclick = (event) => {
+			if (event.target === modal) {
 				modal.style.display = 'none';
-			};
+			}
+		};
+	</script>
 
-			// Close the modal when clicking outside of it
-			window.onclick = (event) => {
-				if (event.target === modal) {
-					modal.style.display = 'none';
-				}
-			};
-		</script>
+	<script>
+		$(document).ready(function() {
+			$('.slider-container').slick({
+				slidesToShow: 4,
+				slidesToScroll: 1,
+				infinite: false,
+				arrows: false,
+				dots: false,
+				autoplay: false, // Enable autoplay
+				
+				responsive: [{
+						breakpoint: 1199,
+						settings: {
+							slidesToShow: 3
+						}
+					},
+					{
+						breakpoint: 991,
+						settings: {
+							slidesToShow: 2
+						}
+					},
+					{
+						breakpoint: 576,
+						settings: {
+							slidesToShow: 1
+						}
+					}
+				]
+			});
+		});
+	</script>

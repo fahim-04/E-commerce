@@ -2,28 +2,35 @@
 session_start();
 include '../backend/connection.php'; // Database connection
 include 'functions-web.php';
+
+
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
+
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SnapTech</title>
-    <!-- Include the site stylesheet -->
-    <?php
-    $filepath = realpath(dirname(__FILE__));
-    include $filepath . '/web-links.php';
-    ?>
+    <!-- include the site stylesheet -->
+    <?php $filepath = realpath(dirname(__FILE__));
+    include $filepath . '/web-links.php'; ?>
 </head>
 
 <body>
     <?php include $filepath . '/navbar.php'; ?>
-
-    <!-- Main container of all the page elements -->
+    <!-- main container of all the page elements -->
     <div id="wrapper">
-        <!-- Slider section -->
+        <!-- Page Loader -->
+        <div id="pre-loader" class="loader-container">
+            <div class="loader">
+                <img src="images/svg/rings.svg" alt="loader">
+            </div>
+        </div>
+        <!-- slider start -->
         <div class="mt-mainslider4 add">
             <div class="container">
                 <div class="row">
@@ -72,69 +79,160 @@ include 'functions-web.php';
                 </div>
             </div>
         </div>
-        <!-- Slider end -->
 
-        <divs class="w1">
+        <!-- slider end -->
+        <!-- W1 start here -->
+        <div class="w1">
             <!-- Main container -->
-            <div class="container mt-5">
-                <h2 class="heading pb-3">Smart Phones</h2>
+            <div class="container mt-5 prod-show">
+                <!-- for smart phones -->
+                <div class="row">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h2 class="prod-heading  col-6 pl-2">Smart Phones</h2>
+                        <a href="products.php" class="btn btn-primary col-6" rel="noopener noreferrer">See All</a>
+                    </div>
 
-                <?php
-                // Fetch products using the updated function
-                $categoryId = 1; // Example category
-                $products = getSPhones($conn, $categoryId);
+                    <div class="">
+                        <?php
+                        // Fetch products using the updated function
+                        $categoryId = 1; // Replace with a valid category ID
+                        $products = getSPhones($conn, $categoryId);
 
-                if (isset($products['error'])) {
-                    echo "<p>Error: " . $products['error'] . "</p>";
-                } elseif (!empty($products)) {
-                ?>
-                    <!-- Bootstrap Carousel -->
-                    <div id="productSlider" class="carousel slide" data-ride="carousel">
-                        <div class="carousel-inner">
-                            <?php
-                            $activeClass = 'active'; // First slide needs the active class
-                            foreach ($products as $product) {
-                            ?>
-                                <div class="carousel-item <?php echo $activeClass; ?>">
-                                    <div class="card text-center" style="width: 250px; margin: auto;">
-                                        <img src="<?php echo !empty($product['pro_image']) ? htmlspecialchars($product['pro_image']) : 'images/placeholder.jpg'; ?>"
-                                            class="card-img-top"
-                                            alt="<?php echo htmlspecialchars($product['pro_name']); ?>"
-                                            style="width: 100%; height: auto;">
-                                        <div class="card-body">
-                                            <h4 class="card-title"><?php echo htmlspecialchars($product['pro_name']); ?></h4>
-                                            <a href="<?php echo htmlspecialchars($product['slug_url']); ?>" class="btn btn-primary">See more...</a>
+                        if (isset($products['error'])) {
+                            echo "<p class='text-danger'>Error: " . $products['error'] . "</p>";
+                        } elseif (!empty($products)) {
+                            foreach ($products as $row) {
+                        ?>
+                                <div class="col-6 d-flex justify-content-center prod-item mb-4">
+                                    <div class="card col-6 col-lg-3 col-xl-3  col-md-6  col-sm-6" style="max-width: 200px; padding: 20px;">
+                                        <!-- Product Image -->
+                                        <img src="<?php echo !empty($row['pro_image']) ? htmlspecialchars($row['pro_image']) : 'images/placeholder.jpg'; ?>"
+                                            class="card-img-top img-fluid"
+                                            alt="<?php echo htmlspecialchars($row['pro_name']); ?>">
+
+                                        <!-- Product Title -->
+                                        <div class="card-body text-center">
+                                            <a href="<?php echo htmlspecialchars($row['slug_url']); ?>"
+                                                class="card-title text-truncate d-block"
+                                                style="font-size: 16px;">
+                                                <?php echo htmlspecialchars($row['pro_name']); ?>
+                                            </a>
                                         </div>
                                     </div>
                                 </div>
-                            <?php
-                                $activeClass = ''; // Reset after first item
+                        <?php
                             }
-                            ?>
-                        </div>
-                        <!-- Carousel controls -->
-                        <a class="carousel-control-prev" href="#productSlider" role="button" data-slide="prev">
-                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                            <span class="sr-only">Previous</span>
-                        </a>
-                        <a class="carousel-control-next" href="#productSlider" role="button" data-slide="next">
-                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                            <span class="sr-only">Next</span>
-                        </a>
+                        } else {
+                            echo "<p>No products found.</p>";
+                        }
+                        ?>
                     </div>
-                <?php
-                } else {
-                    echo "<p>No products found.</p>";
-                }
-                ?>
+                </div>
+                <!-- smart phones end -->
+
+
+
             </div>
-        </divs>
+        </div>
+
+
+        <!-- slider end -->
+        <!-- W1 start here -->
+        <div class="w1">
+            <!-- Main container -->
+            <div class="container mt-5 prod-show">
+                <!-- for smart phones -->
+                <div class="row">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h2 class="prod-heading color-dark col-6 pl-2">Tabs</h2>
+                        <a href="products.php" class="btn btn-primary col-6" rel="noopener noreferrer">See All</a>
+                    </div>
+
+                    <div class="">
+                        <?php
+                        // Fetch products using the updated function
+                        $categoryId = 14747; // Replace with a valid category ID
+                        $products = getTabs($conn, $categoryId);
+
+
+                        if (isset($products['error'])) {
+                            echo "<p class='text-danger'>Error: " . $products['error'] . "</p>";
+                        } elseif (!empty($products)) {
+                            foreach ($products as $row) {
+                        ?>
+                                <div class="col-6 d-flex justify-content-center prod-item mb-4">
+                                    <div class="card col-3 col-lg-3 col-xl-3  col-md-6  col-sm-6" style="max-width: 200px; padding: 20px;">
+                                        <!-- Product Image -->
+                                        <img src="<?php echo !empty($row['pro_image']) ? htmlspecialchars($row['pro_image']) : 'images/placeholder.jpg'; ?>"
+                                            class="card-img-top img-fluid"
+                                            alt="<?php echo htmlspecialchars($row['pro_name']); ?>">
+
+                                        <!-- Product Title -->
+                                        <div class="card-body text-center">
+                                            <a href="<?php echo htmlspecialchars($row['slug_url']); ?>"
+                                                class="card-title text-truncate d-block"
+                                                style="font-size: 16px;">
+                                                <?php echo htmlspecialchars($row['pro_name']); ?>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                        <?php
+                            }
+                        } else {
+                            echo "<p>No products found.</p>";
+                        }
+                        ?>
+                    </div>
+                </div>
+                <!-- smart phones end -->
 
 
 
+            </div>
+        </div>
 
 
-        <!-- Footer -->
+        <!-- mt header style3 start here -->
+        <!-- mt header end here -->
+        <!-- mt search popup start here -->
+        <!-- mt search popup end here -->
+        <!-- mt main start here -->
+
+        <!-- footer of the Page -->
         <?php include $filepath . '/footer-web.php'; ?>
+        <!-- footer of the Page end -->
+        <!-- </div> -->
+        <!-- W1 end here -->
+        <span id="back-top" class="fa fa-arrow-up"></span>
+        <!-- </div> -->
+        <!-- Popup Holder of the Page end -->
+        <!-- include jQuery -->
+        <script src="js/jquery.js"></script>
+        <!-- include jQuery -->
+        <script src="js/plugins.js"></script>
+        <!-- include jQuery -->
+        <script src="js/jquery.main.js"></script>
+        <script>
+            // Modal elements
+            const modal = document.getElementById('userModal');
+            const openModalButton = document.getElementById('openModalButton');
+            const closeButton = document.querySelector('.close-btn');
 
-        <!-- Include scripts -->
+            // Open the modal
+            openModalButton.onclick = () => {
+                modal.style.display = 'block';
+            };
+
+            // Close the modal when the close button is clicked
+            closeButton.onclick = () => {
+                modal.style.display = 'none';
+            };
+
+            // Close the modal when clicking outside of it
+            window.onclick = (event) => {
+                if (event.target === modal) {
+                    modal.style.display = 'none';
+                }
+            };
+        </script>
