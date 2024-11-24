@@ -117,14 +117,49 @@
 	<span class="mt-side-over"></span>
 </header>
 <!-- Modal -->
+<?php
+// Function to mask email
+function maskEmail($email)
+{
+	// Split the email into parts
+	$atPos = strpos($email, '@');
+	if ($atPos === false) return $email; // Invalid email, return as is
+
+	$namePart = substr($email, 0, $atPos); // Before the @
+	$domainPart = substr($email, $atPos); // After the @
+
+	if (strlen($namePart) > 3) {
+		// Replace all but the first 3 characters with asterisks
+		$maskedName = substr($namePart, 0, 3) . str_repeat('*', strlen($namePart) - 3);
+	} else {
+		// If the name part is too short, show it as is
+		$maskedName = $namePart;
+	}
+
+	return $maskedName . $domainPart; // Combine masked name and domain
+}
+
+// Check if user is logged in
+$isLoggedIn = isset($_SESSION['user_name']) && isset($_SESSION['user_email']);
+?>
 <div id="userModal" class="modal">
 	<div class="modal-content text-center">
 		<span class="close-btn">&times;</span>
 		<h1 class="text-center" style="color: #000; padding: 15px">Account</h1>
-		<h5><?php echo $_SESSION['user_name'] ?? '' ?></h5>
-		<p><?php echo $_SESSION['user_type'] ?? '' ?> </p>
-		<a href="../backend/index.php" class="btn btn-primary">Login</a>
-		<a href="logout.php" class="btn btn-danger">Logout</a>
+
+		<?php if ($isLoggedIn): ?>
+			<!-- Display user info -->
+			<h3> Name : <?php echo htmlspecialchars($_SESSION['user_name']); ?></h3>
+			<h3> Email : <?php echo htmlspecialchars(maskEmail($_SESSION['user_email'])); ?></h3>
+			<p> User Type : <?php echo htmlspecialchars (ucfirst($_SESSION['user_type'])); ?></p>
+			<a href="logout.php" class="btn btn-danger">Logout</a>
+		<?php else: ?>
+			<!-- Display generic user info -->
+			<h2 class="pb-5">Guest</h2>
+			
+			<a href="../backend/index.php" class="btn" style="background-color: #007bff; color: white;">Login</a>
+			<a href="../backend/registration.php" class="btn" style="background-color: #28a745; color: white;">Registration</a>
+		<?php endif; ?>
 	</div>
 </div>
 

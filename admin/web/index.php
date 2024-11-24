@@ -84,7 +84,7 @@ include 'functions-web.php';
 		<!-- W1 start here -->
 		<!-- <div class="w1"> -->
 		<!-- Product Slider Section -->
-		<div class="container mt-5">
+		<div class="container mt-5 wow fadeInUp" data-wow-delay="0.4s">
 			<!-- Smart Phones Section -->
 			<div class="row">
 				<div class="d-flex justify-content-between align-items-center mb-3">
@@ -115,8 +115,8 @@ include 'functions-web.php';
 			</div>
 
 			<!-- Tabs Section -->
-			<div class="row mt-5">
-				<div class="d-flex justify-content-between align-items-center mb-3">
+			<div class="row mt-5 wow fadeInUp" data-wow-delay="0.4s">
+				<div class=" d-flex justify-content-between align-items-center mb-3">
 					<h2 class="prod-heading col-6 pl-2">Tabs</h2>
 					<a href="products.php" class="btn btn-primary col-6" rel="noopener noreferrer">See All</a>
 				</div>
@@ -144,7 +144,7 @@ include 'functions-web.php';
 			</div>
 
 			<!-- Smart Watches Section -->
-			<div class="row mt-5">
+			<div class="row mt-5 wow fadeInUp" data-wow-delay="0.4s">
 				<div class="d-flex justify-content-between align-items-center mb-3">
 					<h2 class="prod-heading col-6 pl-2">Smart Watches</h2>
 					<a href="products.php" class="btn btn-primary col-6" rel="noopener noreferrer">See All</a>
@@ -231,7 +231,7 @@ include 'functions-web.php';
 				arrows: false,
 				dots: false,
 				autoplay: false, // Enable autoplay
-				
+
 				responsive: [{
 						breakpoint: 1199,
 						settings: {
