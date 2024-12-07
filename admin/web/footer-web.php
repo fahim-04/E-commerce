@@ -137,3 +137,35 @@
 	<!-- Slick Carousel JS -->
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"></script>
+
+	<script src="js/jquery.js"></script>
+	<!-- include jQuery -->
+	<script src="js/plugins.js"></script>
+	<!-- include jQuery -->
+	<script src="js/jquery.main.js"></script>
+	<script src="js/main.js"></script>
+
+	<!-- modal for account -->
+	<script>
+		// Modal elements
+		const modal = document.getElementById('userModal');
+		const openModalButton = document.getElementById('openModalButton');
+		const closeButton = document.querySelector('.close-btn');
+
+		// Open the modal
+		openModalButton.onclick = () => {
+			modal.style.display = 'block';
+		};
+
+		// Close the modal when the close button is clicked
+		closeButton.onclick = () => {
+			modal.style.display = 'none';
+		};
+
+		// Close the modal when clicking outside of it
+		window.onclick = (event) => {
+			if (event.target === modal) {
+				modal.style.display = 'none';
+			}
+		};
+	</script>

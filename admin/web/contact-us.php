@@ -1,3 +1,10 @@
+<?php
+session_start();
+include '../backend/connection.php'; // Database connection
+include 'functions-web.php';
+
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -73,9 +80,9 @@
           <div class="row">
             <div class="col-xs-12 text-center">
               <h1>SnapTech<Span style="color: red;">.</Span></h1>
-              <p> Whether you have questions about our products, need help with an order, <br> 
-              or want guidance on the best phone for you, our team is ready to support! Reach out to us anytime, <br> 
-              and we'll get back to you as soon as possible. Your satisfaction is our priority!</p>
+              <p> Whether you have questions about our products, need help with an order, <br>
+                or want guidance on the best phone for you, our team is ready to support! Reach out to us anytime, <br>
+                and we'll get back to you as soon as possible. Your satisfaction is our priority!</p>
             </div>
           </div>
         </div>

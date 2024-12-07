@@ -1,3 +1,10 @@
+<?php
+session_start();
+include '../backend/connection.php'; // Database connection
+include 'functions-web.php';
+
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 
