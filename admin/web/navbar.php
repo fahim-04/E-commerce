@@ -149,17 +149,16 @@ $isLoggedIn = isset($_SESSION['user_name']) && isset($_SESSION['user_email']);
 
 		<?php if ($isLoggedIn): ?>
 			<!-- Display user info -->
-
-			<h4 class="pb-2"> Name : <?php echo htmlspecialchars($_SESSION['user_name']); ?></h4>
-			<h4> Email : <?php echo htmlspecialchars(maskEmail($_SESSION['user_email'])); ?></h4>
-			<p class="pb-3"> User Type : <?php echo htmlspecialchars(ucfirst($_SESSION['user_type'])); ?></p>
-			<a href="logout.php" class="btn btn-danger pt-2">Logout</a>
+			<h3> Name : <?php echo htmlspecialchars($_SESSION['user_name']); ?></h3>
+			<h3> Email : <?php echo htmlspecialchars(maskEmail($_SESSION['user_email'])); ?></h3>
+			<p> User Type : <?php echo htmlspecialchars(ucfirst($_SESSION['user_type'])); ?></p>
+			<a href="logout.php" class="btn btn-danger">Logout</a>
 		<?php else: ?>
 			<!-- Display generic user info -->
 			<h2 class="pb-5">Guest</h2>
 
-			<a href="../backend/index.php" class="btn" style="background-color: #ff6060; color: white;">Login</a>
-			<a href="../backend/registration.php" class="btn" style="background-color: #007bff; color: white;">Registration</a>
+			<a href="../backend/index.php" class="btn" style="background-color: #007bff; color: white;">Login</a>
+			<a href="../backend/registration.php" class="btn" style="background-color: #9FE2BF; color: white;">Registration</a>
 		<?php endif; ?>
 	</div>
 </div>
