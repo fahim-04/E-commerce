@@ -158,7 +158,7 @@ $isLoggedIn = isset($_SESSION['user_name']) && isset($_SESSION['user_email']);
 			<h2 class="pb-5">Guest</h2>
 
 			<a href="../backend/index.php" class="btn" style="background-color: #007bff; color: white;">Login</a>
-			<a href="../backend/registration.php" class="btn" style="background-color: #9FE2BF; color: white;">Registration</a>
+			<a href="../backend/registration.php" class="btn" style="background-color: #28a745; color: white;">Registration</a>
 		<?php endif; ?>
 	</div>
 </div>

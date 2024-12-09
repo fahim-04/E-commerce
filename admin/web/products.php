@@ -3,45 +3,60 @@ session_start();
 include '../backend/connection.php'; // Database connection
 include 'functions-web.php';
 
-// Fetch all categories and subcategories from the database
-$categoriesQuery = "SELECT * FROM ec_categories WHERE status = 1";
+// Database connection
+// $servername = "localhost";
+// $username = "root";
+// $password = "";
+// $dbname = "ecom";
+
+// $conn = new mysqli($servername, $username, $password, $dbname);
+
+// if ($conn->connect_error) {
+//     die("Connection failed: " . $conn->connect_error);
+// }
+
+// Fetch categories
+$categoriesQuery = "SELECT * FROM ec_categories";
 $categoriesResult = $conn->query($categoriesQuery);
-$subcategoriesQuery = "SELECT * FROM ec_sub_categories WHERE status = 1";
+
+// Fetch subcategories dynamically
+$subcategoriesQuery = "SELECT * FROM ec_sub_categories";
 $subcategoriesResult = $conn->query($subcategoriesQuery);
 
-// Organize subcategories by parent category
-$subcategories = [];
-while ($sub = $subcategoriesResult->fetch(PDO::FETCH_ASSOC)) {
-    $subcategories[$sub['cate_id']][] = $sub;
+// Handle filtering and search
+$whereClauses = [];
+if (isset($_GET['category'])) {
+    $category = $_GET['category'];
+    $whereClauses[] = "pro_cate = '$category'";
 }
 
-
-$category = $_GET['category'] ?? null;
-$subcategories = $_GET['subcategories'] ?? null;
-$priceRange = $_GET['price_range'] ?? null;
-$searchTerm = $_GET['search_term'] ?? null;
-
-$query = "SELECT * FROM ec_product WHERE status = 1";
-
-if ($category) {
-    $query .= " AND pro_cate = :category";
-}
-if ($subcategories) {
-    $subcatArray = explode(',', $subcategories);
-    $query .= " AND pro_sub_cate IN (" . implode(',', array_fill(0, count($subcatArray), '?')) . ")";
-}
-if ($priceRange) {
-    $query .= " AND selling_price BETWEEN :minPrice AND :maxPrice";
-}
-if ($searchTerm) {
-    $query .= " AND (pro_name LIKE :search OR meta_key LIKE :search)";
+if (isset($_GET['subcategories'])) {
+    $subcategories = implode("','", $_GET['subcategories']);
+    $whereClauses[] = "pro_sub_cate IN ('$subcategories')";
 }
 
-$stmt = $conn->prepare($query);
-// Bind parameters dynamically...
-$stmt->execute();
-$products = $stmt->fetchAll(PDO::FETCH_ASSOC);
+if (isset($_GET['search'])) {
+    $search = $_GET['search'];
+    $whereClauses[] = "(pro_name LIKE '%$search%' OR meta_key LIKE '%$search%')";
+}
 
+if (isset($_GET['min_price']) && isset($_GET['max_price'])) {
+    $minPrice = $_GET['min_price'];
+    $maxPrice = $_GET['max_price'];
+    $whereClauses[] = "selling_price BETWEEN $minPrice AND $maxPrice";
+}
+
+// Compile WHERE clause
+$whereClause = !empty($whereClauses) ? "WHERE " . implode(" AND ", $whereClauses) : "";
+
+// Pagination setup
+$itemsPerPage = 25;
+$page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+$offset = ($page - 1) * $itemsPerPage;
+
+// Fetch products
+$productsQuery = "SELECT * FROM ec_product $whereClause LIMIT $itemsPerPage OFFSET $offset";
+$productsResult = $conn->query($productsQuery);
 
 
 ?>
@@ -59,154 +74,37 @@ $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
     ?>
     <style>
-        /* Custom styles for filters and layout */
-        .container-fluid {
+        /* Add your styling here */
+        .container {
             display: flex;
-            flex-wrap: wrap;
         }
 
         .filter-section {
             flex: 2;
-            padding: 15px;
-            background-color: #f9f9f9;
-        }
-
-        .products-section {
-            flex: 8;
-            padding: 15px;
-            position: relative;
-        }
-
-        .vertical-nav {
-            width: 100%;
-            background-color: #f9f9f9;
             padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 8px;
+            border-right: 1px solid #ddd;
         }
 
-        .nav-item {
-            margin-bottom: 10px;
-            position: relative;
-        }
-
-        .dropdown-btn {
-            width: 100%;
-            text-align: left;
-            background-color: #007bff;
-            color: #fff;
-            border: none;
+        .product-section {
+            flex: 10;
             padding: 10px;
-            font-size: 16px;
-            cursor: pointer;
-            border-radius: 4px;
-            transition: background-color 0.3s ease;
-        }
-
-        .dropdown-btn:hover {
-            background-color: #0056b3;
-        }
-
-        .dropdown-content {
-            display: none;
-            background-color: #f1f1f1;
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            margin-top: 5px;
-        }
-
-        .dropdown-content a {
-            display: block;
-            color: #333;
-            padding: 5px;
-            text-decoration: none;
-            transition: background-color 0.3s ease;
-        }
-
-        .dropdown-content a:hover {
-            background-color: #ddd;
-            border-radius: 4px;
-        }
-
-        .nav-item .dropdown-btn.active+.dropdown-content {
-            display: block;
-        }
-
-        #products {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 15px;
-            margin-top: 60px;
         }
 
         .product-card {
-            background-color: #fff;
-            padding: 15px;
             border: 1px solid #ddd;
-            border-radius: 8px;
+            padding: 10px;
+            margin-bottom: 10px;
             text-align: center;
-            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            transition: transform 0.2s;
         }
 
         .product-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.15);
-        }
-
-        .product-image {
-            width: 70%;
-            height: auto;
-            margin: 10px auto;
-            display: block;
-        }
-
-        .product-title {
-            font-size: 16px;
-            margin: 10px 0;
-            font-weight: bold;
-        }
-
-        .product-price {
-            color: #ff6060;
-            font-size: 14px;
-            font-weight: bold;
+            transform: scale(1.05);
         }
 
         .pagination {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 10px;
             margin-top: 20px;
-        }
-
-        .pagination button {
-            padding: 10px 15px;
-            border: 1px solid #ddd;
-            background-color: #f9f9f9;
-            color: #333;
-            cursor: pointer;
-            border-radius: 5px;
-            transition: background-color 0.3s ease, color 0.3s ease;
-        }
-
-        .pagination button.active {
-            background-color: #007bff;
-            color: #fff;
-            font-weight: bold;
-        }
-
-        .pagination button:disabled {
-            background-color: #ccc;
-            color: #666;
-            cursor: not-allowed;
-        }
-
-        .pagination button:hover:not(:disabled) {
-            background-color: #0056b3;
-            color: #fff;
+            text-align: center;
         }
     </style>
 </head>
@@ -267,48 +165,60 @@ $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
                 <div class="container">
                     <!-- Filter Section -->
-                    <aside class="filter-section">
+                    <div class="filter-section">
                         <h3>Filters</h3>
-
-                        <!-- Category Dropdown -->
-                        <div class="category-filter">
-                            <label for="category-dropdown">Category:</label>
-                            <select id="category-dropdown">
+                        <form method="GET" action="products.php">
+                            <!-- Category Dropdown -->
+                            <label for="category">Category:</label>
+                            <select id="category" name="category" onchange="this.form.submit()">
                                 <option value="">Select Category</option>
+                                <?php while ($row = $categoriesResult->fetch_assoc()): ?>
+                                    <option value="<?= $row['id'] ?>"><?= $row['category_name'] ?></option>
+                                <?php endwhile; ?>
                             </select>
-                            <div id="subcategory-checklist">
-                                <!-- Subcategories will load dynamically -->
+
+                            <!-- Subcategories -->
+                            <div>
+                                <h4>Subcategories:</h4>
+                                <?php while ($row = $subcategoriesResult->fetch_assoc()): ?>
+                                    <label>
+                                        <input type="checkbox" name="subcategories[]" value="<?= $row['id'] ?>"
+                                            onchange="this.form.submit()"> <?= $row['sub_category_name'] ?>
+                                    </label><br>
+                                <?php endwhile; ?>
                             </div>
-                        </div>
 
-                        <!-- Price Filter -->
-                        <div class="price-filter">
-                            <label for="min-price">Min Price:</label>
-                            <input type="number" id="min-price" placeholder="Min Price">
-                            <label for="max-price">Max Price:</label>
-                            <input type="number" id="max-price" placeholder="Max Price">
-                        </div>
+                            <!-- Price Filter -->
+                            <h4>Price:</h4>
+                            <label for="min_price">Min:</label>
+                            <input type="number" id="min_price" name="min_price">
+                            <label for="max_price">Max:</label>
+                            <input type="number" id="max_price" name="max_price">
+                            <button type="submit">Apply</button>
 
-                        <!-- Search Bar -->
-                        <div class="search-bar">
-                            <label for="search-input">Search:</label>
-                            <input type="text" id="search-input" placeholder="Search products...">
-                        </div>
-
-                        <!-- Reset Button -->
-                        <button id="reset-button">Reset Filters</button>
-                    </aside>
-
-                    <!-- Product Section -->
-                    <div class="product-section" id="products">
-                        <!-- Products will load dynamically -->
+                            <!-- Reset Button -->
+                            <button type="button" onclick="window.location.href='products.php'">Reset</button>
+                        </form>
                     </div>
 
-                    <!-- Pagination -->
-                    <div class="pagination">
-                        <button id="prev-button">Previous</button>
-                        <span id="current-page">1</span>
-                        <button id="next-button">Next</button>
+                    <!-- Product Section -->
+                    <div class="product-section">
+                        <h3>Products</h3>
+                        <div class="product-grid">
+                            <?php while ($row = $productsResult->fetch_assoc()): ?>
+                                <div class="product-card">
+                                    <img src="<?= $row['image_url'] ?>" alt="<?= $row['pro_name'] ?>" style="width:100%; height:200px;">
+                                    <p style="color: #ff6060;">$<?= $row['selling_price'] ?></p>
+                                    <h4><?= $row['pro_name'] ?></h4>
+                                </div>
+                            <?php endwhile; ?>
+                        </div>
+
+                        <!-- Pagination -->
+                        <div class="pagination">
+                            <a href="?page=<?= max(1, $page - 1) ?>">Previous</a>
+                            <a href="?page=<?= $page + 1 ?>">Next</a>
+                        </div>
                     </div>
                 </div>
         </div>
@@ -317,6 +227,3 @@ $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
     </div>
     <span id="back-top" class="fa fa-arrow-up"></span>
     </div>
-</body>
-
-</html>
