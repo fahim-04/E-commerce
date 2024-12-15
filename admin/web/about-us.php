@@ -1,19 +1,9 @@
-<?php
-session_start();
-include '../backend/connection.php'; // Database connection
-include 'functions-web.php';
-
-
-?>
+<?php session_start(); ?>
 <!DOCTYPE html>
 <html lang="en">
 
-<!-- Mirrored from htmlbeans.com/html/schon/about-us.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 16 Apr 2023 13:56:50 GMT -->
-
 <head>
-    <!-- set the encoding of your site -->
     <meta charset="utf-8">
-    <!-- set the viewport width and initial-scale on mobile devices -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Snaptech. | About Us</title>
     <?php $filepath = realpath(dirname(__FILE__));
@@ -44,17 +34,12 @@ include 'functions-web.php';
             <!-- Main of the Page -->
             <main id="mt-main">
                 <!-- Mt Content Banner of the Page -->
-                <section class="mt-contact-banner wow fadeInUp" data-wow-delay="0.4s" style="background-image: url(images/img43.jpg);">
+                <section class="mt-contact-banner wow fadeInUp" data-wow-delay="0.4s" style="background-color:rgb(233, 233, 233);">
                     <div class="container">
                         <div class="row">
                             <div class="col-xs-12 text-center">
                                 <h1>ABOUT US</h1>
-                                <nav class="breadcrumbs">
-                                    <ul class="list-unstyled">
-                                        <li><a href="index.php">Home <i class="fa fa-angle-right"></i></a></li>
-                                        <li><a href="index.php">About Us</li>
-                                    </ul>
-                                </nav>
+
                             </div>
                         </div>
                     </div>
@@ -182,6 +167,5 @@ include 'functions-web.php';
     <script src="js/jquery.main.js"></script>
 </body>
 
-<!-- Mirrored from htmlbeans.com/html/schon/about-us.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 16 Apr 2023 13:56:51 GMT -->
 
 </html>

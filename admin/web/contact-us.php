@@ -1,19 +1,12 @@
-<?php
-session_start();
-include '../backend/connection.php'; // Database connection
-include 'functions-web.php';
-
-
-?>
+<?php session_start(); ?>
 <!DOCTYPE html>
 <html lang="en">
 
-<!-- Mirrored from htmlbeans.com/html/schon/contact-us.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 16 Apr 2023 13:56:51 GMT -->
 
 <head>
-  <!-- set the encoding of your site -->
+  
   <meta charset="utf-8">
-  <!-- set the viewport width and initial-scale on mobile devices -->
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Snaptech. | Contect Us</title>
   <?php $filepath = realpath(dirname(__FILE__));

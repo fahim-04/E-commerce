@@ -18,11 +18,27 @@ include 'functions-web.php';
 	<!-- include the site stylesheet -->
 	<?php $filepath = realpath(dirname(__FILE__));
 	include $filepath . '/web-links.php'; ?>
+	<style>
+		.product-title {
+			font-size: 18px;
+		}
+
+		.product-title:hover {
+			color: #d9534f;
+			/* Change color on hover */
+		}
+
+		.product-price {
+			margin-top: 10px;
+			font-size: 16px;
+			color: #6b6b6b;
+		}
+	</style>
 </head>
 
 <body>
 	<?php include $filepath . '/navbar.php'; ?>
-	<!-- main container of all the page elements -->
+
 	<div id="wrapper">
 		<!-- Page Loader -->
 		<div id="pre-loader" class="loader-container">
@@ -89,7 +105,7 @@ include 'functions-web.php';
 			<div class="row">
 				<div class="d-flex justify-content-between align-items-center mb-3">
 					<h2 class="prod-heading col-6 pl-2">Smart Phones</h2>
-					<a href="products.php" class="btn btn-primary col-6" rel="noopener noreferrer">See All</a>
+					<a href="products.php" class="btn  col-6" style="color: #d9534f; text-decoration: underline;" rel="noopener noreferrer">See All</a>
 				</div>
 				<div class="slider-container">
 					<?php
@@ -101,11 +117,11 @@ include 'functions-web.php';
 							<div class="product-card">
 								<img src="<?php echo !empty($row['pro_image']) ? htmlspecialchars($row['pro_image']) : 'images/placeholder.jpg'; ?>"
 									alt="<?php echo htmlspecialchars($row['pro_name']); ?>" class="product-image">
-								<span class="prod-price" id="prod-price" style="font-size: 18px;">
+								<h4 href="<?php echo htmlspecialchars($row['selling_price']); ?>" class="product-price">
 									$<?php echo htmlspecialchars($row['selling_price']); ?>
-								</span>
-								<a href="<?php echo htmlspecialchars($row['slug_url']); ?>" class="product-title">
-									<?php echo htmlspecialchars($row['pro_name']); ?>
+								</h4>
+								<a href="product-details.php?id=<?php echo $row['pro_id']; ?>" class="product-title">
+									<?php echo $row['pro_name']; ?>
 								</a>
 							</div>
 					<?php
@@ -121,7 +137,7 @@ include 'functions-web.php';
 			<div class="row mt-5 wow fadeInUp" data-wow-delay="0.4s">
 				<div class=" d-flex justify-content-between align-items-center mb-3">
 					<h2 class="prod-heading col-6 pl-2">Tabs</h2>
-					<a href="products.php" class="btn btn-primary col-6" rel="noopener noreferrer">See All</a>
+					<a href="products.php" class="btn  col-6" style="color: #d9534f; text-decoration: underline;" rel="noopener noreferrer">See All</a>
 				</div>
 				<div class="slider-container">
 					<?php
@@ -133,11 +149,11 @@ include 'functions-web.php';
 							<div class="product-card">
 								<img src="<?php echo !empty($row['pro_image']) ? htmlspecialchars($row['pro_image']) : 'images/placeholder.jpg'; ?>"
 									alt="<?php echo htmlspecialchars($row['pro_name']); ?>" class="product-image">
-								<span class="prod-price" id="prod-price" style="font-size: 18px;">
+								<h4 href="<?php echo htmlspecialchars($row['selling_price']); ?>" class="product-price">
 									$<?php echo htmlspecialchars($row['selling_price']); ?>
-								</span>
-								<a href="<?php echo htmlspecialchars($row['slug_url']); ?>" class="product-title">
-									<?php echo htmlspecialchars($row['pro_name']); ?>
+								</h4>
+								<a href="product-details.php?id=<?php echo $row['pro_id']; ?>" class="product-title">
+									<?php echo $row['pro_name']; ?>
 								</a>
 							</div>
 					<?php
@@ -151,31 +167,25 @@ include 'functions-web.php';
 
 			<!-- Smart Watches Section -->
 			<div class="row mt-5 wow fadeInUp" data-wow-delay="0.4s">
-<<<<<<< HEAD
-				<div class=" d-flex justify-content-between align-items-center mb-3">
-					<h2 class="prod-heading col-6 pl-2">Smart Watche</h2>
-					<a href="products.php" class="btn col-6" style="color: #ff6060;" rel="noopener noreferrer">See All</a>
-=======
 				<div class="d-flex justify-content-between align-items-center mb-3">
 					<h2 class="prod-heading col-6 pl-2">Smart Watches</h2>
-					<a href="products.php" class="btn btn-primary col-6" rel="noopener noreferrer">See All</a>
->>>>>>> parent of 3aa78ca (changed colors)
+					<a href="products.php" class="btn  col-6" style="color: #d9534f; text-decoration: underline; text-align: end;" rel="noopener noreferrer">See All</a>
 				</div>
 				<div class="slider-container">
 					<?php
-					$categoryId = 74040; // Smart Watches category ID
+					$categoryId = 74040; // Tabs category ID
 					$products = getTabs($conn, $categoryId);
 					if (!empty($products)) {
 						foreach ($products as $row) {
 					?>
 							<div class="product-card">
-								<img src="<?php echo !empty($row['pro_image']) ? htmlspecialchars($row['pro_image']) : 'images/placeholder.jpg'; ?>"
+								<img style="width: 80%;" src="<?php echo !empty($row['pro_image']) ? htmlspecialchars($row['pro_image']) : 'images/placeholder.jpg'; ?>"
 									alt="<?php echo htmlspecialchars($row['pro_name']); ?>" class="product-image">
-								<span class="prod-price" id="prod-price" style="font-size: 18px;">
+								<h4 href="<?php echo htmlspecialchars($row['selling_price']); ?>" class="product-price">
 									$<?php echo htmlspecialchars($row['selling_price']); ?>
-								</span>
-								<a href="<?php echo htmlspecialchars($row['slug_url']); ?>" class="product-title">
-									<?php echo htmlspecialchars($row['pro_name']); ?>
+								</h4>
+								<a href="product-details.php?id=<?php echo $row['pro_id']; ?>" class="product-title">
+									<?php echo $row['pro_name']; ?>
 								</a>
 							</div>
 					<?php
@@ -186,58 +196,86 @@ include 'functions-web.php';
 					?>
 				</div>
 			</div>
-
-
 		</div>
-		<!-- </div> -->
 
 
-		<!-- mt header style3 start here -->
-		<!-- mt header end here -->
-		<!-- mt search popup start here -->
-		<!-- mt search popup end here -->
-		<!-- mt main start here -->
-
-		<!-- footer of the Page -->
-		<?php include $filepath . '/footer-web.php'; ?>
-		<!-- footer of the Page end -->
-		<!-- </div> -->
-		<!-- W1 end here -->
-		<span id="back-top" class="fa fa-arrow-up"></span>
-		<!-- </div> -->
-		<!-- Popup Holder of the Page end -->
-		<!-- include jQuery -->
+	</div>
+	<!-- </div> -->
 
 
-		<script>
-			$(document).ready(function() {
-				$('.slider-container').slick({
-					slidesToShow: 4,
-					slidesToScroll: 1,
-					infinite: false,
-					arrows: false,
-					dots: false,
-					autoplay: false, // Enable autoplay
+	<!-- mt header style3 start here -->
+	<!-- mt header end here -->
+	<!-- mt search popup start here -->
+	<!-- mt search popup end here -->
+	<!-- mt main start here -->
 
-					responsive: [{
-							breakpoint: 1199,
-							settings: {
-								slidesToShow: 3
-							}
-						},
-						{
-							breakpoint: 991,
-							settings: {
-								slidesToShow: 2
-							}
-						},
-						{
-							breakpoint: 576,
-							settings: {
-								slidesToShow: 1
-							}
+	<!-- footer of the Page -->
+	<?php include $filepath . '/footer-web.php'; ?>
+	<!-- footer of the Page end -->
+	<!-- </div> -->
+	<!-- W1 end here -->
+	<span id="back-top" class="fa fa-arrow-up"></span>
+	<!-- </div> -->
+	<!-- Popup Holder of the Page end -->
+	<!-- include jQuery -->
+	<script src="js/jquery.js"></script>
+	<!-- include jQuery -->
+	<script src="js/plugins.js"></script>
+	<!-- include jQuery -->
+	<script src="js/jquery.main.js"></script>
+	<script>
+		// Modal elements
+		const modal = document.getElementById('userModal');
+		const openModalButton = document.getElementById('openModalButton');
+		const closeButton = document.querySelector('.close-btn');
+
+		// Open the modal
+		openModalButton.onclick = () => {
+			modal.style.display = 'block';
+		};
+
+		// Close the modal when the close button is clicked
+		closeButton.onclick = () => {
+			modal.style.display = 'none';
+		};
+
+		// Close the modal when clicking outside of it
+		window.onclick = (event) => {
+			if (event.target === modal) {
+				modal.style.display = 'none';
+			}
+		};
+	</script>
+
+	<script>
+		$(document).ready(function() {
+			$('.slider-container').slick({
+				slidesToShow: 4,
+				slidesToScroll: 1,
+				infinite: false,
+				arrows: false,
+				dots: false,
+				autoplay: false, // Enable autoplay
+
+				responsive: [{
+						breakpoint: 1199,
+						settings: {
+							slidesToShow: 3
 						}
-					]
-				});
+					},
+					{
+						breakpoint: 991,
+						settings: {
+							slidesToShow: 2
+						}
+					},
+					{
+						breakpoint: 576,
+						settings: {
+							slidesToShow: 1
+						}
+					}
+				]
 			});
-		</script>
+		});
+	</script>

@@ -91,19 +91,9 @@
 .product-card:hover {
     transform: translateY(-5px); /* Slightly lift the card on hover */
     /* box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.15); */
+    color: #d9534f;
 }
 
-/* Product Image Styling */
-.product-image {
-    width: 80%;
-    height: auto;
-    max-width: 150px;
-    margin: 0 auto;
-    display: block;
-        padding-bottom: 5px !important;
-}
-
-/* Product Title Styling */
 /* Product Image Styling */
 .product-image {
     width: 100%;
@@ -111,11 +101,10 @@
     max-width: 150px;
     margin: 0 auto;
     display: block;
-    padding-bottom: 5px !important;
 }
 
 /* Product Title Styling */
-.prod-price {
+.product-title {
     font-size: 16px;
     margin-top: 10px;
     text-decoration: none;
@@ -124,24 +113,19 @@
     display: block;
     text-align: center;
 }
-
-.product-title:hover {
-    color: #5c93ce; /* Change color on hover */
-    
+.product-price{
+    margin-top: 8px;
+    font-size: 14px;
 }
 
-.prod-price{
-    padding-top: 5px !important; /* Adds 5px space between image and price */
-    color: #ff6060 !important; /* Sets the text color to red */
-    font-weight: bold !important; /* Makes the price bold */
-    font-size: 16px !important; /* Adjusts font size for better visibility */
-    display: block !important; /* Ensures the price occupies its own line */
-    text-align: center !important; /* Centers the price below the image */
+.product-title:hover {
+    color: #d9534f; /* Change color on hover */
+    
 }
 
 /* Slick Slider Customization */
 .slick-arrow {
-    background-color: #007bff; /* Arrow button color */
+    background-color: #d9534f; /* Arrow button color */
     border-radius: 50%; /* Make arrows circular */
     width: 40px;
     height: 40px;
@@ -156,7 +140,7 @@
 }
 
 .slick-arrow:hover {
-    background-color: #0056b3; /* Darker blue on hover */
+    background-color: #d9534f; /* Darker blue on hover */
 }
 
 .slick-prev {

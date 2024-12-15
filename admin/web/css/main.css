@@ -12684,64 +12684,8 @@ body {
   overflow-x: hidden;
 }
 
-/* Product Title Styling */
-.product-title {
-    font-size: 16px;
-    margin-top: 10px;
-    text-decoration: none;
-    color: #333;
-    font-weight: bold;
-    display: block;
-    text-align: center;
-}
-
-/* for Product page */
-.container-fluid {
-  display: flex;
-  flex-wrap: wrap;
-}
-
-.filter-section {
-  flex: 2;
-  padding: 15px;
-  background-color: #f9f9f9;
-}
-
-.products-section {
-  flex: 8;
-  padding: 15px;
-  position: relative;
-}
-
-.price-filter input[type="range"] {
-  width: 100%;
-}
-
-.category-filter select {
-  width: 100%;
-  padding: 5px;
-}
-
-.search-bar {
-  position: absolute;
-  top: 0;
-  right: 15px;
-  width: 30%;
-}
-
-#products {
-  margin-top: 60px;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 15px;
-}
-
-.pagination {
-  text-align: center;
-  margin: 20px 0;
-}
-
-.product-card .product-image {
-  width: 70% !important;
-  height: auto;
+/* home page */
+.product-title:hover {
+    color: #d9534f; /* Change color on hover */
+    
 }

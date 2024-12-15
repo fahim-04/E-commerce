@@ -89,8 +89,8 @@
 					<nav id="nav">
 						<ul>
 							<li><a href="index.php">HOME </a></li>
-							<li><a href="products.php">PRODUCTS </a></li>
-							<li><a href="about-us.php">About US</a></li>
+							<li><a href="product.php">PRODUCT </a></li>
+							<li><a href="about-us.php">About Us</a></li>
 							<li><a href="contact-us.php">Contact Us</a></li>
 						</ul>
 					</nav>
@@ -103,10 +103,12 @@
 		<div class="mt-holder">
 			<a href="#" class="search-close"><span></span><span></span></a>
 			<div class="mt-frame">
-				<form action="#">
+				<form action="product.php" method="GET">
 					<fieldset>
-						<input type="text" placeholder="Search...">
-
+						<input type="text" placeholder="Search..." value="<?php echo isset($_GET['search']) ? htmlspecialchars($_GET['search']) : ''; ?>">
+						<!-- <button type="submit" style="padding: 10px 20px; font-size: 16px; background-color: #d9534f; color: white; border-radius: 20px; ">
+							Search
+						</button> -->
 						<button class="icon-magnifier" type="submit"></button>
 					</fieldset>
 				</form>
@@ -144,20 +146,21 @@ $isLoggedIn = isset($_SESSION['user_name']) && isset($_SESSION['user_email']);
 ?>
 <div id="userModal" class="modal">
 	<div class="modal-content text-center">
-		<p class="close-btn">&times;</p>
+		<span class="close-btn">&times;</span>
 		<h1 class="text-center" style="color: #000; padding: 15px">Account</h1>
 
 		<?php if ($isLoggedIn): ?>
 			<!-- Display user info -->
-			<h4 class="pb-2"> Name : <?php echo htmlspecialchars($_SESSION['user_name']); ?></h4>
-			<h4> Email : <?php echo htmlspecialchars(maskEmail($_SESSION['user_email'])); ?></h4>
-			<p class="pb-3"> User Type : <?php echo htmlspecialchars(ucfirst($_SESSION['user_type'])); ?></p>
-			<a href="logout.php" class="btn btn-danger pt-2">Logout</a>
+			<h3> Name : <?php echo htmlspecialchars($_SESSION['user_name']); ?></h3>
+			<h3> Email : <?php echo htmlspecialchars(maskEmail($_SESSION['user_email'])); ?></h3>
+			<p> User Type : <?php echo htmlspecialchars(ucfirst($_SESSION['user_type'])); ?></p>
+			<a href="logout.php" class="btn btn-danger">Logout</a>
 		<?php else: ?>
 			<!-- Display generic user info -->
 			<h2 class="pb-5">Guest</h2>
-			<a href="../backend/index.php" class="btn" style="background-color: #ff6060; color: white;">Login</a>
-			<a href="../backend/registration.php" class="btn" style="background-color: #007bff; color: white;">Registration</a>
+
+			<a href="../backend/index.php" class="btn" style="background-color: #007bff; color: white;">Login</a>
+			<a href="../backend/registration.php" class="btn" style="background-color: #28a745; color: white;">Registration</a>
 		<?php endif; ?>
 	</div>
 </div>
@@ -175,3 +178,27 @@ $isLoggedIn = isset($_SESSION['user_name']) && isset($_SESSION['user_email']);
 			userCard.classList.remove('visible');
 		}, 300); // Delay to allow for smooth transition
 	});
+</script>
+<script>
+	// Modal elements
+	const modal = document.getElementById('userModal');
+	const openModalButton = document.getElementById('openModalButton');
+	const closeButton = document.querySelector('.close-btn');
+
+	// Open the modal
+	openModalButton.onclick = () => {
+		modal.style.display = 'block';
+	};
+
+	// Close the modal when the close button is clicked
+	closeButton.onclick = () => {
+		modal.style.display = 'none';
+	};
+
+	// Close the modal when clicking outside of it
+	window.onclick = (event) => {
+		if (event.target === modal) {
+			modal.style.display = 'none';
+		}
+	};
+</script>
