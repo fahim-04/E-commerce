@@ -77,6 +77,7 @@ function getAllProducts($conn)
 }
 
 
+// Function to search products by name and meta_keys
 function searchProducts($conn, $searchTerm)
 {
     $sql = "
@@ -86,26 +87,38 @@ function searchProducts($conn, $searchTerm)
             ec_product.selling_price, 
             ec_product.pro_image, 
             ec_product.status,
-            ec_product.meta_title,
+            ec_product.meta_key,
             ec_categories.cate_name AS category_name, 
-            ec_sub_categories.cate_name AS subcategory_name
+            ec_sub_categories.subcate_name AS subcategory_name
         FROM 
             ec_product
         JOIN 
             ec_categories ON ec_product.pro_cate = ec_categories.cate_id
         JOIN 
-            ec_sub_categories ON ec_product.pro_sub_cate = ec_sub_categories.cate_id
+            ec_sub_categories ON ec_product.pro_sub_cate = ec_sub_categories.subcate_id
         WHERE 
-            ec_product.pro_name LIKE :searchTerm OR 
-            ec_categories.cate_name LIKE :searchTerm OR 
-            ec_sub_categories.cate_name LIKE :searchTerm
+            (
+                LOWER(ec_product.pro_name) LIKE LOWER(:searchTermExact) OR
+                LOWER(ec_product.pro_name) LIKE LOWER(:searchTermPartial) OR
+                LOWER(ec_product.meta_key) LIKE LOWER(:searchTermExact) OR
+                LOWER(ec_product.meta_key) LIKE LOWER(:searchTermPartial)
+            )
+            OR LOWER(ec_categories.cate_name) LIKE LOWER(:searchTermPartial)
+            OR LOWER(ec_sub_categories.subcate_name) LIKE LOWER(:searchTermPartial)
         ORDER BY 
-            ec_product.pro_id DESC";
+            ec_product.pro_id ASC";
 
     try {
         $stmt = $conn->prepare($sql);
-        $likeSearchTerm = '%' . $searchTerm . '%';
-        $stmt->bindParam(':searchTerm', $likeSearchTerm, PDO::PARAM_STR);
+
+        // Prepare search terms
+        $exactMatch = '%' . str_replace(' ', '%', $searchTerm) . '%';
+        $partialMatch = '%' . $searchTerm . '%';
+
+        // Bind parameters
+        $stmt->bindParam(':searchTermExact', $exactMatch, PDO::PARAM_STR);
+        $stmt->bindParam(':searchTermPartial', $partialMatch, PDO::PARAM_STR);
+
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     } catch (PDOException $e) {
@@ -114,53 +127,122 @@ function searchProducts($conn, $searchTerm)
     }
 }
 
-function getFilteredProducts($conn, $filters)
+// Function to get all products
+// function getAllProducts($conn)
+// {
+//     $sql = "
+//         SELECT 
+//             ec_product.pro_id, 
+//             ec_product.pro_name, 
+//             ec_product.selling_price, 
+//             ec_product.pro_image, 
+//             ec_product.status,
+//             ec_product.meta_key,
+//             ec_categories.cate_name AS category_name, 
+//             ec_sub_categories.subcate_name AS subcategory_name
+//         FROM 
+//             ec_product
+//         JOIN 
+//             ec_categories ON ec_product.pro_cate = ec_categories.cate_id
+//         JOIN 
+//             ec_sub_categories ON ec_product.pro_sub_cate = ec_sub_categories.subcate_id
+//         ORDER BY 
+//             ec_product.pro_id DESCS";
+
+//     try {
+//         $stmt = $conn->prepare($sql);
+//         $stmt->execute();
+//         return $stmt->fetchAll(PDO::FETCH_ASSOC);
+//     } catch (PDOException $e) {
+//         error_log("Database query error: " . $e->getMessage());
+//         return [];
+//     }
+// }
+
+/**
+ * Fetch products with optional filters
+ *
+ * @param array $filters Associative array of filters (category_id, min_price, max_price, keyword).
+ * @return array Filtered list of products.
+ */
+function fetchFilteredProducts($conn , $filters = [] )
 {
-    $sql = "SELECT * FROM ec_product WHERE status = 1";
-    $params = [];
+    
 
-    // Filter by price range
-    if (!empty($filters['min_price']) && !empty($filters['max_price'])) {
-        $sql .= " AND selling_price BETWEEN :min_price AND :max_price";
-        $params[':min_price'] = $filters['min_price'];
-        $params[':max_price'] = $filters['max_price'];
-    }
+    // Base query
+    $query = "SELECT * FROM ec_product  
+                JOIN ec_categories ON ec_product.pro_cate = ec_categories.cate_id
+                JOIN ec_sub_categories ON ec_product.pro_sub_cate = ec_sub_categories.subcate_id
+                ORDER BY ec_product.pro_id ASC";
 
-    // Filter by category
+    // Add filters dynamically
     if (!empty($filters['cate_id'])) {
-        $sql .= " AND pro_cate = :cate_id";
-        $params[':cate_id'] = $filters['cate_id'];
+        $query .= " AND cate_id = " . intval($filters['cate_id']);
     }
 
-    // Filter by subcategory
-    if (!empty($filters['subcate_id'])) {
-        $sql .= " AND pro_sub_cate = :subcate_id";
-        $params[':subcate_id'] = $filters['subcate_id'];
+    if (!empty($filters['min_price'])) {
+        $query .= " AND price >= " . floatval($filters['min_price']);
     }
 
-    // Filter by attributes (e.g., color, brand)
-    if (!empty($filters['attributes']) && is_array($filters['attributes'])) {
-        foreach ($filters['attributes'] as $key => $value) {
-            $attributeKey = ":attribute_" . $key;
-            $sql .= " AND $key = $attributeKey";
-            $params[$attributeKey] = $value;
-        }
+    if (!empty($filters['max_price'])) {
+        $query .= " AND price <= " . floatval($filters['max_price']);
     }
 
-    $sql .= " ORDER BY added_on DESC"; // Default ordering
-
-    try {
-        $stmt = $conn->prepare($sql);
-        foreach ($params as $key => $value) {
-            $stmt->bindValue($key, $value);
-        }
-        $stmt->execute();
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
-    } catch (PDOException $e) {
-        error_log("Error fetching filtered products: " . $e->getMessage());
-        return [];
+    if (!empty($filters['meta_key'])) {
+        $meta_key = $conn->real_escape_string(strtolower($filters['meta_key']));
+        $query .= " AND (LOWER(key) LIKE '%$meta_key%' OR LOWER(description) LIKE '%$meta_key%')";
     }
+
+    // Execute the query
+    $result = $conn->query($query);
+
+    if (!$result) {
+        die("Query failed: " . $conn->error);
+    }
+
+    // Fetch results
+    $products = $result->fetch_all(MYSQLI_ASSOC);
+
+    // Close the connection
+    $conn->close();
+
+    return $products;
 }
+
+/**
+ * Fetch products by category.
+ *
+ * @param int $categoryId The ID of the category to filter by.
+ * @return array Filtered products by category.
+ */
+function fetchProductsByCategory($categoryId)
+{
+    return fetchFilteredProducts(['category_id' => $categoryId]);
+}
+
+/**
+ * Fetch products by price range.
+ *
+ * @param float $minPrice Minimum price.
+ * @param float $maxPrice Maximum price.
+ * @return array Filtered products within the price range.
+ */
+function fetchProductsByPriceRange($minPrice, $maxPrice)
+{
+    return fetchFilteredProducts(['min_price' => $minPrice, 'max_price' => $maxPrice]);
+}
+
+/**
+ * Fetch products by keyword.
+ *
+ * @param string $keyword Keyword to search for.
+ * @return array Filtered products containing the keyword.
+ */
+function fetchProductsByKeyword($meta_key)
+{
+    return fetchFilteredProducts(['meta_key' => $$meta_key]);
+}
+
 
 function getCategories($conn)
 {
@@ -176,10 +258,10 @@ function getCategories($conn)
 
 function getSubcategories($conn, $categoryId)
 {
-    $sql = "SELECT * FROM ec_sub_categories WHERE status = 1 AND parent_cate_id = :category_id ORDER BY cate_name ASC, cate_id ASC";
+    $sql = "SELECT * FROM ec_sub_categories WHERE status = 1 AND parent_cate_id = :cate_id ORDER BY subcate_id ASC";
     try {
         $stmt = $conn->prepare($sql);
-        $stmt->bindParam(':category_id', $categoryId, PDO::PARAM_INT);
+        $stmt->bindParam(':cate_id', $categoryId, PDO::PARAM_INT);
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     } catch (PDOException $e) {

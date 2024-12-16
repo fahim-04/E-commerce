@@ -39,7 +39,7 @@ function get_sub_Categories($conn, $page = 1, $limit = 20, $search = "")
   $offset = ($page - 1) * $limit;
 
   // Base query with search filter if search term exists
-  $searchCondition = $search ? "AND ec_sub_categories.cate_name LIKE '%" . mysqli_real_escape_string($conn, $search) . "%'" : "";
+  $searchCondition = $search ? "AND ec_sub_categories.subcate_name LIKE '%" . mysqli_real_escape_string($conn, $search) . "%'" : "";
   $sql = "SELECT ec_sub_categories.*, ec_categories.cate_name AS parent_name
             FROM ec_sub_categories
             LEFT JOIN ec_categories ON ec_sub_categories.parent_id = ec_categories.cate_id
@@ -54,22 +54,21 @@ function get_sub_Categories($conn, $page = 1, $limit = 20, $search = "")
   while ($result = mysqli_fetch_assoc($check)) {
     $output .= "<tr>
                        <td>" . $sno++ . "</td>
-                       <td>" . $result['cate_id'] . "</td>
+                       <td>" . $result['subcate_id'] . "</td>
                        <td>" . $result['parent_name'] . "</td>
-                       <td>" . $result['cate_name'] . "</td> 
+                       <td>" . $result['subcate_name'] . "</td> 
                        <td>" . $result['slug_url'] . "</td> 
                        <td>" . $result['added_on'] . "</td> 
                        <td>" . ($result['status'] ? 'Active' : 'Inactive') . "</td>
                        </tr>";
   }
-
   return $output;
 }
 
 // Function to calculate total number of pages for pagination
 function getTotalSubCategoriesPages($conn, $limit = 20, $search = "")
 {
-  $searchCondition = $search ? "WHERE cate_name LIKE '%" . mysqli_real_escape_string($conn, $search) . "%'" : "";
+  $searchCondition = $search ? "WHERE subcate_name LIKE '%" . mysqli_real_escape_string($conn, $search) . "%'" : "";
   $result = mysqli_query($conn, "SELECT COUNT(*) as total FROM ec_sub_categories $searchCondition");
   $row = mysqli_fetch_assoc($result);
   return ceil($row['total'] / $limit);
@@ -81,7 +80,7 @@ function getTotalSubCategoriesPages($conn, $limit = 20, $search = "")
 
 // add product page start ajax code
 // add product page ajax code
-if (isset($_POST['cate_id'])) {
+if (isset($_POST['subcate_id'])) {
   $p_id = $_POST['cate_id'];
   $sql = "SELECT * FROM ec_sub_categories WHERE parent_id = $p_id ORDER BY id DESC";
   $check = mysqli_query($conn, $sql);
@@ -89,7 +88,7 @@ if (isset($_POST['cate_id'])) {
   <option value="">--Select--</option>
 <?php
   while ($result = mysqli_fetch_assoc($check)) {
-    echo "<option value=" . $result['cate_id'] . ">" . $result['cate_name'] . "</option>";
+    echo "<option value=" . $result['subcate_id'] . ">" . $result['subcate_name'] . "</option>";
   }
 }
 // add product page end
@@ -111,19 +110,19 @@ function get_Products($conn, $search = '', $page = 1, $results_per_page = 15)
             ec_product.pro_image, 
             ec_product.status, 
             ec_categories.cate_name AS category_name, 
-            ec_sub_categories.cate_name AS subcategory_name
+            ec_sub_categories.subcate_name AS subcategory_name
         FROM 
             ec_product
         JOIN 
             ec_categories ON ec_product.pro_cate = ec_categories.cate_id
         JOIN 
-            ec_sub_categories ON ec_product.pro_sub_cate = ec_sub_categories.cate_id
+            ec_sub_categories ON ec_product.pro_sub_cate = ec_sub_categories.subcate_id
         WHERE 
             ec_product.pro_name LIKE ? OR 
             ec_categories.cate_name LIKE ? OR 
-            ec_sub_categories.cate_name LIKE ?
+            ec_sub_categories.subcate_name LIKE ?
         ORDER BY 
-            ec_product.pro_id DESC
+          ec_product.pro_id ASC
         LIMIT ? OFFSET ?";
 
   $stmt = mysqli_prepare($conn, $sql);
@@ -165,11 +164,11 @@ function getProductPagesCount($conn, $search = '', $results_per_page = 15)
         SELECT COUNT(*) AS total
         FROM ec_product
         JOIN ec_categories ON ec_product.pro_cate = ec_categories.cate_id
-        JOIN ec_sub_categories ON ec_product.pro_sub_cate = ec_sub_categories.cate_id
+        JOIN ec_sub_categories ON ec_product.pro_sub_cate = ec_sub_categories.subcate_id
         WHERE 
             ec_product.pro_name LIKE ? OR 
             ec_categories.cate_name LIKE ? OR 
-            ec_sub_categories.cate_name LIKE ?";
+            ec_sub_categories.subcate_name LIKE ?";
 
   $stmt = mysqli_prepare($conn, $sql);
   $search_param = '%' . $search . '%';

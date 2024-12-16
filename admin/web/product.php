@@ -10,8 +10,9 @@ $searchTerm = isset($_GET['search']) ? trim($_GET['search']) : '';
 if (!empty($searchTerm)) {
     $products = searchProducts($conn, $searchTerm);
 } else {
-    $products = getAllProducts($conn);
+    $products = getAllProducts($conn); // Ensure this function exists in your included files
 }
+
 
 // Get filters from the request
 $filters = [
@@ -21,16 +22,34 @@ $filters = [
     'subcategory_id' => isset($_GET['subcate_id']) ? (int)$_GET['subcate_id'] : null,
 ];
 
-// Fetch products based on filters
-if (!empty($filters['min_price']) || !empty($filters['max_price']) || !empty($filters['category_id']) || !empty($filters['subcategory_id'])) {
-    $products = getFilteredProducts($conn, $filters);
-}
+// Get products based on filters
+// $products = getFilteredProducts($conn, $filters);
 
-// Fetch categories for the filter UI
+// Fetch categories and subcategories for the filter UI
 $categories = getCategories($conn);
+$subcategories = !empty($filters['category_id']) ? getSubcategories($conn, $filters['category_id']) : [];
 
-// If a category is selected, fetch its subcategories
-$subcategories = isset($filters['category_id']) ? getSubcategories($conn, $filters['category_id']) : [];
+// Pagination variables
+$limit = 20; // Number of products per page
+$page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+$page = max($page, 1); // Ensure page is at least 1
+$offset = ($page - 1) * $limit;
+
+// Fetch total number of products
+$totalProductsQuery = "SELECT COUNT(*) as total FROM ec_product WHERE status = 1";
+$totalProductsResult = $conn->query($totalProductsQuery);
+$totalProducts = $totalProductsResult->fetch(PDO::FETCH_ASSOC)['total'];
+
+// Fetch products for the current page
+$productQuery = "SELECT * FROM ec_product WHERE status = 1 LIMIT :limit OFFSET :offset";
+$stmt = $conn->prepare($productQuery);
+$stmt->bindParam(':limit', $limit, PDO::PARAM_INT);
+$stmt->bindParam(':offset', $offset, PDO::PARAM_INT);
+$stmt->execute();
+$products = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+// Calculate total pages
+$totalPages = ceil($totalProducts / $limit);
 ?>
 
 <!DOCTYPE html>
@@ -129,7 +148,7 @@ $subcategories = isset($filters['category_id']) ? getSubcategories($conn, $filte
             padding: 10px;
             font-size: 14px;
             color: #fff;
-            background-color: #007bff;
+            background-color: #d9534f;
             border: none;
             border-radius: 4px;
             cursor: pointer;
@@ -146,6 +165,35 @@ $subcategories = isset($filters['category_id']) ? getSubcategories($conn, $filte
 
         .filter-section button#resetFilters:hover {
             background-color: #5a6268;
+        }
+
+        .pagination {
+            margin: 50px;
+            
+        }
+
+        .pagination a {
+            margin: 0 5px;
+            text-decoration: none;
+            color: #000;
+            cursor: pointer;
+            padding: 5px 10px;
+            /* margin: 20px; */
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            background-color: #fff;
+            transition: background-color 0.3s ease;
+            font-size: 16px;
+            
+        }
+
+        .pagination a.active {
+            font-weight: bold;
+            color: #d9534f;
+        }
+
+        .pagination a:hover {
+            text-decoration: underline;
         }
 
         @media (max-width: 991px) {
@@ -206,7 +254,7 @@ $subcategories = isset($filters['category_id']) ? getSubcategories($conn, $filte
                     <select name="cate_id" id="categorySelect" onchange="this.form.submit()">
                         <option value="">Categories</option>
                         <?php foreach ($categories as $category): ?>
-                            <option value="<?= $category['cate_id'] ?>" <?= $filters['category_id'] == $category['cate_id'] ? 'selected' : '' ?>>
+                            <option value="<?= htmlspecialchars($category['cate_id']) ?>" <?= $filters['cate_id'] == $category['cate_id'] ? 'selected' : '' ?>>
                                 <?= htmlspecialchars($category['cate_name']) ?>
                             </option>
                         <?php endforeach; ?>
@@ -220,8 +268,8 @@ $subcategories = isset($filters['category_id']) ? getSubcategories($conn, $filte
                         <select name="subcate_id" id="subcategorySelect" onchange="this.form.submit()">
                             <option value="">Subcategories</option>
                             <?php foreach ($subcategories as $subcategory): ?>
-                                <option value="<?= $subcategory['cate_id'] ?>" <?= $filters['subcategory_id'] == $subcategory['cate_id'] ? 'selected' : '' ?>>
-                                    <?= htmlspecialchars($subcategory['cate_name']) ?>
+                                <option value="<?= $subcategory['subcate_id'] ?>" <?php $filters['subcategory_id'] == $subcategory['cate_id'] ? 'selected' : '' ?>>
+                                    <?= htmlspecialchars($subcategory['subcate_name']) ?>
                                 </option>
                             <?php endforeach; ?>
                         </select>
@@ -241,12 +289,16 @@ $subcategories = isset($filters['category_id']) ? getSubcategories($conn, $filte
                 <!-- Search Bar -->
                 <div class="search-bar-container" style="margin: 10px 0; text-align: center;">
                     <form action="product.php" method="GET">
-                        <input type="text" name="search" placeholder="Search products..." value="<?= htmlspecialchars($filters['search'] ?? '') ?>" style="padding: 10px; font-size: 14px;">
-                        <button type="submit" style="padding: 10px 20px; background-color: #d9534f; color: white; border: none; border-radius: 20px; cursor: pointer;">Search</button>
+                        <input type="text" name="search" placeholder="Search products..."
+                            value="<?php echo htmlspecialchars($searchTerm) ?>"
+                            style="padding: 10px; font-size: 14px;">
+                        <button type="submit"
+                            style="padding: 10px 20px; background-color: #d9534f; color: white; border: none; border-radius: 20px; cursor: pointer;">
+                            Search
+                        </button>
                     </form>
                 </div>
             </div>
-        </div>
     </aside>
 
     <section class="product-list">
@@ -270,31 +322,31 @@ $subcategories = isset($filters['category_id']) ? getSubcategories($conn, $filte
                 <?php else: ?>
                     <p>No products found for your search.</p>
                 <?php endif; ?>
+
+                
             </div>
         </div>
     </section>
 
-    <!-- <section class="product-list">
-        <div class="container">
-            <div class="row">
-                <?php if (!empty($products)): ?>
-                    <?php foreach ($products as $product): ?>
-                        <div class="col-xs-6 col-sm-4 col-md-3 col-lg-3">
-                            <div class="product-card">
-                                <img class="product-image" src="<?php echo htmlspecialchars($product['pro_image']); ?>" alt="<?php echo htmlspecialchars($product['pro_name']); ?>">
-                                <h4 class="product-price">$<?php echo number_format($product['selling_price'], 2); ?></h4>
-                                <a href="product-details.php?id=<?php echo htmlspecialchars($product['id']); ?>" class="product-title">
-                                    <?php echo htmlspecialchars($product['pro_name']); ?>
-                                </a>
-                            </div>
-                        </div>
-                    <?php endforeach; ?>
-                <?php else: ?>
-                    <p>No products found for your search.</p>
+    <!-- Pagination -->
+    <div class="container">
+        <div class="row">
+            <div class="pagination text-center">
+                <?php if ($page > 1): ?>
+                    <a href="?page=<?= $page - 1 ?>">Previous</a>
+                <?php endif; ?>
+
+                <?php for ($i = 1; $i <= $totalPages; $i++): ?>
+                    <a href="?page=<?= $i ?>" <?= $i === $page ? 'class="active"' : '' ?>><?= $i ?></a>
+                <?php endfor; ?>
+
+                <?php if ($page < $totalPages): ?>
+                    <a href="?page=<?= $page + 1 ?>">Next</a>
                 <?php endif; ?>
             </div>
         </div>
-    </section> -->
+    </div>
+
 
     <?php include $filepath . '/footer-web.php'; ?>
 

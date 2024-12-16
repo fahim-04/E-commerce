@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Nov 24, 2024 at 03:57 PM
+-- Generation Time: Dec 15, 2024 at 07:33 PM
 -- Server version: 8.0.30
 -- PHP Version: 8.1.10
 
@@ -171,9 +171,9 @@ INSERT INTO `ec_product` (`id`, `pro_id`, `pro_name`, `pro_cate`, `pro_sub_cate`
 
 CREATE TABLE `ec_sub_categories` (
   `id` int NOT NULL,
-  `cate_id` int DEFAULT NULL,
+  `subcate_id` int DEFAULT NULL,
   `parent_id` int DEFAULT NULL,
-  `cate_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `subcate_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   `meta_title` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci,
   `meta_desc` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   `meta_key` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci,
@@ -186,7 +186,7 @@ CREATE TABLE `ec_sub_categories` (
 -- Dumping data for table `ec_sub_categories`
 --
 
-INSERT INTO `ec_sub_categories` (`id`, `cate_id`, `parent_id`, `cate_name`, `meta_title`, `meta_desc`, `meta_key`, `slug_url`, `status`, `added_on`) VALUES
+INSERT INTO `ec_sub_categories` (`id`, `subcate_id`, `parent_id`, `subcate_name`, `meta_title`, `meta_desc`, `meta_key`, `slug_url`, `status`, `added_on`) VALUES
 (3, 10257, 1, 'Samsung', 'Samsung Mobile Phones – Discover the Latest Galaxy Smartphones', 'Discover the Samsung Galaxy series – featuring cutting-edge technology, stunning displays, powerful cameras, and seamless performance. Explore our range of smartphones and find the perfect device to elevate your mobile experience today!\n', 'Samsung Galaxy, Samsung smartphones, Galaxy features, mobile technology, Galaxy camera, Android phones, latest Samsung devices\n', 'samsung-galaxy', 1, 'Oct 28, 2024'),
 (5, 90533, 1, 'Apple', 'Apple: Innovative Technology, iPhones, Macs, Watches & More', 'Explore the latest innovations from Apple, including iPhone, Mac, iPad, Apple Watch, and more. Discover cutting-edge technology, seamless integration, and the premium quality that defines the Apple experience.', 'Apple, iPhone, iPad, MacBook, Apple Watch, AirPods, Apple products, Apple Store, Apple technology, Apple accessories, Apple official site, innovation, latest Apple devices', 'apple-iphone', 1, 'Oct 31, 2024'),
 (7, 73404, 1, 'Google', 'Google Pixel - Stunning Camera, Pure Android Experience & Advanced AI Features', 'Discover the power of Google Pixel smartphones. Featuring exceptional camera quality, seamless Android OS, and the latest in AI-driven performance. Experience Google’s flagship innovation in design, security, and efficiency with Google Pixel.', 'Google Pixel, Google Pixel camera, Android smartphone, Pixel AI features, Pixel design, Google phone, Pixel smartphone, Google flagship, Pixel battery life, Pixel security', 'google-pixel', 1, 'Oct 31, 2024'),
@@ -246,14 +246,16 @@ ALTER TABLE `ec_categories`
 ALTER TABLE `ec_product`
   ADD PRIMARY KEY (`id`),
   ADD KEY `index_of _prod_cate_id` (`pro_cate`),
-  ADD KEY `index_of _prod_sub_cate_id` (`pro_sub_cate`);
+  ADD KEY `index_of _prod_sub_cate_id` (`pro_sub_cate`),
+  ADD KEY `index_of_pro_id` (`pro_id`);
 
 --
 -- Indexes for table `ec_sub_categories`
 --
 ALTER TABLE `ec_sub_categories`
   ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `index_of_sub_cate_id` (`cate_id`);
+  ADD UNIQUE KEY `index_of_sub_cate_id` (`subcate_id`),
+  ADD KEY `parent_id` (`parent_id`);
 
 --
 -- Indexes for table `users`
@@ -275,13 +277,13 @@ ALTER TABLE `ec_categories`
 -- AUTO_INCREMENT for table `ec_product`
 --
 ALTER TABLE `ec_product`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=252;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=253;
 
 --
 -- AUTO_INCREMENT for table `ec_sub_categories`
 --
 ALTER TABLE `ec_sub_categories`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
 
 --
 -- AUTO_INCREMENT for table `users`
@@ -298,7 +300,13 @@ ALTER TABLE `users`
 --
 ALTER TABLE `ec_product`
   ADD CONSTRAINT `index_of _prod_cate_id` FOREIGN KEY (`pro_cate`) REFERENCES `ec_categories` (`cate_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `index_of _prod_sub_cate_id` FOREIGN KEY (`pro_sub_cate`) REFERENCES `ec_sub_categories` (`cate_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `index_of _prod_sub_cate_id` FOREIGN KEY (`pro_sub_cate`) REFERENCES `ec_sub_categories` (`subcate_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `ec_sub_categories`
+--
+ALTER TABLE `ec_sub_categories`
+  ADD CONSTRAINT `ec_sub_categories_ibfk_1` FOREIGN KEY (`parent_id`) REFERENCES `ec_categories` (`cate_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

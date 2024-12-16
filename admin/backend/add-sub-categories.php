@@ -24,10 +24,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 
     // Validate Category Name
-    if (empty($_POST['cate_name'])) {
-        $errors['cate_name'] = "Category Name is required.";
+    if (empty($_POST['subcate_name'])) {
+        $errors['subcate_name'] = "Sub Category Name is required.";
     } else {
-        $cate_name = mysqli_real_escape_string($conn, trim($_POST['cate_name']));
+        $subcate_name = mysqli_real_escape_string($conn, trim($_POST['subcate_name']));
     }
 
     // Validate Meta Title
@@ -62,16 +62,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Check if no validation errors
     if (empty($errors)) {
         // Proceed with inserting the category if no errors
-        $cate_id = mt_rand(00001, 99999);
+        $subcate_id = mt_rand(00001, 99999);
         $added_on = date('M d, Y');
-        $slug_url = SlugUrl($cate_name);
+        $slug_url = SlugUrl($subcate_name);
         // $parent_id = $_POST['parent-id'];
 
-        $sql = "INSERT INTO ec_sub_categories (cate_id, parent_id, cate_name, meta_title, meta_desc, meta_key, slug_url, status, added_on)
-            VALUES ('$cate_id', '$parent_id', '$cate_name', '$meta_title', '$meta_desc', '$meta_key', '$slug_url', '$status', '$added_on')";
+        $sql = "INSERT INTO ec_sub_categories (subcate_id, parent_id, subcate_name, meta_title, meta_desc, meta_key, slug_url, status, added_on)
+            VALUES ('$subcate_id', '$parent_id', '$subcate_name', '$meta_title', '$meta_desc', '$meta_key', '$slug_url', '$status', '$added_on')";
         $check = mysqli_query($conn, $sql);
 
         if ($check) {
+            
             echo "<script type='text/javascript'>alert('Category Added Successfully'); window.location='view-sub-categories.php';</script>";
         } else {
             echo "<p style='color: red;'>Failed to add category. " . mysqli_error($conn) . "</p>";
@@ -148,13 +149,14 @@ function SlugUrl($string)
                                                         style="color:red;"><?= $errors['cate_name'] ?></span>
                                                 <?php endif; ?>
                                             </div>
+
                                             <div class="form-group col-md-6 mb-3">
-                                                <label for="cate_name">Sub Category Name</label>
-                                                <input type="text" name="cate_name" class="form-control" id="cate_name"
-                                                    value="<?= isset($_POST['cate_name']) ? $_POST['cate_name'] : '' ?>">
-                                                <?php if (isset($errors['cate_name'])): ?>
+                                                <label for="subcate_name">Sub Category Name</label>
+                                                <input type="text" name="subcate_name" class="form-control" id="subcate_name"
+                                                    value="<?= isset($_POST['subcate_name']) ? $_POST['subcate_name'] : '' ?>">
+                                                <?php if (isset($errors['subcate_name'])): ?>
                                                     <span class="error-message"
-                                                        style="color:red;"><?= $errors['cate_name'] ?></span>
+                                                        style="color:red;"><?= $errors['subcate_name'] ?></span>
                                                 <?php endif; ?>
                                             </div>
 
