@@ -4,7 +4,7 @@ include '../backend/connection.php';
 include 'functions-web.php';
 
 // Get the category ID from the request
-$categoryId = isset($_GET['category_id']) ? (int)$_GET['category_id'] : 0;
+$categoryId = isset($_GET['cate_id']) ? (int)$_GET['cate_id'] : 0;
 
 if ($categoryId > 0) {
     // Fetch subcategories using the helper function

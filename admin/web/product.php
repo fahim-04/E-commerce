@@ -74,6 +74,12 @@ $totalPages = ceil($totalProducts / $limit);
             justify-content: space-between;
         }
 
+        .prod-filter-section {
+            margin-top: 40px;
+            display: flex;
+            flex: wrap;
+        }
+
         .product-card {
             flex: 0 0 calc(25% - 10px);
             box-sizing: border-box;
@@ -121,6 +127,7 @@ $totalPages = ceil($totalProducts / $limit);
             border: 1px solid #ddd;
             border-radius: 8px;
             margin-bottom: 20px;
+
         }
 
         .filter-section {
@@ -155,7 +162,7 @@ $totalPages = ceil($totalProducts / $limit);
         }
 
         .filter-section button:hover {
-            background-color: #0056b3;
+            background-color: rgb(207, 57, 52);
         }
 
         .filter-section button#resetFilters {
@@ -169,7 +176,7 @@ $totalPages = ceil($totalProducts / $limit);
 
         .pagination {
             margin: 50px;
-            
+
         }
 
         .pagination a {
@@ -184,7 +191,7 @@ $totalPages = ceil($totalProducts / $limit);
             background-color: #fff;
             transition: background-color 0.3s ease;
             font-size: 16px;
-            
+
         }
 
         .pagination a.active {
@@ -244,8 +251,8 @@ $totalPages = ceil($totalProducts / $limit);
                 <!-- Price Range Filter -->
                 <div class="filter-section">
                     <h4>Price Range</h4>
-                    <input type="number" name="min_price" placeholder="Min Price" value="<?= htmlspecialchars($filters['min_price']) ?>">
-                    <input type="number" name="max_price" placeholder="Max Price" value="<?= htmlspecialchars($filters['max_price']) ?>">
+                    <input type="number" name="min_price" placeholder="Min Price" value="<?php htmlspecialchars($filters['min_price']) ?>">
+                    <input type="number" name="max_price" placeholder="Max Price" value="<?php htmlspecialchars($filters['max_price']) ?>">
                 </div>
 
                 <!-- Category Filter -->
@@ -254,8 +261,8 @@ $totalPages = ceil($totalProducts / $limit);
                     <select name="cate_id" id="categorySelect" onchange="this.form.submit()">
                         <option value="">Categories</option>
                         <?php foreach ($categories as $category): ?>
-                            <option value="<?= htmlspecialchars($category['cate_id']) ?>" <?= $filters['cate_id'] == $category['cate_id'] ? 'selected' : '' ?>>
-                                <?= htmlspecialchars($category['cate_name']) ?>
+                            <option value="<?php htmlspecialchars($category['cate_id']) ?>" <?php $filters['id'] == $category['cate_id'] ? 'selected' : '' ?>>
+                                <?php htmlspecialchars($category['cate_name']) ?>
                             </option>
                         <?php endforeach; ?>
                     </select>
@@ -268,8 +275,8 @@ $totalPages = ceil($totalProducts / $limit);
                         <select name="subcate_id" id="subcategorySelect" onchange="this.form.submit()">
                             <option value="">Subcategories</option>
                             <?php foreach ($subcategories as $subcategory): ?>
-                                <option value="<?= $subcategory['subcate_id'] ?>" <?php $filters['subcategory_id'] == $subcategory['cate_id'] ? 'selected' : '' ?>>
-                                    <?= htmlspecialchars($subcategory['subcate_name']) ?>
+                                <option value="<?php $subcategory['subcate_id'] ?>" <?php $filters['subcategory_id'] == $subcategory['cate_id'] ? 'selected' : '' ?>>
+                                    <?php htmlspecialchars($subcategory['subcate_name']) ?>
                                 </option>
                             <?php endforeach; ?>
                         </select>
@@ -284,7 +291,7 @@ $totalPages = ceil($totalProducts / $limit);
             </form>
         </div>
 
-        <div class="container" style="width: 450px;">
+        <div class="container search-bar" style="width: 450px;">
             <div class="row">
                 <!-- Search Bar -->
                 <div class="search-bar-container" style="margin: 10px 0; text-align: center;">
@@ -302,28 +309,93 @@ $totalPages = ceil($totalProducts / $limit);
     </aside>
 
     <section class="product-list">
+        <aside class="prod-filter-section">
+            <div class="filter-container">
+                <form id="filterForm" method="GET" action="product.php">
+                    <!-- Price Range Filter -->
+                    <div class="filter-section">
+                        <h4>Price Range</h4>
+                        <input type="number" name="min_price" placeholder="Min Price" value="<?php htmlspecialchars($filters['min_price']) ?>">
+                        <input type="number" name="max_price" placeholder="Max Price" value="<?php htmlspecialchars($filters['max_price']) ?>">
+                    </div>
+
+                    <!-- Category Filter -->
+                    <div class="filter-section">
+                        <h4>Category</h4>
+                        <select name="cate_id" id="categorySelect" onchange="this.form.submit()">
+                            <option value="">Categories</option>
+                            <?php foreach ($categories as $category): ?>
+                                <option value="<?php htmlspecialchars($category['cate_id']) ?>" <?php $filters['cate_id'] == $category['cate_id'] ? 'selected' : '' ?>>
+                                    <?php htmlspecialchars($category['cate_name']) ?>
+                                </option>
+                            <?php endforeach; ?>
+                        </select>
+                    </div>
+
+                    <!-- Subcategory Filter -->
+                    <?php if (!empty($subcategories)): ?>
+                        <div class="filter-section">
+                            <h4>Subcategory</h4>
+                            <select name="subcate_id" id="subcategorySelect" onchange="this.form.submit()">
+                                <option value="">Subcategories</option>
+                                <?php foreach ($subcategories as $subcategory): ?>
+                                    <option value="<?php $subcategory['subcate_id'] ?>" <?php $filters['subcategory_id'] == $subcategory['cate_id'] ? 'selected' : '' ?>>
+                                        <?php htmlspecialchars($subcategory['subcate_name']) ?>
+                                    </option>
+                                <?php endforeach; ?>
+                            </select>
+                        </div>
+                    <?php endif; ?>
+
+                    <!-- Apply Filters Button -->
+                    <div class="filter-section">
+                        <button type="submit">Apply Filters</button>
+                        <button type="reset" id="resetFilters" onclick="window.location='product.php'">Reset</button>
+                    </div>
+                </form>
+            </div>
+
+            <div class="container search-bar" style="width: 450px;">
+                <div class="row">
+                    <!-- Search Bar -->
+                    <div class="search-bar-container" style="margin: 10px 0; text-align: center;">
+                        <form action="product.php" method="GET">
+                            <input type="text" name="search" placeholder="Search products..."
+                                value="<?php echo htmlspecialchars($searchTerm) ?>"
+                                style="padding: 10px; font-size: 14px;">
+                            <button type="submit"
+                                style="padding: 10px 20px; background-color: #d9534f; color: white; border: none; border-radius: 20px; cursor: pointer;">
+                                Search
+                            </button>
+                        </form>
+                    </div>
+                </div>
+        </aside>
         <div class="container">
             <div class="row">
-                <?php if (!empty($products)): ?>
-                    <?php foreach ($products as $product): ?>
-                        <div class="col-xs-6 col-sm-4 col-md-3 col-lg-3">
-                            <div class="product-card">
-                                <img class="product-image"
-                                    src="<?php echo htmlspecialchars($product['pro_image'] ?? 'default-image.jpg'); ?>"
-                                    alt="<?php echo htmlspecialchars($product['pro_name'] ?? 'No Name Available'); ?>">
-                                <h4 class="product-price">$<?php echo number_format($product['selling_price'] ?? 0, 2); ?></h4>
-                                <a href="product-details.php?id=<?php echo htmlspecialchars($product['pro_id'] ?? '#'); ?>"
-                                    class="product-title">
-                                    <?php echo htmlspecialchars($product['pro_name'] ?? 'Unknown Product'); ?>
-                                </a>
-                            </div>
-                        </div>
-                    <?php endforeach; ?>
-                <?php else: ?>
-                    <p>No products found for your search.</p>
-                <?php endif; ?>
 
-                
+                <div>
+                    <?php if (!empty($products)): ?>
+                        <?php foreach ($products as $product): ?>
+                            <div class="col-xs-6 col-sm-4 col-md-3 col-lg-3">
+                                <div class="product-card">
+                                    <img class="product-image"
+                                        src="<?php echo htmlspecialchars($product['pro_image'] ?? 'default-image.jpg'); ?>"
+                                        alt="<?php echo htmlspecialchars($product['pro_name'] ?? 'No Name Available'); ?>">
+                                    <h4 class="product-price">$<?php echo number_format($product['selling_price'] ?? 0, 2); ?></h4>
+                                    <a href="product-details.php?id=<?php echo htmlspecialchars($product['pro_id'] ?? '#'); ?>"
+                                        class="product-title">
+                                        <?php echo htmlspecialchars($product['pro_name'] ?? 'Unknown Product'); ?>
+                                    </a>
+                                </div>
+                            </div>
+                        <?php endforeach; ?>
+                    <?php else: ?>
+                        <p>No products found for your search.</p>
+                    <?php endif; ?>
+                </div>
+
+
             </div>
         </div>
     </section>
@@ -333,15 +405,15 @@ $totalPages = ceil($totalProducts / $limit);
         <div class="row">
             <div class="pagination text-center">
                 <?php if ($page > 1): ?>
-                    <a href="?page=<?= $page - 1 ?>">Previous</a>
+                    <a href="?page=<?php $page - 1 ?>">Previous</a>
                 <?php endif; ?>
 
                 <?php for ($i = 1; $i <= $totalPages; $i++): ?>
-                    <a href="?page=<?= $i ?>" <?= $i === $page ? 'class="active"' : '' ?>><?= $i ?></a>
+                    <a href="?page=<?php $i ?>" <?php $i === $page ? 'class="active"' : '' ?>><?php $i ?></a>
                 <?php endfor; ?>
 
                 <?php if ($page < $totalPages): ?>
-                    <a href="?page=<?= $page + 1 ?>">Next</a>
+                    <a href="?page=<?php $page + 1 ?>">Next</a>
                 <?php endif; ?>
             </div>
         </div>
@@ -360,13 +432,13 @@ $totalPages = ceil($totalProducts / $limit);
                 url: 'get_subcategories.php',
                 type: 'GET',
                 data: {
-                    category_id: categoryId
+                    cate_id: categoryId
                 },
                 success: function(data) {
                     const subcategories = JSON.parse(data);
                     let options = '<option value="">All Subcategories</option>';
                     subcategories.forEach(function(subcategory) {
-                        options += `<option value="${subcategory.id}">${subcategory.cate_name}</option>`;
+                        options += `<option value="${subcategory.id}">${subcategory.subcate_name}</option>`;
                     });
                     $('#subcategorySelect').html(options);
                 }

@@ -80,7 +80,7 @@ function getTotalSubCategoriesPages($conn, $limit = 20, $search = "")
 
 // add product page start ajax code
 // add product page ajax code
-if (isset($_POST['subcate_id'])) {
+if (isset($_POST['cate_id'])) {
   $p_id = $_POST['cate_id'];
   $sql = "SELECT * FROM ec_sub_categories WHERE parent_id = $p_id ORDER BY id DESC";
   $check = mysqli_query($conn, $sql);
