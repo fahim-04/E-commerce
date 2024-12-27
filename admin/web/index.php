@@ -20,7 +20,7 @@ include 'functions-web.php';
 	include $filepath . '/web-links.php'; ?>
 	<style>
 		.product-title {
-			font-size: 18px;
+			font-size: 16px;
 		}
 
 		.product-title:hover {
@@ -30,8 +30,8 @@ include 'functions-web.php';
 
 		.product-price {
 			margin-top: 10px;
-			font-size: 16px;
-			color: #6b6b6b;
+			font-size: 14px;
+			color: #000;
 		}
 	</style>
 </head>
@@ -104,8 +104,8 @@ include 'functions-web.php';
 			<!-- Smart Phones Section -->
 			<div class="row">
 				<div class="d-flex justify-content-between align-items-center mb-3">
-					<h2 class="prod-heading col-6 pl-2">Smart Phones</h2>
-					<a href="products.php" class="btn  col-6" style="color: #d9534f; text-decoration: underline;" rel="noopener noreferrer">See All</a>
+					<h2 class="prod-heading col-6 pl-2">Phones</h2>
+					<a href="product.php?search=phone" class="btn  col-6" style="color: #d9534f; text-decoration: underline;" rel="noopener noreferrer">See All</a>
 				</div>
 				<div class="slider-container">
 					<?php
@@ -117,12 +117,13 @@ include 'functions-web.php';
 							<div class="product-card">
 								<img src="<?php echo !empty($row['pro_image']) ? htmlspecialchars($row['pro_image']) : 'images/placeholder.jpg'; ?>"
 									alt="<?php echo htmlspecialchars($row['pro_name']); ?>" class="product-image">
-								<h4 href="<?php echo htmlspecialchars($row['selling_price']); ?>" class="product-price">
-									$<?php echo htmlspecialchars($row['selling_price']); ?>
-								</h4>
 								<a href="product-details.php?id=<?php echo $row['pro_id']; ?>" class="product-title">
 									<?php echo $row['pro_name']; ?>
+									<h4 href="<?php echo htmlspecialchars($row['selling_price']); ?>" class="product-price">
+										$<?php echo htmlspecialchars($row['selling_price']); ?>
+									</h4>
 								</a>
+
 							</div>
 					<?php
 						}
@@ -137,7 +138,7 @@ include 'functions-web.php';
 			<div class="row mt-5 wow fadeInUp" data-wow-delay="0.4s">
 				<div class=" d-flex justify-content-between align-items-center mb-3">
 					<h2 class="prod-heading col-6 pl-2">Tabs</h2>
-					<a href="products.php" class="btn  col-6" style="color: #d9534f; text-decoration: underline;" rel="noopener noreferrer">See All</a>
+					<a href="product.php?search=tab+pad" class="btn  col-6" style="color: #d9534f; text-decoration: underline;" rel="noopener noreferrer">See All</a>
 				</div>
 				<div class="slider-container">
 					<?php
@@ -149,11 +150,12 @@ include 'functions-web.php';
 							<div class="product-card">
 								<img src="<?php echo !empty($row['pro_image']) ? htmlspecialchars($row['pro_image']) : 'images/placeholder.jpg'; ?>"
 									alt="<?php echo htmlspecialchars($row['pro_name']); ?>" class="product-image">
-								<h4 href="<?php echo htmlspecialchars($row['selling_price']); ?>" class="product-price">
-									$<?php echo htmlspecialchars($row['selling_price']); ?>
-								</h4>
+
 								<a href="product-details.php?id=<?php echo $row['pro_id']; ?>" class="product-title">
 									<?php echo $row['pro_name']; ?>
+									<h4 href="<?php echo htmlspecialchars($row['selling_price']); ?>" class="product-price">
+										$<?php echo htmlspecialchars($row['selling_price']); ?>
+									</h4>
 								</a>
 							</div>
 					<?php
@@ -168,8 +170,8 @@ include 'functions-web.php';
 			<!-- Smart Watches Section -->
 			<div class="row mt-5 wow fadeInUp" data-wow-delay="0.4s">
 				<div class="d-flex justify-content-between align-items-center mb-3">
-					<h2 class="prod-heading col-6 pl-2">Smart Watches</h2>
-					<a href="products.php" class="btn  col-6" style="color: #d9534f; text-decoration: underline; text-align: end;" rel="noopener noreferrer">See All</a>
+					<h2 class="prod-heading col-6 pl-2">Watches</h2>
+					<a href="product.php?search=watch" class="btn  col-6" style="color: #d9534f; text-decoration: underline; text-align: end;" rel="noopener noreferrer">See All</a>
 				</div>
 				<div class="slider-container">
 					<?php
@@ -181,11 +183,12 @@ include 'functions-web.php';
 							<div class="product-card">
 								<img style="width: 80%;" src="<?php echo !empty($row['pro_image']) ? htmlspecialchars($row['pro_image']) : 'images/placeholder.jpg'; ?>"
 									alt="<?php echo htmlspecialchars($row['pro_name']); ?>" class="product-image">
-								<h4 href="<?php echo htmlspecialchars($row['selling_price']); ?>" class="product-price">
-									$<?php echo htmlspecialchars($row['selling_price']); ?>
-								</h4>
+
 								<a href="product-details.php?id=<?php echo $row['pro_id']; ?>" class="product-title">
 									<?php echo $row['pro_name']; ?>
+									<h4 href="<?php echo htmlspecialchars($row['selling_price']); ?>" class="product-price">
+										$<?php echo htmlspecialchars($row['selling_price']); ?>
+									</h4>
 								</a>
 							</div>
 					<?php

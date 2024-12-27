@@ -3,68 +3,69 @@ session_start();
 include '../backend/connection.php'; // Database connection
 include 'functions-web.php';
 
-    // Fetch the search term from GET request
-    $searchTerm = isset($_GET['search']) ? trim($_GET['search']) : '';
+// Fetch the search term from GET request
+$searchTerm = isset($_GET['search']) ? trim($_GET['search']) : '';
 
-    // Pagination variables
-    $limit = 20; // Items per page
-    $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
-    $page = max($page, 1);
-    $offset = ($page - 1) * $limit;
+// Pagination variables
+$limit = 20; // Items per page
+$page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+$page = max($page, 1);
+$offset = ($page - 1) * $limit;
 
-    $products = []; // Initialize products array
-    if (!empty($searchTerm)) {
-        $keywords = preg_split('/\s+/', $searchTerm);
-        $conditions = [];
-        $params = [];
+$products = []; // Initialize products array
+if (!empty($searchTerm)) {
+    $keywords = preg_split('/\s+/', $searchTerm);
+    $conditions = [];
+    $params = [];
 
-        foreach ($keywords as $index => $keyword) {
-            $conditions[] = "(
+    foreach ($keywords as $index => $keyword) {
+        $conditions[] = "(
             LOWER(pro_name) LIKE LOWER(CONCAT('%', :keyword$index, '%')) OR 
             LOWER(meta_key) LIKE LOWER(CONCAT('%', :keyword$index, '%'))
         )";
-            $params["keyword$index"] = $keyword;
-        }
+        $params["keyword$index"] = $keyword;
+    }
 
-        $whereClause = implode(' AND ', $conditions);
+    $whereClause = implode(' AND ', $conditions);
 
-        // Query to fetch total number of products
-        $totalProductsQuery = "
+    // Query to fetch total number of products
+    $totalProductsQuery = "
         SELECT COUNT(*) as total
         FROM ec_product
         WHERE status = 1 AND ($whereClause)
     ";
 
-        $stmt = $conn->prepare($totalProductsQuery);
-        foreach ($params as $paramName => $value) {
-            $stmt->bindValue(":$paramName", $value, PDO::PARAM_STR);
-        }
-        $stmt->execute();
-        $totalProducts = $stmt->fetch(PDO::FETCH_ASSOC)['total'];
+    $stmt = $conn->prepare($totalProductsQuery);
+    foreach ($params as $paramName => $value) {
+        $stmt->bindValue(":$paramName", $value, PDO::PARAM_STR);
+    }
+    $stmt->execute();
+    $totalProducts = $stmt->fetch(PDO::FETCH_ASSOC)['total'];
 
-        // Query to fetch product data
-        $productsQuery = "
+    // Query to fetch product data
+    $productsQuery = "
         SELECT pro_id, pro_name, pro_image, selling_price
         FROM ec_product
-        WHERE status = 1 AND ($whereClause)
+        WHERE status = 1 AND ($whereClause) AND pro_image IS NOT NULL
+        ORDER BY pro_name DESC
         LIMIT :limit OFFSET :offset
     ";
 
-        $stmt = $conn->prepare($productsQuery);
-        foreach ($params as $paramName => $value) {
-            $stmt->bindValue(":$paramName", $value, PDO::PARAM_STR);
-        }
-        $stmt->bindValue(':limit', $limit, PDO::PARAM_INT);
-        $stmt->bindValue(':offset', $offset, PDO::PARAM_INT);
-        $stmt->execute();
-        $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
-    } else {
-        // Fetch all products when no search term is provided
-        $products = getAllProducts($conn, $limit, $offset);
-        $stmt = $conn->prepare("SELECT COUNT(*) as total FROM ec_product WHERE status = 1");
-        $stmt->execute();
-        $totalProducts = $stmt->fetch(PDO::FETCH_ASSOC)['total'];
+    $stmt = $conn->prepare($productsQuery);
+    foreach ($params as $paramName => $value) {
+        $stmt->bindValue(":$paramName", $value, PDO::PARAM_STR);
     }
+    $stmt->bindValue(':limit', $limit, PDO::PARAM_INT);
+    $stmt->bindValue(':offset', $offset, PDO::PARAM_INT);
+    $stmt->execute();
+    $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
+} else {
+    // Fetch all products when no search term is provided
+    $products = getAllProducts($conn, $limit, $offset);
+    $stmt = $conn->prepare("SELECT COUNT(*) as total FROM ec_product WHERE status = 1");
+    $stmt->execute();
+    $totalProducts = $stmt->fetch(PDO::FETCH_ASSOC)['total'];
+}
 
 $totalPages = ceil($totalProducts / $limit);
 ?>
@@ -136,8 +137,9 @@ $totalPages = ceil($totalProducts / $limit);
 
         .product-price {
             margin-top: 10px;
+            font-weight: bold;
             font-size: 14px;
-            color: #6b6b6b;
+            color: #010101;
         }
 
         .search-bar-container input {
@@ -278,11 +280,12 @@ $totalPages = ceil($totalProducts / $limit);
                                 <img class="product-image"
                                     src="<?php echo htmlspecialchars($product['pro_image']); ?>"
                                     alt="<?php echo htmlspecialchars($product['pro_name']); ?>">
-                                <h4 class="product-price">$<?php echo number_format($product['selling_price'], 2); ?></h4>
                                 <a href="product-details.php?id=<?php echo htmlspecialchars($product['pro_id']); ?>"
                                     class="product-title">
                                     <?php echo htmlspecialchars($product['pro_name']); ?>
+                                    <h4 class="product-price">$<?php echo number_format($product['selling_price'], 2); ?></h4>
                                 </a>
+
                             </div>
                         <?php endif; ?>
                     <?php endforeach; ?>
