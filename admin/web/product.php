@@ -3,52 +3,69 @@ session_start();
 include '../backend/connection.php'; // Database connection
 include 'functions-web.php';
 
-// Get the search term from the query parameter
-$searchTerm = isset($_GET['search']) ? trim($_GET['search']) : '';
+    // Fetch the search term from GET request
+    $searchTerm = isset($_GET['search']) ? trim($_GET['search']) : '';
 
-// Fetch products based on search or show all
-if (!empty($searchTerm)) {
-    $products = searchProducts($conn, $searchTerm);
-} else {
-    $products = getAllProducts($conn); // Ensure this function exists in your included files
-}
+    // Pagination variables
+    $limit = 20; // Items per page
+    $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+    $page = max($page, 1);
+    $offset = ($page - 1) * $limit;
 
+    $products = []; // Initialize products array
+    if (!empty($searchTerm)) {
+        $keywords = preg_split('/\s+/', $searchTerm);
+        $conditions = [];
+        $params = [];
 
-// Get filters from the request
-$filters = [
-    'min_price' => isset($_GET['min_price']) ? (float)$_GET['min_price'] : null,
-    'max_price' => isset($_GET['max_price']) ? (float)$_GET['max_price'] : null,
-    'category_id' => isset($_GET['cate_id']) ? (int)$_GET['cate_id'] : null,
-    'subcategory_id' => isset($_GET['subcate_id']) ? (int)$_GET['subcate_id'] : null,
-];
+        foreach ($keywords as $index => $keyword) {
+            $conditions[] = "(
+            LOWER(pro_name) LIKE LOWER(CONCAT('%', :keyword$index, '%')) OR 
+            LOWER(meta_key) LIKE LOWER(CONCAT('%', :keyword$index, '%'))
+        )";
+            $params["keyword$index"] = $keyword;
+        }
 
-// Get products based on filters
-// $products = getFilteredProducts($conn, $filters);
+        $whereClause = implode(' AND ', $conditions);
 
-// Fetch categories and subcategories for the filter UI
-$categories = getCategories($conn);
-$subcategories = !empty($filters['category_id']) ? getSubcategories($conn, $filters['category_id']) : [];
+        // Query to fetch total number of products
+        $totalProductsQuery = "
+        SELECT COUNT(*) as total
+        FROM ec_product
+        WHERE status = 1 AND ($whereClause)
+    ";
 
-// Pagination variables
-$limit = 20; // Number of products per page
-$page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
-$page = max($page, 1); // Ensure page is at least 1
-$offset = ($page - 1) * $limit;
+        $stmt = $conn->prepare($totalProductsQuery);
+        foreach ($params as $paramName => $value) {
+            $stmt->bindValue(":$paramName", $value, PDO::PARAM_STR);
+        }
+        $stmt->execute();
+        $totalProducts = $stmt->fetch(PDO::FETCH_ASSOC)['total'];
 
-// Fetch total number of products
-$totalProductsQuery = "SELECT COUNT(*) as total FROM ec_product WHERE status = 1";
-$totalProductsResult = $conn->query($totalProductsQuery);
-$totalProducts = $totalProductsResult->fetch(PDO::FETCH_ASSOC)['total'];
+        // Query to fetch product data
+        $productsQuery = "
+        SELECT pro_id, pro_name, pro_image, selling_price
+        FROM ec_product
+        WHERE status = 1 AND ($whereClause)
+        LIMIT :limit OFFSET :offset
+    ";
 
-// Fetch products for the current page
-$productQuery = "SELECT * FROM ec_product WHERE status = 1 LIMIT :limit OFFSET :offset";
-$stmt = $conn->prepare($productQuery);
-$stmt->bindParam(':limit', $limit, PDO::PARAM_INT);
-$stmt->bindParam(':offset', $offset, PDO::PARAM_INT);
-$stmt->execute();
-$products = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $stmt = $conn->prepare($productsQuery);
+        foreach ($params as $paramName => $value) {
+            $stmt->bindValue(":$paramName", $value, PDO::PARAM_STR);
+        }
+        $stmt->bindValue(':limit', $limit, PDO::PARAM_INT);
+        $stmt->bindValue(':offset', $offset, PDO::PARAM_INT);
+        $stmt->execute();
+        $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    } else {
+        // Fetch all products when no search term is provided
+        $products = getAllProducts($conn, $limit, $offset);
+        $stmt = $conn->prepare("SELECT COUNT(*) as total FROM ec_product WHERE status = 1");
+        $stmt->execute();
+        $totalProducts = $stmt->fetch(PDO::FETCH_ASSOC)['total'];
+    }
 
-// Calculate total pages
 $totalPages = ceil($totalProducts / $limit);
 ?>
 
@@ -63,6 +80,7 @@ $totalPages = ceil($totalProducts / $limit);
     $filepath = realpath(dirname(__FILE__));
     include $filepath . '/web-links.php';
     ?>
+
     <style>
         .product-list {
             margin-top: 40px;
@@ -74,6 +92,14 @@ $totalPages = ceil($totalProducts / $limit);
             justify-content: space-between;
         }
 
+        .product-section {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+            /* Adjusts spacing between product cards */
+            margin-top: 20px;
+        }
+
         .prod-filter-section {
             margin-top: 40px;
             display: flex;
@@ -81,21 +107,27 @@ $totalPages = ceil($totalProducts / $limit);
         }
 
         .product-card {
-            flex: 0 0 calc(25% - 10px);
-            box-sizing: border-box;
-            margin-bottom: 20px;
+
+            border-radius: 5px;
+            padding: 15px;
             text-align: center;
+
         }
 
         .product-image {
             width: 80%;
-            max-width: 200px;
+            max-width: 160px;
             margin: 0 auto;
+            object-fit: contain;
+            display: block;
         }
 
         .product-title {
-            font-size: 18px;
+            font-size: 16px;
+            font-weight: bold;
+            margin-top: 10px;
             text-decoration: none;
+            color: #333;
         }
 
         .product-title:hover {
@@ -104,7 +136,7 @@ $totalPages = ceil($totalProducts / $limit);
 
         .product-price {
             margin-top: 10px;
-            font-size: 16px;
+            font-size: 14px;
             color: #6b6b6b;
         }
 
@@ -119,63 +151,9 @@ $totalPages = ceil($totalProducts / $limit);
             border: 1px solid #d9534f;
         }
 
-        .filter-container {
-            width: 100%;
-            max-width: 300px;
-            padding: 20px;
-            background-color: #f9f9f9;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            margin-bottom: 20px;
-
-        }
-
-        .filter-section {
-            margin-bottom: 20px;
-        }
-
-        .filter-section h4 {
-            font-size: 16px;
-            margin-bottom: 10px;
-            color: #333;
-        }
-
-        .filter-section input[type="number"],
-        .filter-section select {
-            width: 100%;
-            padding: 8px 10px;
-            font-size: 14px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            margin-bottom: 10px;
-        }
-
-        .filter-section button {
-            width: 100%;
-            padding: 10px;
-            font-size: 14px;
-            color: #fff;
-            background-color: #d9534f;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-
-        .filter-section button:hover {
-            background-color: rgb(207, 57, 52);
-        }
-
-        .filter-section button#resetFilters {
-            background-color: #6c757d;
-            margin-top: 10px;
-        }
-
-        .filter-section button#resetFilters:hover {
-            background-color: #5a6268;
-        }
-
         .pagination {
             margin: 50px;
+            margin: 10px auto;
 
         }
 
@@ -191,7 +169,11 @@ $totalPages = ceil($totalProducts / $limit);
             background-color: #fff;
             transition: background-color 0.3s ease;
             font-size: 16px;
+        }
 
+        .page-div {
+            margin-top: 40px;
+            margin-bottom: 30px;
         }
 
         .pagination a.active {
@@ -199,9 +181,34 @@ $totalPages = ceil($totalProducts / $limit);
             color: #d9534f;
         }
 
-        .pagination a:hover {
-            text-decoration: underline;
+        .search-bar {
+            margin-top: 20px;
+            margin-bottom: 20px;
+            padding: 10px;
         }
+
+        .search-bar input {
+            width: 80%;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            font-size: 16px;
+        }
+
+        .search-bar button {
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #d9534f;
+            background-color: #d9534f;
+            color: #fff;
+            font-size: 16px;
+        }
+
+        .search-bar button:hover {
+            background-color: #f4f4f4;
+            color: #d9534f;
+        }
+
 
         @media (max-width: 991px) {
             .product-card {
@@ -213,11 +220,19 @@ $totalPages = ceil($totalProducts / $limit);
             .product-card {
                 flex: 0 0 calc(50% - 10px);
             }
+
+            .product-section {
+                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            }
         }
 
         @media (max-width: 575px) {
             .product-card {
                 flex: 0 0 100%;
+            }
+
+            .product-section {
+                grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
             }
         }
     </style>
@@ -245,211 +260,63 @@ $totalPages = ceil($totalProducts / $limit);
         </div>
     </section>
 
-    <aside class="prod-filter-section">
-        <div class="filter-container">
-            <form id="filterForm" method="GET" action="product.php">
-                <!-- Price Range Filter -->
-                <div class="filter-section">
-                    <h4>Price Range</h4>
-                    <input type="number" name="min_price" placeholder="Min Price" value="<?php htmlspecialchars($filters['min_price']) ?>">
-                    <input type="number" name="max_price" placeholder="Max Price" value="<?php htmlspecialchars($filters['max_price']) ?>">
-                </div>
+    <div class="container search-bar" style="width: 450px;">
+        <form action="product.php" method="GET">
+            <input type="text" name="search" placeholder="Search products..." value="<?php echo htmlspecialchars($searchTerm); ?>">
+            <button type="submit">Search</button>
+        </form>
+    </div
 
-                <!-- Category Filter -->
-                <div class="filter-section">
-                    <h4>Category</h4>
-                    <select name="cate_id" id="categorySelect" onchange="this.form.submit()">
-                        <option value="">Categories</option>
-                        <?php foreach ($categories as $category): ?>
-                            <option value="<?php htmlspecialchars($category['cate_id']) ?>" <?php $filters['id'] == $category['cate_id'] ? 'selected' : '' ?>>
-                                <?php htmlspecialchars($category['cate_name']) ?>
-                            </option>
-                        <?php endforeach; ?>
-                    </select>
-                </div>
-
-                <!-- Subcategory Filter -->
-                <?php if (!empty($subcategories)): ?>
-                    <div class="filter-section">
-                        <h4>Subcategory</h4>
-                        <select name="subcate_id" id="subcategorySelect" onchange="this.form.submit()">
-                            <option value="">Subcategories</option>
-                            <?php foreach ($subcategories as $subcategory): ?>
-                                <option value="<?php $subcategory['subcate_id'] ?>" <?php $filters['subcategory_id'] == $subcategory['cate_id'] ? 'selected' : '' ?>>
-                                    <?php htmlspecialchars($subcategory['subcate_name']) ?>
-                                </option>
-                            <?php endforeach; ?>
-                        </select>
-                    </div>
-                <?php endif; ?>
-
-                <!-- Apply Filters Button -->
-                <div class="filter-section">
-                    <button type="submit">Apply Filters</button>
-                    <button type="reset" id="resetFilters" onclick="window.location='product.php'">Reset</button>
-                </div>
-            </form>
-        </div>
-
-        <div class="container search-bar" style="width: 450px;">
-            <div class="row">
-                <!-- Search Bar -->
-                <div class="search-bar-container" style="margin: 10px 0; text-align: center;">
-                    <form action="product.php" method="GET">
-                        <input type="text" name="search" placeholder="Search products..."
-                            value="<?php echo htmlspecialchars($searchTerm) ?>"
-                            style="padding: 10px; font-size: 14px;">
-                        <button type="submit"
-                            style="padding: 10px 20px; background-color: #d9534f; color: white; border: none; border-radius: 20px; cursor: pointer;">
-                            Search
-                        </button>
-                    </form>
-                </div>
-            </div>
-    </aside>
-
-    <section class="product-list">
-        <aside class="prod-filter-section">
-            <div class="filter-container">
-                <form id="filterForm" method="GET" action="product.php">
-                    <!-- Price Range Filter -->
-                    <div class="filter-section">
-                        <h4>Price Range</h4>
-                        <input type="number" name="min_price" placeholder="Min Price" value="<?php htmlspecialchars($filters['min_price']) ?>">
-                        <input type="number" name="max_price" placeholder="Max Price" value="<?php htmlspecialchars($filters['max_price']) ?>">
-                    </div>
-
-                    <!-- Category Filter -->
-                    <div class="filter-section">
-                        <h4>Category</h4>
-                        <select name="cate_id" id="categorySelect" onchange="this.form.submit()">
-                            <option value="">Categories</option>
-                            <?php foreach ($categories as $category): ?>
-                                <option value="<?php htmlspecialchars($category['cate_id']) ?>" <?php $filters['cate_id'] == $category['cate_id'] ? 'selected' : '' ?>>
-                                    <?php htmlspecialchars($category['cate_name']) ?>
-                                </option>
-                            <?php endforeach; ?>
-                        </select>
-                    </div>
-
-                    <!-- Subcategory Filter -->
-                    <?php if (!empty($subcategories)): ?>
-                        <div class="filter-section">
-                            <h4>Subcategory</h4>
-                            <select name="subcate_id" id="subcategorySelect" onchange="this.form.submit()">
-                                <option value="">Subcategories</option>
-                                <?php foreach ($subcategories as $subcategory): ?>
-                                    <option value="<?php $subcategory['subcate_id'] ?>" <?php $filters['subcategory_id'] == $subcategory['cate_id'] ? 'selected' : '' ?>>
-                                        <?php htmlspecialchars($subcategory['subcate_name']) ?>
-                                    </option>
-                                <?php endforeach; ?>
-                            </select>
-                        </div>
-                    <?php endif; ?>
-
-                    <!-- Apply Filters Button -->
-                    <div class="filter-section">
-                        <button type="submit">Apply Filters</button>
-                        <button type="reset" id="resetFilters" onclick="window.location='product.php'">Reset</button>
-                    </div>
-                </form>
-            </div>
-
-            <div class="container search-bar" style="width: 450px;">
-                <div class="row">
-                    <!-- Search Bar -->
-                    <div class="search-bar-container" style="margin: 10px 0; text-align: center;">
-                        <form action="product.php" method="GET">
-                            <input type="text" name="search" placeholder="Search products..."
-                                value="<?php echo htmlspecialchars($searchTerm) ?>"
-                                style="padding: 10px; font-size: 14px;">
-                            <button type="submit"
-                                style="padding: 10px 20px; background-color: #d9534f; color: white; border: none; border-radius: 20px; cursor: pointer;">
-                                Search
-                            </button>
-                        </form>
-                    </div>
-                </div>
-        </aside>
-        <div class="container">
-            <div class="row">
-
-                <div>
-                    <?php if (!empty($products)): ?>
-                        <?php foreach ($products as $product): ?>
-                            <div class="col-xs-6 col-sm-4 col-md-3 col-lg-3">
-                                <div class="product-card">
-                                    <img class="product-image"
-                                        src="<?php echo htmlspecialchars($product['pro_image'] ?? 'default-image.jpg'); ?>"
-                                        alt="<?php echo htmlspecialchars($product['pro_name'] ?? 'No Name Available'); ?>">
-                                    <h4 class="product-price">$<?php echo number_format($product['selling_price'] ?? 0, 2); ?></h4>
-                                    <a href="product-details.php?id=<?php echo htmlspecialchars($product['pro_id'] ?? '#'); ?>"
-                                        class="product-title">
-                                        <?php echo htmlspecialchars($product['pro_name'] ?? 'Unknown Product'); ?>
-                                    </a>
-                                </div>
+        <section class="product-list">
+    <div class="container">
+        <div class="row">
+            <div class="product-section">
+                <?php if (!empty($products)): ?>
+                    <?php foreach ($products as $product): ?>
+                        <?php if (!empty($product['pro_name']) && !empty($product['pro_image']) && !empty($product['selling_price']) && !empty($product['pro_id'])): ?>
+                            <div class="product-card">
+                                <img class="product-image"
+                                    src="<?php echo htmlspecialchars($product['pro_image']); ?>"
+                                    alt="<?php echo htmlspecialchars($product['pro_name']); ?>">
+                                <h4 class="product-price">$<?php echo number_format($product['selling_price'], 2); ?></h4>
+                                <a href="product-details.php?id=<?php echo htmlspecialchars($product['pro_id']); ?>"
+                                    class="product-title">
+                                    <?php echo htmlspecialchars($product['pro_name']); ?>
+                                </a>
                             </div>
-                        <?php endforeach; ?>
-                    <?php else: ?>
-                        <p>No products found for your search.</p>
-                    <?php endif; ?>
-                </div>
-
-
+                        <?php endif; ?>
+                    <?php endforeach; ?>
+                <?php else: ?>
+                    <p>No products found for your search.</p>
+                <?php endif; ?>
             </div>
+
+
+
         </div>
+    </div>
     </section>
 
     <!-- Pagination -->
     <div class="container">
-        <div class="row">
-            <div class="pagination text-center">
-                <?php if ($page > 1): ?>
-                    <a href="?page=<?php $page - 1 ?>">Previous</a>
-                <?php endif; ?>
-
-                <?php for ($i = 1; $i <= $totalPages; $i++): ?>
-                    <a href="?page=<?php $i ?>" <?php $i === $page ? 'class="active"' : '' ?>><?php $i ?></a>
-                <?php endfor; ?>
-
-                <?php if ($page < $totalPages): ?>
-                    <a href="?page=<?php $page + 1 ?>">Next</a>
-                <?php endif; ?>
-            </div>
+        <div class="row page-div">
+            <?php
+            echo '<div class="pagination text-center m-4">';
+            for ($i = 1; $i <= $totalPages; $i++) {
+                echo '<a href="?page=' . $i . '&search=' . urlencode($searchTerm) . '"' .
+                    ($i === $page ? ' class="active"' : '') . '>' . $i . '</a>';
+            }
+            echo '</div>'; ?>
         </div>
     </div>
+
 
 
     <?php include $filepath . '/footer-web.php'; ?>
 
     <span id="back-top" class="fa fa-arrow-up"></span>
-    <!-- ajax function to get subcategory -->
-    <script>
-        // Dynamically load subcategories when category changes
-        $('#categorySelect').on('change', function() {
-            const categoryId = $(this).val();
-            $.ajax({
-                url: 'get_subcategories.php',
-                type: 'GET',
-                data: {
-                    cate_id: categoryId
-                },
-                success: function(data) {
-                    const subcategories = JSON.parse(data);
-                    let options = '<option value="">All Subcategories</option>';
-                    subcategories.forEach(function(subcategory) {
-                        options += `<option value="${subcategory.id}">${subcategory.subcate_name}</option>`;
-                    });
-                    $('#subcategorySelect').html(options);
-                }
-            });
-        });
 
-        // Reset filters
-        $('#resetFilters').on('click', function() {
-            window.location.href = 'product.php';
-        });
-    </script>
+
 
     <!-- Include JS Scripts -->
     <script src="js/jquery.js"></script>

@@ -109,6 +109,7 @@ function get_Products($conn, $search = '', $page = 1, $results_per_page = 15)
             ec_product.selling_price, 
             ec_product.pro_image, 
             ec_product.status, 
+            ec_product.added_on,
             ec_categories.cate_name AS category_name, 
             ec_sub_categories.subcate_name AS subcategory_name
         FROM 
@@ -122,7 +123,7 @@ function get_Products($conn, $search = '', $page = 1, $results_per_page = 15)
             ec_categories.cate_name LIKE ? OR 
             ec_sub_categories.subcate_name LIKE ?
         ORDER BY 
-          ec_product.pro_id ASC
+          ec_product.added_on ASC
         LIMIT ? OFFSET ?";
 
   $stmt = mysqli_prepare($conn, $sql);

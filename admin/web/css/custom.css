@@ -164,6 +164,8 @@
     color: #0056b3; /* Active dot color */
 }
 
+
+
 /* Responsive Styling */
 @media (max-width: 575.98px) { /* For extra small devices */
     .product-card {
