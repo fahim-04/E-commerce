@@ -274,13 +274,13 @@ $totalPages = ceil($totalProducts / $limit);
         <div class="row">
             <div class="product-section">
                 <?php if (!empty($products)): ?>
-                    <?php foreach ($products as $product): ?>
+                    <?php foreach ($products as $row => $product): ?>
                         <?php if (!empty($product['pro_name']) && !empty($product['pro_image']) && !empty($product['selling_price']) && !empty($product['pro_id'])): ?>
                             <div class="product-card">
                                 <img class="product-image"
                                     src="<?php echo htmlspecialchars($product['pro_image']); ?>"
                                     alt="<?php echo htmlspecialchars($product['pro_name']); ?>">
-                                <a href="product-details.php?id=<?php echo htmlspecialchars($product['pro_id']); ?>"
+                                <a href="product-details.php?pro_id=<?php echo htmlspecialchars($product['pro_id']); ?>"
                                     class="product-title">
                                     <?php echo htmlspecialchars($product['pro_name']); ?>
                                     <h4 class="product-price">$<?php echo number_format($product['selling_price'], 2); ?></h4>

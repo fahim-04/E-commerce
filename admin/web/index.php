@@ -184,7 +184,7 @@ include 'functions-web.php';
 								<img style="width: 80%;" src="<?php echo !empty($row['pro_image']) ? htmlspecialchars($row['pro_image']) : 'images/placeholder.jpg'; ?>"
 									alt="<?php echo htmlspecialchars($row['pro_name']); ?>" class="product-image">
 
-								<a href="product-details.php?id=<?php echo $row['pro_id']; ?>" class="product-title">
+								<a href="product-details.php?pro_id=<?php echo $row['pro_id']; ?>" class="product-title">
 									<?php echo $row['pro_name']; ?>
 									<h4 href="<?php echo htmlspecialchars($row['selling_price']); ?>" class="product-price">
 										$<?php echo htmlspecialchars($row['selling_price']); ?>

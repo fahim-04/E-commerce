@@ -45,6 +45,10 @@
 		cursor: pointer;
 		color: #333;
 	}
+
+	.nav {
+		box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+	}
 </style>
 
 <header id="mt-header" class="style3">
@@ -152,7 +156,7 @@ $isLoggedIn = isset($_SESSION['user_name']) && isset($_SESSION['user_email']);
 		<?php if ($isLoggedIn): ?>
 			<!-- Display user info -->
 			<h3> Name : <?php echo htmlspecialchars($_SESSION['user_name']); ?></h3>
-			<h3> Email : <?php echo htmlspecialchars(maskEmail($_SESSION['user_email'])); ?></h3>
+			<h4> Email : <?php echo htmlspecialchars(maskEmail($_SESSION['user_email'])); ?></h4>
 			<p> User Type : <?php echo htmlspecialchars(ucfirst($_SESSION['user_type'])); ?></p>
 			<a href="logout.php" class="btn btn-danger">Logout</a>
 		<?php else: ?>

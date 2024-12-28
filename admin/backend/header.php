@@ -45,7 +45,7 @@
             </ul>
         </li>
 
-        <li class>
+        <!-- <li class>
             <a class="has-arrow" href="#" aria-expanded="false">
                 <div class="icon_menu">
                     <img src="assets/img/menu-icon/costumer.png" alt>
@@ -58,44 +58,16 @@
                 <li><a href="chat.html">Chat</a></li>
                 <li><a href="faq.html">FAQ</a></li>
             </ul>
-        </li>
-
-
-
-        <li class>
-            <a class="has-arrow" href="invoice.html" aria-expanded="false">
-                <div class="icon_menu">
-                    <img src="assets/img/menu-icon/6.svg" alt>
-                </div>
-                <span>Invoice</span>
-            </a>
-            <ul>
-                <li><a href="editor.html">editor</a></li>
-                <li><a href="mail_box.html">Mail Box</a></li>
-                <li><a href="chat.html">Chat</a></li>
-                <li><a href="faq.html">FAQ</a></li>
-            </ul>
-        </li>
-        <!-- <li class>
-            <a href="calender.html" aria-expanded="false">
-                <div class="icon_menu">
-                    <img src="assets/img/menu-icon/7.svg" alt>
-                </div>
-                <span>Calander</span>
-            </a>
         </li> -->
 
         <li class>
-            <a class="has-arrow" href="#" aria-expanded="false">
+            <a class="" href="view-orders.php" aria-expanded="false">
                 <div class="icon_menu">
                     <img src="assets/img/menu-icon/8.svg" alt>
                 </div>
                 <span>Order</span>
             </a>
-            <ul>
-                <li><a href="Fontawesome_Icon.html">Fontawesome Icon</a></li>
-                <li><a href="themefy_icon.html">themefy icon</a></li>
-            </ul>
+
         </li>
         <li class>
             <a class="has-arrow" href="#" aria-expanded="false">
@@ -111,4 +83,3 @@
         </li>
     </ul>
 </nav>
-

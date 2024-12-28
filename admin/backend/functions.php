@@ -225,6 +225,94 @@ function getTotalPages($conn, $limit = 10)
 }
 // view users end
 
+// view orders start
+function get_Orders($conn, $search = '', $page = 1, $results_per_page = 15)
+{
+  $offset = ($page - 1) * $results_per_page;
+
+  $sql = "
+        SELECT 
+            ec_orders.order_id, 
+            ec_orders.customer_name,
+            ec_orders.item_name,
+            ec_orders.item_id,
+            ec_orders.m_number,
+            ec_orders.quantity, 
+            ec_orders.total_price,  
+            ec_orders.ordered_on,
+            ec_orders.status
+        FROM 
+            ec_orders
+        WHERE 
+            ec_orders.item_id LIKE ? OR 
+            ec_orders.item_name LIKE ? OR
+            ec_orders.status LIKE ? OR
+            ec_orders.customer_name LIKE ?
+        ORDER BY 
+            ec_orders.ordered_on DESC
+        LIMIT ? OFFSET ?";
+
+  $stmt = mysqli_prepare($conn, $sql);
+  $search_param = '%' . $search . '%';
+  mysqli_stmt_bind_param(
+    $stmt,
+    "sssii",
+    $search_param,
+    $search_param,
+    $search_param,
+    $search_param,
+    $results_per_page,
+    $offset
+  );
+  mysqli_stmt_execute($stmt);
+  $result = mysqli_stmt_get_result($stmt);
+
+  $sno = $offset + 1;
+
+  while ($row = mysqli_fetch_assoc($result)
+  ) {
+    echo "<tr>
+                <td>" . $sno++ . "</td>
+                <td>" . htmlspecialchars($row['order_id']) . "</td>
+                <td>" . htmlspecialchars($row['customer_name']) . "</td>
+                <td>" . htmlspecialchars($row['item_id']) . "</td>
+                <td>" . htmlspecialchars($row['item_name']) . "</td>
+                <td>" . htmlspecialchars($row['m_number']) . "</td>
+                <td>" . $row['quantity'] . "</td>
+                <td>$" . $row['total_price'] . "</td>
+                <td>" . htmlspecialchars($row['ordered_on']) . "</td>
+                <td><p>" . $row['status'] . "</p></td>
+                <td>
+                    <a href='edit-order.php?order_id=" . $row['order_id'] . "' class='btn btn-primary btn-sm'>Edit</a>
+                    <a href='cancel-order.php?order_id=" . $row['order_id'] . "' class='btn btn-danger btn-sm' onclick=\"return confirm('Are you sure you want to cancel this order?')\">Cancel</a>
+                </td>
+              </tr>";
+  }
+
+  mysqli_free_result($result);
+  mysqli_stmt_close($stmt);
+}
+function getOrderPagesCount($conn, $search = '', $results_per_page = 15)
+{
+  $sql = "
+        SELECT COUNT(*) AS total 
+        FROM ec_orders 
+        WHERE customer_name LIKE ? OR item_name LIKE ? OR item_id LIKE ? OR status LIKE ?";
+  $stmt = mysqli_prepare($conn, $sql);
+  $search_param = '%' . $search . '%';
+  mysqli_stmt_bind_param($stmt, "ssss", $search_param, $search_param, $search_param, $search_param);
+  mysqli_stmt_execute($stmt);
+  $result = mysqli_stmt_get_result($stmt);
+  $row = mysqli_fetch_assoc($result);
+  mysqli_free_result($result);
+  mysqli_stmt_close($stmt);
+
+  return ceil($row['total'] / $results_per_page);
+}
+
+// view orders end
+
+
 
 
 ?>
