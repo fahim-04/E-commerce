@@ -32,20 +32,38 @@ if ($user) {
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-    <title>Users</title>
+    <title>Dashboard</title>
     <link rel="icon" href="assets/img/logo.png" type="image/png">
-    <!-- <link rel="stylesheet" href="assets/css/bootstrap1.min.css" /> -->
+
+    <!-- <link rel="stylesheet" href="assets/css/bootstrap1.min.css" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"> -->
+
     <?php include 'links.php'; ?>
+    <style>
+        /* Ensure no elements exceed the viewport width */
+
+
+        /* Prevent elements from exceeding their containers */
+        .container-fluid,
+        .row {
+            max-width: 100%;
+            overflow-x: hidden;
+        }
+    </style>
 </head>
 
 <body class="crm_body_bg">
 
+
+
+    <!-- welcome alert -->
+
+
     <section class="main_content dashboard_part large_header_bg">
-        <?php include 'header.php'; ?>
         <?php include 'header_nav.php'; ?>
+        <?php include 'header.php'; ?>
         <div class="container mt-5" style="z-index: 9999;">
-            <div id="welcomeAlert" class="alert alert-success alert-dismissible fade show" role="alert"
-                style="position: fixed; top: 20px; left: 70% ; transform: translateX(-50%); z-index: 9999;">
+            <div id="welcomeAlert" class="alert alert-success alert-dismissible fade show" role="alert" style="position: fixed; top: 20px; left: 70% ; transform: translateX(-50%); z-index: 9999;">
                 Hello, <?php echo $_SESSION['user_name']; ?>! <br>
                 Welcome to the dashboard.
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
@@ -311,18 +329,14 @@ if ($user) {
             </div>
         </div>
 
+
+
         <?php include 'footer.php'; ?>
         <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+        <!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script> -->
         <script>
-            document.addEventListener('DOMContentLoaded', function() {
-                setTimeout(function() {
-                    const welcomeAlert = document.getElementById('welcomeAlert');
-                    if (welcomeAlert) {
-                        welcomeAlert.classList.remove('show');
-                        welcomeAlert.addEventListener('transitionend', function() {
-                            welcomeAlert.remove();
-                        });
-                    }
-                }, 10000); // 10 seconds
-            });
+            // Set a timer to automatically close the alert after 20 seconds
+            setTimeout(function() {
+                $('#welcomeAlert').alert('close');
+            }, 10000); // 10000 milliseconds = 10 seconds
         </script>

@@ -240,7 +240,8 @@ function get_Orders($conn, $search = '', $page = 1, $results_per_page = 15)
             ec_orders.quantity, 
             ec_orders.total_price,  
             ec_orders.ordered_on,
-            ec_orders.status
+            ec_orders.status,
+            ec_orders.customer_email
         FROM 
             ec_orders
         WHERE 
@@ -254,9 +255,11 @@ function get_Orders($conn, $search = '', $page = 1, $results_per_page = 15)
 
   $stmt = mysqli_prepare($conn, $sql);
   $search_param = '%' . $search . '%';
+
+  // Bind exactly 6 parameters
   mysqli_stmt_bind_param(
     $stmt,
-    "sssii",
+    "sssiii", // 4 strings for search_param and 2 integers for limit and offset
     $search_param,
     $search_param,
     $search_param,
@@ -264,19 +267,20 @@ function get_Orders($conn, $search = '', $page = 1, $results_per_page = 15)
     $results_per_page,
     $offset
   );
+
   mysqli_stmt_execute($stmt);
   $result = mysqli_stmt_get_result($stmt);
 
   $sno = $offset + 1;
 
-  while ($row = mysqli_fetch_assoc($result)
-  ) {
+  while ($row = mysqli_fetch_assoc($result)) {
     echo "<tr>
                 <td>" . $sno++ . "</td>
                 <td>" . htmlspecialchars($row['order_id']) . "</td>
-                <td>" . htmlspecialchars($row['customer_name']) . "</td>
-                <td>" . htmlspecialchars($row['item_id']) . "</td>
                 <td>" . htmlspecialchars($row['item_name']) . "</td>
+                <td>" . htmlspecialchars($row['item_id']) . "</td>
+                <td>" . htmlspecialchars($row['customer_name']) . "</td>
+                <td>" . htmlspecialchars($row['customer_email']) . "</td>
                 <td>" . htmlspecialchars($row['m_number']) . "</td>
                 <td>" . $row['quantity'] . "</td>
                 <td>$" . $row['total_price'] . "</td>

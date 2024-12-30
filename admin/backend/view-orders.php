@@ -52,12 +52,13 @@ $total_pages = getOrderPagesCount($conn, $search, $results_per_page);
                                             <thead>
                                                 <tr>
                                                     <th scope="col">#</th>
-                                                    <th scope="col">Order ID</th>
-                                                    <th scope="col">Customer Name</th>
-                                                    <th scope="col">Item ID</th>
+                                                    <th scope="col">ID</th>
                                                     <th scope="col">Item Name</th>
-                                                    <th scope="col">Mobile Number</th>
-                                                    <th scope="col">Quantity</th>
+                                                    <th scope="col">Item ID</th>
+                                                    <th scope="col">Name</th>
+                                                    <th scope="col">Email</th>
+                                                    <th scope="col">Number</th>
+                                                    <th scope="col">Qty</th>
                                                     <th scope="col">Total Price</th>
                                                     <th scope="col">Ordered On</th>
                                                     <th scope="col">Status</th>
