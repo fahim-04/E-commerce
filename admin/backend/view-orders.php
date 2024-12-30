@@ -19,7 +19,7 @@ $total_pages = getOrderPagesCount($conn, $search, $results_per_page);
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <title>View Orders</title>
-    <link rel="icon" href="assets/img/logo.png" type="image/png">
+    <link rel="icon" href="assets/img/st_white.png" type="image/png">
     <link rel="stylesheet" href="assets/css/bootstrap1.min.css" />
     <?php include 'links.php'; ?>
 </head>

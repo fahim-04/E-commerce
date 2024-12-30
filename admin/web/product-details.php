@@ -42,6 +42,7 @@ try {
     <meta name="title" content="<?php echo htmlspecialchars($product['meta_title'] ?? 'Product Details'); ?>">
     <meta name="keywords" content="<?php echo htmlspecialchars($product['meta_key'] ?? ''); ?>">
     <title classs="prod-name back-top"><?php echo htmlspecialchars($product['pro_name'] ?? 'Product Details'); ?></title>
+    <link rel="shortcut icon" href="images/ST.png" type="image/x-icon">
 
     <style>
         .product-details {
@@ -120,6 +121,12 @@ try {
             font-style: italic;
             color: #666666;
         }
+
+        .bgc {
+            background-color: #f8f9fa;
+            padding: 20px 0;
+            border-radius: 10px;
+        }
     </style>
     <?php include 'web-links.php'; ?>
 </head>
@@ -131,28 +138,31 @@ try {
         </div>
 
         <div class="container mt-5">
-            <div class="product-details">
-                <div class="text-center mb-5">
-                    <h1 class="pro-name"><?php echo htmlspecialchars($product['pro_name']); ?></h1>
-                </div>
-                <div class="row align-items-center">
-                    <div class="col-md-6 text-center imgSdesc">
-                        <img src="<?php echo htmlspecialchars($product['pro_image']); ?>"
-                            alt="<?php echo htmlspecialchars($product['slug_url']); ?>"
-                            class="product-image">
+            <div class="product-details ">
+                <div class="bgc">
+                    <div class="text-center mb-5">
+                        <h1 class="pro-name"><?php echo htmlspecialchars($product['pro_name']); ?></h1>
                     </div>
-                    <div class="col-md-6">
-                        <p class="mt-3 pro_short_desc"><?php echo htmlspecialchars($product['pro_short_desc']); ?></p>
-                        <h4 class="prod-price">$<?php echo number_format($product['selling_price'], 2); ?></h4>
-                        <p class="text-muted">Stock: <?php echo htmlspecialchars($product['stock']); ?></p>
-                        <a href="order.php?pro_id=<?php echo $product['pro_id']; ?>" class="btn btn-primary">Order Now</a>
+                    <div class="row align-items-center">
+                        <div class="col-md-6 text-center imgSdesc">
+                            <img src="<?php echo htmlspecialchars($product['pro_image']); ?>"
+                                alt="<?php echo htmlspecialchars($product['slug_url']); ?>"
+                                class="product-image">
+                        </div>
+                        <div class="col-md-6">
+                            <p class="mt-3 pro_short_desc"><?php echo htmlspecialchars($product['pro_short_desc']); ?></p>
+                            <h4 class="prod-price">$<?php echo number_format($product['selling_price'], 2); ?></h4>
+                            <p class="text-muted">Stock: <?php echo htmlspecialchars($product['stock']); ?></p>
+                            <a href="order.php?pro_id=<?php echo $product['pro_id']; ?>" class="btn btn-primary">Order Now</a>
+                        </div>
                     </div>
                 </div>
                 <div class="pro-desc ">
+                    <hr>
                     <h2>Specifications:</h2>
                     <p><?php echo nl2br($product['pro_desc']); ?></p>
                 </div>
-                <p class="meta-key mt-4"><strong>Keywords:</strong> <i><?php echo htmlspecialchars($product['meta_key']); ?></i></p>
+                <!-- <p class="meta-key mt-4"><strong>Keywords:</strong> <i><?php echo htmlspecialchars($product['meta_key']); ?></i></p> -->
             </div>
         </div>
 

@@ -83,8 +83,7 @@
 								<span class="bar"></span>
 							</a>
 						</li>
-						<li><a href="#" class="icon-magnifier"></a></li>
-						<li><a href="#" class="icon-handbag"></a></li>
+						
 						<li>
 							<a href="#" id="openModalButton" class="icon-user"></a>
 						</li> <!-- User icon triggers modal -->

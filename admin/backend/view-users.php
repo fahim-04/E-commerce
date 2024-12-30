@@ -15,6 +15,7 @@ $offset = ($page - 1) * $limit;
     <title>Users</title>
     <link rel="icon" href="assets/img/logo.png" type="image/png">
     <link rel="stylesheet" href="assets/css/bootstrap1.min.css" />
+    <link rel="icon" href="assets/img/st_white.png" type="image/png">
     <?php include 'links.php'; ?>
 </head>
 

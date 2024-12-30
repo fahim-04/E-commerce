@@ -83,6 +83,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Order Product</title>
+    <link rel="shortcut icon" href="images/ST.png" type="image/x-icon">
     <?php include 'web-links.php'; ?>
     <style>
         .order-form {
@@ -216,8 +217,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 Total Price: $<span id="total-price"><?php echo number_format($product['selling_price'], 2); ?></span>
                 <input type="hidden" id="unit-price" value="<?php echo number_format($product['selling_price'], 2); ?>">
             </div>
+            
             <button type="submit" class="btn-primary">Place Order</button>
         </form>
+        <p class="text-center">Payment on delivery</p>
     </div>
 
     <?php include $filepath . '/footer-web.php'; ?>

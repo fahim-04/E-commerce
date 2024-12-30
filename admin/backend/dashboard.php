@@ -33,7 +33,7 @@ if ($user) {
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <title>Dashboard</title>
-    <link rel="icon" href="assets/img/logo.png" type="image/png">
+    <link rel="icon" href="assets/img/st_white.png" type="image/png">
     <!-- <link rel="stylesheet" href="assets/css/bootstrap1.min.css" /> -->
     <?php include 'links.php'; ?>
 </head>
@@ -64,7 +64,7 @@ if ($user) {
                             <div class="page_title_left">
                                 <h3 class="f_s_30 f_w_700 text_white">Dashboard</h3>
                             </div>
-                            <a href="#" class="white_btn3">Create Report</a>
+                            
                         </div>
                     </div>
                 </div>

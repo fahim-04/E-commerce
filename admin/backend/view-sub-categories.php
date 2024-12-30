@@ -14,7 +14,8 @@ $search = isset($_GET['search']) ? $_GET['search'] : "";
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <title>View Sub Category</title>
-    <link rel="icon" href="assets/img/logo.png" type="image/png">
+    <link rel="icon" href="assets/img/st_white.png" type="image/png">
+    
     <link rel="stylesheet" href="assets/css/bootstrap1.min.css" />
     <?php include 'links.php'; ?>
 </head>
@@ -58,7 +59,7 @@ $search = isset($_GET['search']) ? $_GET['search'] : "";
                                             </thead>
                                             <tbody id="tableBody">
                                                 <?php echo get_sub_Categories($conn, $page, $limit, $search); ?>
-                                                
+
                                             </tbody>
                                         </table>
                                         <!-- Pagination links -->

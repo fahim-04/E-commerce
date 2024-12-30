@@ -15,6 +15,7 @@ include 'functions-web.php';
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>SnapTech</title>
+	<link rel="shortcut icon" href="images/ST.png" type="image/x-icon">
 	<!-- include the site stylesheet -->
 	<?php $filepath = realpath(dirname(__FILE__));
 	include $filepath . '/web-links.php'; ?>
@@ -115,7 +116,7 @@ include 'functions-web.php';
 						foreach ($products as $row) {
 					?>
 							<div class="product-card">
-								<img src="<?php echo !empty($row['pro_image']) ? htmlspecialchars($row['pro_image']) : 'images/placeholder.jpg'; ?>"
+								<img style="width: 80%;" src="<?php echo !empty($row['pro_image']) ? htmlspecialchars($row['pro_image']) : 'images/placeholder.jpg'; ?>"
 									alt="<?php echo htmlspecialchars($row['pro_name']); ?>" class="product-image">
 								<a href="product-details.php?id=<?php echo $row['pro_id']; ?>" class="product-title">
 									<?php echo $row['pro_name']; ?>
@@ -148,7 +149,7 @@ include 'functions-web.php';
 						foreach ($products as $row) {
 					?>
 							<div class="product-card">
-								<img src="<?php echo !empty($row['pro_image']) ? htmlspecialchars($row['pro_image']) : 'images/placeholder.jpg'; ?>"
+								<img style="width: 80%;" src="<?php echo !empty($row['pro_image']) ? htmlspecialchars($row['pro_image']) : 'images/placeholder.jpg'; ?>"
 									alt="<?php echo htmlspecialchars($row['pro_name']); ?>" class="product-image">
 
 								<a href="product-details.php?id=<?php echo $row['pro_id']; ?>" class="product-title">

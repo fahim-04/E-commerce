@@ -77,6 +77,7 @@ $totalPages = ceil($totalProducts / $limit);
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Snaptech. | Product</title>
+    <link rel="shortcut icon" href="images/ST.png" type="image/x-icon">
     <?php
     $filepath = realpath(dirname(__FILE__));
     include $filepath . '/web-links.php';

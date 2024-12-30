@@ -2,7 +2,7 @@
 
 <nav class="sidebar vertical-scroll dark_sidebar  ps-container ps-theme-default ps-active-y">
     <div class="logo d-flex justify-content-between">
-        <a href="dashboard.php"><img src="assets/img/logo_white.png" alt></a>
+        <a href="../web/index.php"><img src="assets/img/st_white.png" alt></a>
         <div class="sidebar_close_icon d-lg-none" ">
                 <i class=" ti-close" style="color: #64C5B1;"></i>
         </div>
