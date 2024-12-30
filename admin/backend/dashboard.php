@@ -32,7 +32,7 @@ if ($user) {
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-    <title>Users</title>
+    <title>Dashboard</title>
     <link rel="icon" href="assets/img/logo.png" type="image/png">
     <!-- <link rel="stylesheet" href="assets/css/bootstrap1.min.css" /> -->
     <?php include 'links.php'; ?>
@@ -180,7 +180,7 @@ if ($user) {
                             <div class="white_card_header">
                                 <div class="box_header m-0">
                                     <div class="main-title">
-                                        <h3 class="m-0">Total order</h3>
+                                        <h3 class="m-0">Total Traffic</h3>
                                     </div>
                                     <div class="float-lg-right float-none sales_renew_btns justify-content-end">
                                         <ul class="nav">
@@ -195,7 +195,7 @@ if ($user) {
                                 </div>
                             </div>
                             <div class="white_card_body d-flex align-items-center" style="height:140px">
-                                <h4 class="f_w_900 f_s_60 mb-0 me-2">356</h4>
+                                <h4 class="f_w_900 f_s_60 mb-0 me-2">1643</h4>
                                 <div class="w-100" style="height:100px">
                                     <canvas width="100%" id="page_views"></canvas>
                                 </div>
